@@ -43,43 +43,43 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      */
     public static function create(array $elements = [])
     {
-        return new MutableArray($elements);
+        return new static($elements);
     }
 
     /**
      * @param ArrayAccess $elements
-     * @return MutableArray
+     * @return $this
      */
     public static function createFromObject(ArrayAccess $elements)
     {
-        $mutableArray = new MutableArray();
+        $array = new static();
 
         foreach ($elements as $key => $value) {
-            $mutableArray->offsetSet($key, $value);
+            $array->offsetSet($key, $value);
         }
 
-        return $mutableArray;
+        return $array;
     }
 
     /**
      * @param string $json
      * @param int $options
      * @param int $depth
-     * @return MutableArray
+     * @return $this
      */
     public static function createFromJson($json, $options = 0, $depth = 512)
     {
-        return new MutableArray(json_decode($json, true, $depth, $options));
+        return new static(json_decode($json, true, $depth, $options));
     }
 
     /**
      * @param string $string
      * @param string $separator
-     * @return MutableArray
+     * @return $this
      */
     public static function createFromString($string, $separator = self::SEPARATOR)
     {
-        return new MutableArray(explode($separator, $string));
+        return new static(explode($separator, $string));
     }
 
     /**
