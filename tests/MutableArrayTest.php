@@ -211,23 +211,23 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testKeys(array $array)
+    public function testGetKeys(array $array)
     {
         $ma = new MutableArray($array);
         $keys = array_keys($array);
 
-        $this->assertTrue($keys === $ma->keys());
+        $this->assertTrue($keys === $ma->getKeys());
     }
 
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testValues(array $array)
+    public function testGetValues(array $array)
     {
         $ma = new MutableArray($array);
         $values = array_values($array);
 
-        $this->assertTrue($values === $ma->values());
+        $this->assertTrue($values === $ma->getValues());
     }
 
     /**

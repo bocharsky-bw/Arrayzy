@@ -124,7 +124,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param bool|null $preserveKeys
+     * @param bool $preserveKeys
      * @return $this
      */
     public function reverse($preserveKeys = false)
@@ -138,11 +138,23 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * @param int $offset
      * @param int|null $length
      * @param bool $preserveKeys
-     * @return array
+     * @return $this
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
         $this->elements = array_slice($this->elements, $offset, $length, $preserveKeys);
+
+        return $this;
+    }
+
+    /**
+     * @param int $size
+     * @param bool $preserveKeys
+     * @return $this
+     */
+    public function chunk($size, $preserveKeys = false)
+    {
+        $this->elements = array_chunk($this->elements, $size, $preserveKeys);
 
         return $this;
     }
@@ -193,6 +205,66 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * @param array $array
+     * @return $this
+     */
+    public function combine(array $array)
+    {
+        $this->elements = array_combine($this->elements, $array);
+
+        return $this;
+    }
+
+    /**
+     * @param array $array
+     * @return $this
+     */
+    public function diff(array $array)
+    {
+        $this->elements = array_diff($this->elements, $array);
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $key
+     * @return bool
+     */
+    public function containsKey($key)
+    {
+        return array_key_exists($key, $this->elements);
+    }
+
+    /**
+     * @param mixed $element
+     * @return bool
+     */
+    public function contains($element)
+    {
+        return in_array($element, $this->elements, true);
+    }
+
+    /**
+     * @param mixed $element
+     * @return mixed
+     */
+    public function indexOf($element)
+    {
+        return array_search($element, $this->elements, true);
+    }
+
+    /**
+     * @param callable $callable
+     * @return $this
+     */
+    public function map(Closure $callable)
+    {
+        $this->elements = array_map($callable, $this->elements);
+
+        return $this;
+    }
+
+    /**
      * @param callable $callable
      * @return $this
      */
@@ -218,6 +290,16 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
         }
 
         return $this;
+    }
+
+    /**
+     * @param callable $callable
+     * @param mixed|null $initial
+     * @return mixed
+     */
+    public function reduce(Closure $callable, $initial = null)
+    {
+        return array_reduce($this->elements, $callable, $initial);
     }
 
     /**
@@ -267,11 +349,23 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * @param int $size
+     * @param mixed $value
+     * @return $this
+     */
+    public function pad($size, $value)
+    {
+        $this->elements = array_pad($this->elements, $size, $value);
+
+        return $this;
+    }
+
+    /**
      * Return all the keys of an array
      *
      * @return array
      */
-    public function keys()
+    public function getKeys()
     {
         return array_keys($this->elements);
     }
@@ -281,7 +375,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      *
      * @return array
      */
-    public function values()
+    public function getValues()
     {
         return array_values($this->elements);
     }
