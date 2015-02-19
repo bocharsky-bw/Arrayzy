@@ -97,7 +97,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      */
     public function toJson($options = 0, $depth = 512)
     {
-        return json_encode($this->elements, $options, $depth);
+        if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
+            return json_encode($this->elements, $options, $depth);
+        }
+
+        return json_encode($this->elements, $options);
     }
 
     /**
