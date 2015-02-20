@@ -381,6 +381,16 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * @return $this
+     */
+    public function shuffle()
+    {
+        shuffle($this->elements);
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function isEmpty()

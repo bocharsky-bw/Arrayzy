@@ -452,6 +452,18 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testShuffle(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->shuffle();
+        shuffle($array);
+
+        $this->assertTrue(count($array) === count($ma->toArray()));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testIsEmpty(array $array)
     {
         $isEmpty = ! $array;
