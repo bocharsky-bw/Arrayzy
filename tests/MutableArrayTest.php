@@ -113,6 +113,18 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testChunk(array $array)
+    {
+        $chunkArray = array_chunk($array, 2);
+        $ma = new MutableArray($array);
+        $ma->chunk(2);
+
+        $this->assertTrue($chunkArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testUnique(array $array)
     {
         $uniqueArray = array_unique($array);
@@ -142,6 +154,23 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testMergeRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $mergedArray = array_merge_recursive($array, $secondArray);
+        $ma = new MutableArray($array);
+        $ma->merge($secondArray, true);
+
+        $this->assertTrue($mergedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testReplace(array $array)
     {
         $secondArray = [
@@ -154,6 +183,96 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $ma->replace($secondArray);
 
         $this->assertTrue($replacedArray === $ma->toArray());
+    }
+
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReplaceRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $replacedArray = array_replace_recursive($array, $secondArray);
+        $ma = new MutableArray($array);
+        $ma->replace($secondArray, true);
+
+        $this->assertTrue($replacedArray === $ma->toArray());
+    }
+
+    public function testCombine()
+    {
+        $firstArray = [
+            1 => 'one',
+            2 => 'two',
+            3 => 'three',
+        ];
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $combinedArray = array_combine($firstArray, $secondArray);
+        $ma = new MutableArray($firstArray);
+        $ma->combine($secondArray);
+
+        $this->assertTrue($combinedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testDiff(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $arrayDiff = array_diff($array, $secondArray);
+        $ma = new MutableArray($array);
+        $ma->diff($secondArray);
+
+        $this->assertTrue($arrayDiff === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testContainsKey(array $array)
+    {
+        $key = 2;
+        $ma = new MutableArray($array);
+        $containsKey = array_key_exists($key, $array);
+
+        $this->assertTrue($containsKey === $ma->containsKey($key));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testContains(array $array)
+    {
+        $element = 2;
+        $ma = new MutableArray($array);
+        $contains = in_array($element, $array, true);
+
+        $this->assertTrue($contains === $ma->contains($element));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testIndexOf(array $array)
+    {
+        $element = 2;
+        $ma = new MutableArray($array);
+        $key = array_search($element, $array, true);
+
+        $this->assertTrue($key === $ma->indexOf($element));
     }
 
     /**
@@ -204,6 +323,18 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $ma = new MutableArray($array);
         $ma->push($newElement);
         array_push($array, $newElement);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testPad(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->pad(10, 5);
+        $array = array_pad($array, 10, 5);
 
         $this->assertTrue($array === $ma->toArray());
     }
