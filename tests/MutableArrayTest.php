@@ -31,6 +31,18 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider simpleArrayProvider
+     * @depends testCreate
+     */
+    public function testCreateFromObject(array $array)
+    {
+        $ma1 = MutableArray::create($array);
+        $ma2 = MutableArray::createFromObject($ma1);
+
+        $this->assertTrue($ma1->toArray() === $ma2->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
      */
     public function testCreateFromJson(array $array)
     {
@@ -278,6 +290,82 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testMap(array $array)
+    {
+        $callable = function($value){
+            return str_repeat($value, 2);
+        };
+        $mappedArray = array_map($callable, $array);
+        $ma = new MutableArray($array);
+        $ma->map($callable);
+
+        $this->assertTrue($mappedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testFilter(array $array)
+    {
+        $callable = function($value){
+            return 2 !== $value;
+        };
+        $filteredArray = array_filter($array, $callable);
+        $ma = new MutableArray($array);
+        $ma->filter($callable);
+
+        $this->assertTrue($filteredArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testWalk(array $array)
+    {
+        $callable = function(&$value, $key){
+            $value = $key;
+        };
+        $ma = new MutableArray($array);
+        $ma->walk($callable);
+        array_walk($array, $callable);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testWalkRecursively(array $array)
+    {
+        $callable = function(&$value, $key){
+            $value = $key;
+        };
+        $ma = new MutableArray($array);
+        $ma->walk($callable, null, true);
+        array_walk_recursive($array, $callable);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReduce(array $array)
+    {
+        $callable = function($carry, $item){
+            $carry .= '-' . $item;
+
+            return $carry;
+        };
+        $reducedArray = array_reduce($array, $callable, 'array');
+        $ma = new MutableArray($array);
+
+        $this->assertTrue($reducedArray === $ma->reduce($callable, 'array'));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testShift(array $array)
     {
         $ma = new MutableArray($array);
@@ -483,6 +571,24 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     {
         $ma = new MutableArray($array);
         $offset = 1;
+        $value = 'new';
+        if (isset($offset)) {
+            $array[$offset] = $value;
+        } else {
+            $array[] = $value;
+        }
+        $ma->offsetSet($offset, $value);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testOffsetNullSet(array $array)
+    {
+        $ma = new MutableArray($array);
+        $offset = null;
         $value = 'new';
         if (isset($offset)) {
             $array[$offset] = $value;
