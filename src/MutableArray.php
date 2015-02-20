@@ -381,6 +381,24 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return ! $this->elements;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clear()
+    {
+        $this->elements = [];
+
+        return $this;
+    }
+
+    /**
      * Counts all elements in array
      *
      * @link http://php.net/manual/en/function.count.php
