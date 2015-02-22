@@ -370,7 +370,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             $value = $key;
         };
         $ma = new MutableArray($array);
-        $ma->walk($callable, null, true);
+        $ma->walk($callable, true);
         array_walk_recursive($array, $callable);
 
         $this->assertTrue($array === $ma->toArray());

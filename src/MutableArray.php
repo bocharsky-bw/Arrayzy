@@ -17,7 +17,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * @const string
      */
-    const SEPARATOR = '';
+    const DEFAULT_SEPARATOR = '';
 
     /**
      * @var array
@@ -25,6 +25,8 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     private $elements = [];
 
     /**
+     * Construct new instance
+     *
      * @param array $elements
      */
     public function __construct(array $elements = [])
@@ -32,14 +34,22 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
         $this->elements = $elements;
     }
 
+    /**
+     * Converting instance to string with default separator
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->toString();
     }
 
     /**
+     * Create a new instance
+     *
      * @param array $elements
-     * @return $this
+     *
+     * @return static Returns created instance
      */
     public static function create(array $elements = [])
     {
@@ -47,10 +57,13 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param mixed $low
-     * @param mixed $high
-     * @param int $step
-     * @return $this
+     * Create a new instance containing a range of elements
+     *
+     * @param mixed $low First value of the sequence
+     * @param mixed $high The sequence is ended upon reaching the end value
+     * @param int $step Used as the increment between elements in the sequence
+     *
+     * @return static Returns created instance
      */
     public static function createWithRange($low, $high, $step = 1)
     {
@@ -58,8 +71,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param ArrayAccess $elements
-     * @return $this
+     * Create a new instance from the implemented ArrayAccess instance
+     *
+     * @param ArrayAccess $elements Object that implements the ArrayAccess
+     *
+     * @return static Returns created instance
      */
     public static function createFromObject(ArrayAccess $elements)
     {
@@ -73,10 +89,13 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param string $json
-     * @param int $options
-     * @param int $depth
-     * @return $this
+     * Decode a JSON string to new instance
+     *
+     * @param string $json The json string being decoded
+     * @param int $options Bitmask of JSON decode options
+     * @param int $depth Specified recursion depth
+     *
+     * @return static Returns created instance
      */
     public static function createFromJson($json, $options = 0, $depth = 512)
     {
@@ -84,9 +103,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param string $string
-     * @param string $separator
-     * @return $this
+     * Explode a string to new instance by specified separator
+     *
+     * @param string $string Converted string
+     * @param string $separator Element's separator
+     *
+     * @return static Returns created instance
      */
     public static function createFromString($string, $separator)
     {
@@ -94,7 +116,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return $this
+     * Clone current instance to new instance
+     *
+     * @return $this Returns cloned instance
      */
     public function createClone()
     {
@@ -102,7 +126,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return array
+     * Convert instance to PHP array
+     *
+     * @return array The PHP array
      */
     public function toArray()
     {
@@ -110,9 +136,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param int $options
-     * @param int $depth
-     * @return string
+     * Encode instance to JSON string
+     *
+     * @param int $options Bitmask
+     * @param int $depth Set the maximum depth. Must be greater than zero
+     *
+     * @return string The JSON representation of instance
      */
     public function toJson($options = 0, $depth = 512)
     {
@@ -124,16 +153,21 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param string $separator
-     * @return string
+     * Implode instance to string with specified separator
+     *
+     * @param string $separator Element's separator
+     *
+     * @return string Converted instance string
      */
-    public function toString($separator = self::SEPARATOR)
+    public function toString($separator = self::DEFAULT_SEPARATOR)
     {
         return implode($separator, $this->elements);
     }
 
     /**
-     * @return $this
+     * Exchanges all instance keys with their associated values
+     *
+     * @return $this The instance with flipped elements
      */
     public function flip()
     {
@@ -143,8 +177,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param bool $preserveKeys
-     * @return $this
+     * PLace instance elements in reverse order
+     *
+     * @param bool $preserveKeys Whether instance element keys are preserved or no
+     *
+     * @return $this The instance with reversed elements
      */
     public function reverse($preserveKeys = false)
     {
@@ -154,10 +191,13 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Extract a slice of instance elements
+     *
      * @param int $offset
-     * @param int|null $length
-     * @param bool $preserveKeys
-     * @return $this
+     * @param int|null $length Length of instance sliced elements
+     * @param bool $preserveKeys Whether instance element keys are preserved or no
+     *
+     * @return $this The instance with sliced elements
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
@@ -167,9 +207,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param int $size
-     * @param bool $preserveKeys
-     * @return $this
+     * Split instance elements into chunks
+     *
+     * @param int $size The size of each chunk
+     * @param bool $preserveKeys Whether instance element keys are preserved or no
+     *
+     * @return $this The instance with splitted elements
      */
     public function chunk($size, $preserveKeys = false)
     {
@@ -179,10 +222,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Removes duplicate values from an array
+     * Removes duplicate values from instance elements
      *
      * @param int|null $sortFlags
-     * @return $this
+     *
+     * @return $this The instance with unique elements
      */
     public function unique($sortFlags = null)
     {
@@ -192,9 +236,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param array $array
-     * @param bool $recursively
-     * @return $this
+     * Merge instance elements with given array
+     *
+     * @param array $array The array merged with instance elements
+     * @param bool $recursively Whether elements will be merged recursively or no
+     *
+     * @return $this The instance with merged elements
      */
     public function merge(array $array, $recursively = false)
     {
@@ -208,9 +255,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param array $array
-     * @param bool $recursively
-     * @return $this
+     * Replace instance elements with given array
+     *
+     * @param array $array The array replaced with instance elements
+     * @param bool $recursively Whether elements will be replaced recursively or no
+     *
+     * @return $this The instance with replaced elements
      */
     public function replace(array $array, $recursively = false)
     {
@@ -224,8 +274,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param array $array
-     * @return $this
+     * Combine instance element keys with given array values
+     *
+     * @param array $array The array combined with instance elements
+     *
+     * @return $this The instance with combined elements
      */
     public function combine(array $array)
     {
@@ -235,8 +288,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Compute the difference of instance elements with given array
+     *
      * @param array $array
-     * @return $this
+     *
+     * @return $this The instance containing all the entries from instance elements that are not present in given array
      */
     public function diff(array $array)
     {
@@ -246,8 +302,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Check if the given key or index exists in instance elements
+     *
      * @param mixed $key
-     * @return bool
+     *
+     * @return bool Whether instance elements contains given key or no
      */
     public function containsKey($key)
     {
@@ -255,8 +314,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Check if the given value exists in instance elements
+     *
      * @param mixed $element
-     * @return bool
+     *
+     * @return bool Whether instance elements contains given value or no
      */
     public function contains($element)
     {
@@ -264,8 +326,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Search in instance elements for a given element
+     *
      * @param mixed $element
-     * @return mixed
+     *
+     * @return mixed The corresponding key or index
      */
     public function indexOf($element)
     {
@@ -273,8 +338,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Apply the given callback to the instance elements
+     *
      * @param callable $callable
-     * @return $this
+     *
+     * @return $this The instance with filtered elements
      */
     public function map(Closure $callable)
     {
@@ -284,8 +352,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Filter instance elements with given callback
+     *
      * @param callable $callable
-     * @return $this
+     *
+     * @return $this The instance with modified elements
      */
     public function filter(Closure $callable)
     {
@@ -295,26 +366,31 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Apply the given callback to every instance element
+     *
      * @param callable $callable
-     * @param mixed|null $userData
-     * @param bool $recursively
-     * @return $this
+     * @param bool $recursively Whether elements will be walked recursively or no
+     *
+     * @return $this The instance with modified elements
      */
-    public function walk(Closure $callable, $userData = null, $recursively = false)
+    public function walk(Closure $callable, $recursively = false)
     {
         if (true === $recursively) {
-            array_walk_recursive($this->elements, $callable, $userData);
+            array_walk_recursive($this->elements, $callable);
         } else {
-            array_walk($this->elements, $callable, $userData);
+            array_walk($this->elements, $callable);
         }
 
         return $this;
     }
 
     /**
+     * Iteratively reduce instance elements to a single value using a callback function
+     *
      * @param callable $callable
      * @param mixed|null $initial
-     * @return mixed
+     *
+     * @return mixed The resulting value
      */
     public function reduce(Closure $callable, $initial = null)
     {
@@ -322,9 +398,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Shift an element off the beginning of array
+     * Shift an value off the beginning of instance elements
      *
-     * @return mixed
+     * @return mixed The shift value
      */
     public function shift()
     {
@@ -332,10 +408,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Prepend one or more elements to the beginning of an array
+     * Prepend a new value to the beginning of instance elements
      *
-     * @param mixed $element The prepended variable
-     * @return $this
+     * @param mixed $element The value for prepend
+     *
+     * @return $this The instance with prepended value to the beginning of instance elements
      */
     public function unshift($element)
     {
@@ -345,9 +422,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Pop the element off the end of array
+     * Pop the value off the end of instance elements
      *
-     * @return mixed
+     * @return mixed The popped element
      */
     public function pop()
     {
@@ -355,10 +432,11 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Push one or more elements onto the end of array
+     * Push value onto the end of instance elements
      *
-     * @param mixed $element The pushed value
-     * @return $this
+     * @param mixed $element The value for push
+     *
+     * @return $this The instance with pushed value to the end of instance elements
      */
     public function push($element)
     {
@@ -368,9 +446,12 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Pad instance elements to the specified length with a value
+     *
      * @param int $size
      * @param mixed $value
-     * @return $this
+     *
+     * @return $this The instance with padded elements
      */
     public function pad($size, $value)
     {
@@ -380,9 +461,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Return all the keys of an array
+     * Return all the keys or a subset of the keys of instance elements
      *
-     * @return array
+     * @return array An array of all the instance elements keys
      */
     public function getKeys()
     {
@@ -390,9 +471,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Return all the values of an array
+     * Return all the values of instance elements
      *
-     * @return array
+     * @return array An array of all the instance elements values
      */
     public function getValues()
     {
@@ -400,7 +481,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return $this
+     * Shuffle instance elements
+     *
+     * @return $this The instance with shuffled elements
      */
     public function shuffle()
     {
@@ -410,7 +493,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return bool
+     * Check whether instance elements are empty
+     *
+     * @return bool Whether instance elements are empty or no
      */
     public function isEmpty()
     {
@@ -418,7 +503,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return $this
+     * Clear instance elements
+     *
+     * @return $this The instance with clearing elements
      */
     public function clear()
     {
@@ -431,6 +518,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Counts all elements in array
      *
      * @link http://php.net/manual/en/function.count.php
+     *
      * @return int
      */
     public function count()
@@ -442,6 +530,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Set the internal pointer of an array to its first element
      *
      * @link http://php.net/manual/en/function.reset.php
+     *
      * @return mixed
      */
     public function first()
@@ -453,6 +542,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Set the internal pointer of an array to its last element
      *
      * @link http://php.net/manual/en/function.end.php
+     *
      * @return mixed
      */
     public function last()
@@ -464,6 +554,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Advance the internal array pointer of an array
      *
      * @link http://php.net/manual/en/function.next.php
+     *
      * @return mixed
      */
     public function next()
@@ -475,6 +566,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Rewind the internal array pointer
      *
      * @link http://php.net/manual/en/function.prev.php
+     *
      * @return mixed
      */
     public function previous()
@@ -486,6 +578,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Fetch a key from an array
      *
      * @link http://php.net/manual/en/function.key.php
+     *
      * @return mixed
      */
     public function key()
@@ -497,6 +590,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Return the current element in an array
      *
      * @link http://php.net/manual/en/function.current.php
+     *
      * @return mixed
      */
     public function current()
@@ -508,6 +602,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Return the current key and value pair from an array and advance the array cursor
      *
      * @link http://php.net/manual/en/function.current.php
+     *
      * @return array
      */
     public function each()
@@ -518,8 +613,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * Whether a offset exists
      *
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param mixed $offset An offset to check for.
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @return boolean true on success or false on failure.
      */
     public function offsetExists($offset)
@@ -530,8 +626,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * Offset to retrieve
      *
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
      * @param mixed $offset The offset to retrieve.
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @return mixed Can return all value types.
      */
     public function offsetGet($offset)
@@ -545,9 +642,10 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * Offset to set
      *
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
      * @param mixed $offset The offset to assign the value to.
      * @param mixed $value The value to set.
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @return $this
      */
     public function offsetSet($offset, $value)
@@ -562,8 +660,9 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * Offset to unset
      *
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      * @param mixed $offset The offset to unset.
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @return $this
      */
     public function offsetUnset($offset)
@@ -577,6 +676,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * Retrieve an external iterator
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
      */
     public function getIterator()
