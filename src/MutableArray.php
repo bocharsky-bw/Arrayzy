@@ -47,6 +47,17 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * @param mixed $low
+     * @param mixed $high
+     * @param int $step
+     * @return $this
+     */
+    public static function createWithRange($low, $high, $step = 1)
+    {
+        return new static(range($low, $high, $step));
+    }
+
+    /**
      * @param ArrayAccess $elements
      * @return $this
      */
@@ -77,9 +88,17 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      * @param string $separator
      * @return $this
      */
-    public static function createFromString($string, $separator = self::SEPARATOR)
+    public static function createFromString($string, $separator)
     {
         return new static(explode($separator, $string));
+    }
+
+    /**
+     * @return $this
+     */
+    public function createClone()
+    {
+        return clone $this;
     }
 
     /**

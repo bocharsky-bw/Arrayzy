@@ -29,6 +29,22 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($array === $ma->toArray());
     }
 
+    public function testCreateWithRange()
+    {
+        $ma1 = MutableArray::createWithRange(2, 7);
+        $array1 = range(2, 7);
+        $ma2 = MutableArray::createWithRange('d', 'h');
+        $array2 = range('d', 'h');
+        $ma3 = MutableArray::createWithRange(22, 11, 2);
+        $array3 = range(22, 11, 2);
+        $ma4 = MutableArray::createWithRange('y', 'k', 2);
+        $array4 = range('y', 'k', 2);
+
+        $this->assertTrue($array1 === $ma1->toArray());
+        $this->assertTrue($array2 === $ma2->toArray());
+        $this->assertTrue($array3 === $ma3->toArray());
+        $this->assertTrue($array4 === $ma4->toArray());
+    }
     /**
      * @dataProvider simpleArrayProvider
      * @depends testCreate
@@ -84,6 +100,19 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($string === $ma->toString($separator));
         $this->assertTrue(implode('', $array) === (string)$ma);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testCreateClone(array $array)
+    {
+        $ma = new MutableArray($array);
+        $clonedMa = $ma->createClone();
+
+        $this->assertTrue($clonedMa  == $ma);
+        $this->assertTrue($clonedMa !== $ma);
+        $this->assertTrue($clonedMa->toArray() === $ma->toArray());
     }
 
     /**
