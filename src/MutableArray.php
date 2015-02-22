@@ -499,7 +499,7 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      */
     public function isEmpty()
     {
-        return ! $this->elements;
+        return !$this->elements;
     }
 
     /**
