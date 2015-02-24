@@ -487,10 +487,6 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
      */
     public function getRandom()
     {
-        if ($this->isEmpty()) {
-            return null;
-        }
-
         return $this->offsetGet(array_rand($this->elements, 1));
     }
 
