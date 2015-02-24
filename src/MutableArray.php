@@ -473,11 +473,25 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     /**
      * Return all the values of instance elements
      *
-     * @return array An array of all the instance elements values
+     * @return mixed An array of all the instance elements values
      */
     public function getValues()
     {
         return array_values($this->elements);
+    }
+
+    /**
+     * Pick one random element out of instance elements
+     *
+     * @return mixed Random value of of instance elements
+     */
+    public function getRandom()
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        return $this->offsetGet(array_rand($this->elements, 1));
     }
 
     /**
