@@ -23,6 +23,8 @@ A PHP array easy manipulation library in OOP way.
     * createFromString
     * createWithRange
     * current
+    * customSort
+    * customSortKeys
     * diff
     * each
     * filter
@@ -53,6 +55,8 @@ A PHP array easy manipulation library in OOP way.
     * shift
     * shuffle
     * slice
+    * sort
+    * sortKeys
     * toArray
     * toJson
     * toString

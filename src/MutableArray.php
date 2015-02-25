@@ -385,6 +385,34 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Sort the instance elements with a user-defined comparison function and maintain index association
+     *
+     * @param callable $callable
+     *
+     * @return $this The instance with custom sorted elements
+     */
+    public function customSort(Closure $callable)
+    {
+        usort($this->elements, $callable);
+
+        return $this;
+    }
+
+    /**
+     * Sort the instance element keys with a user-defined comparison function and maintain index association
+     *
+     * @param callable $callable
+     *
+     * @return $this The instance with custom sorted elements
+     */
+    public function customSortKeys(Closure $callable)
+    {
+        uksort($this->elements, $callable);
+
+        return $this;
+    }
+
+    /**
      * Iteratively reduce instance elements to a single value using a callback function
      *
      * @param callable $callable
@@ -498,6 +526,85 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     public function shuffle()
     {
         shuffle($this->elements);
+
+        return $this;
+    }
+
+    /**
+     * Sort the instance elements by key
+     *
+     * @param int $order The order direction:
+     * <ul>
+     * <li>SORT_ASC</li>
+     * <li>SORT_DESC</li>
+     * </ul>
+     * @param int $strategy The order behavior:
+     * <ul>
+     * <li>SORT_REGULAR</li>
+     * <li>SORT_NUMERIC</li>
+     * <li>SORT_STRING</li>
+     * <li>SORT_LOCALE_STRING</li>
+     * <li>SORT_NATURAL</li>
+     * <li>SORT_FLAG_CASE</li>
+     * </ul>
+     * @param bool $preserveKeys Maintain index association
+     * @link http://php.net/manual/en/function.sort.php
+     *
+     * @return $this The instance with sorted elements
+     */
+    public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                if ($preserveKeys) {
+                    arsort($this->elements, $strategy);
+                } else {
+                    rsort($this->elements, $strategy);
+                }
+                break;
+
+            case SORT_ASC:
+            default:
+                if ($preserveKeys) {
+                    asort($this->elements, $strategy);
+                } else {
+                    sort($this->elements, $strategy);
+                }
+        }
+    }
+
+    /**
+     * Sort the instance elements by key
+     *
+     * @param int $order The order direction:
+     * <ul>
+     * <li>SORT_ASC</li>
+     * <li>SORT_DESC</li>
+     * </ul>
+     * @param int $strategy The order behavior:
+     * <ul>
+     * <li>SORT_REGULAR</li>
+     * <li>SORT_NUMERIC</li>
+     * <li>SORT_STRING</li>
+     * <li>SORT_LOCALE_STRING</li>
+     * <li>SORT_NATURAL</li>
+     * <li>SORT_FLAG_CASE</li>
+     * </ul>
+     * @link http://php.net/manual/en/function.sort.php
+     *
+     * @return $this The instance with sorted elements
+     */
+    public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                krsort($this->elements, $strategy);
+                break;
+
+            case SORT_ASC:
+            default:
+                ksort($this->elements, $strategy);
+        }
 
         return $this;
     }
