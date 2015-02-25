@@ -379,6 +379,44 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testCustomSort(array $array)
+    {
+        $callable = function($a, $b) {
+            if ($a == $b) {
+                return 0;
+            }
+
+            return ($a < $b) ? -1 : 1;
+        };
+        $ma = new MutableArray($array);
+        $ma->customSort($callable, true);
+        usort($array, $callable);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testCustomSortKeys(array $array)
+    {
+        $callable = function($a, $b) {
+            if ($a == $b) {
+                return 0;
+            }
+
+            return ($a > $b) ? -1 : 1;
+        };
+        $ma = new MutableArray($array);
+        $ma->customSortKeys($callable, true);
+        uksort($array, $callable);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testReduce(array $array)
     {
         $callable = function($carry, $item){
@@ -502,6 +540,78 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         shuffle($array);
 
         $this->assertTrue(count($array) === count($ma->toArray()));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortAscWithPreserveKeys(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sort(SORT_ASC, SORT_REGULAR, true);
+        asort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortAscWithoutPreserveKeys(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sort(SORT_ASC, SORT_REGULAR, false);
+        sort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortDescWithPreserveKeys(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sort(SORT_DESC, SORT_REGULAR, true);
+        arsort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortDescWithoutPreserveKeys(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sort(SORT_DESC, SORT_REGULAR, false);
+        rsort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortKeysAsc(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sortKeys(SORT_ASC, SORT_REGULAR);
+        ksort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testSortKeysDesc(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->sortKeys(SORT_DESC, SORT_REGULAR);
+        krsort($array, SORT_REGULAR);
+
+        $this->assertTrue($array === $ma->toArray());
     }
 
     /**
