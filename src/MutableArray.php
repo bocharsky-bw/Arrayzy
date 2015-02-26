@@ -772,6 +772,8 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
         } else {
             $this->elements[] = $value;
         }
+
+        return $this;
     }
 
     /**
