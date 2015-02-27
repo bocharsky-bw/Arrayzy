@@ -519,6 +519,18 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testReindex(array $array)
+    {
+        $ma = new MutableArray($array);
+        $ma->reindex();
+        $values = array_values($array);
+
+        $this->assertTrue($values === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testGetRandom(array $array)
     {
         if (0 === count($array)) {

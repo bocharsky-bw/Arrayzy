@@ -509,6 +509,18 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Reindex the instance elements
+     *
+     * @return $this The instance with re-indexed elements
+     */
+    public function reindex()
+    {
+        $this->elements = array_values($this->elements);
+
+        return $this;
+    }
+
+    /**
      * Pick one random element out of instance elements
      *
      * @return mixed Random value of of instance elements
