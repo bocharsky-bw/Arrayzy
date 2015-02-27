@@ -12,12 +12,12 @@ A PHP array easy manipulation library in OOP way.
 * [Usage](#usage)
     * [Chaining](#chaining)
 * [Public method list](#public-method-list)
-    * chunk
-    * clear
-    * combine
-    * contains
-    * containsKey
-    * count
+    * [chunk](#chunk)
+    * [clear](#clear)
+    * [combine](#combine)
+    * [contains](#contains)
+    * [containsKey](#containskey)
+    * [count](#count)
     * [create](#create)
     * [createClone](#createclone)
     * [createFromJson](#createfromjson)
@@ -55,20 +55,20 @@ A PHP array easy manipulation library in OOP way.
     * prev
     * push
     * reduce
-    * reindex
-    * replace
-    * reverse
-    * shift
-    * shuffle
-    * slice
-    * sort
-    * sortKeys
+    * [reindex](#reindex)
+    * [replace](#replace)
+    * [reverse](#reverse)
+    * [shift](#shift)
+    * [shuffle](#shuffle)
+    * [slice](#slice)
+    * [sort](#sort)
+    * [sortKeys](#sortkeys)
     * [toArray](#toarray)
     * [toJson](#tojson)
     * [toString](#tostring)
-    * unique
-    * unshift
-    * walk
+    * [unique](#unique)
+    * [unshift](#unshift)
+    * [walk](#walk)
 * [Links](#links)
 
 > **NOTE:** Each functional method operate on the same array and return same instance
@@ -167,11 +167,56 @@ Easily converting instance elements to an array/json/string format:
 
 ### Debugging
 
-* debug
-* dump
-* export
+* [debug](#debug)
+* [dump](#dump)
+* [export](#export)
 
 ## Public method list
+
+### Chunk
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->chunk(2);
+$a->toArray(); // [0 => [0 => 'a', 1 => 'b'], 1 => [0 => 'c']]
+```
+
+### Clear
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->clear();
+$a->toArray(); // []
+```
+
+### Combine
+
+``` php
+$a = MutableArray::create([1, 2, 3]);
+$a->combine(['a', 'b', 'c']);
+$a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
+```
+
+### Contains
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+print $a->contains('c'); // true
+```
+
+### ContainsKey
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+print $a->containsKey(2); // true
+```
+
+### Count
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+print $a->count(); // 3
+```
 
 ### Create
 
@@ -227,6 +272,70 @@ $b = clone $a; // $a and $b are different instances ($a !== $b)
 $b = $a->createClone(); // $a !== $b
 ```
 
+### Reindex
+
+``` php
+$a = MutableArray::create([2 => 'a', 1 => 'b', 3 => 'c']);
+$a->reindex();
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
+```
+
+### Replace
+
+``` php
+$a = MutableArray::create(['a', 'd', 'e']);
+$a->replace([1 => 'b', 2 => 'c']);
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
+```
+
+### Reverse
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->reverse();
+$a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
+```
+
+### Shift
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->shift();
+$a->toArray(); // [0 => 'b', 1 => 'c']
+```
+
+### Shuffle
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->shuffle();
+$a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'b']
+```
+
+### Slice
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a->slice(1, 2);
+$a->toArray(); // [0 => 'b', 1 => 'c']
+```
+
+### Sort
+
+``` php
+$a = MutableArray::create(['b', 'a', 'd', 'c']);
+$a->sort(SORT_DESC);
+$a->toArray(); // [0 => 'd', 1 => 'c', 2 => 'b', 3 => 'a']
+```
+
+### SortKeys
+
+``` php
+$a = MutableArray::create([3 => 'a', 1 => 'b', 2 => 'c', 0 => 'd']);
+$a->sortKeys(SORT_ASC);
+$a->toArray(); // [0 => 'd', 1 => 'b', 2 => 'c', 3 => 'a']
+```
+
 ### toArray
 
 ``` php
@@ -248,7 +357,34 @@ $a = MutableArray::create(['a', 'b', 'c']);
 print $a->toString('-'); // 'a-b-c'
 ```
 
-Docs will be added soon...
+### Unique
+
+``` php
+$a = MutableArray::create(['a', 'b', 'b', 'c']);
+$a->unique();
+$a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
+```
+
+### Unshift
+
+``` php
+$a = MutableArray::create(['b', 'c']);
+$a->unshift('a');
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
+```
+
+### Walk
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->walk(function(&$value, $key) { //  
+    $key++; // the $key variable passed by value, (original value will not modified)
+    $value = $value . $key; // the $value variable passed by reference (modify original value)
+});
+$a->toArray(); // [0 => 'a1', 1 => 'b2', 2 => 'c3']
+```
+
+More docs will be added soon...
 
 ## Links
 
