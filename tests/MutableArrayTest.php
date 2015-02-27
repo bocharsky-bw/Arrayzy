@@ -821,6 +821,28 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($ma->getIterator() instanceof ArrayIterator);
     }
 
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testExportReturn(array $array)
+    {
+        $ma = new MutableArray($array);
+        $exported = var_export($array, true);
+
+        $this->assertTrue($exported === $ma->export(true));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testDebugReturn(array $array)
+    {
+        $ma = new MutableArray($array);
+        $printed = print_r($array, true);
+
+        $this->assertTrue($printed === $ma->debug(true));
+    }
+
     public function simpleArrayProvider()
     {
         return [

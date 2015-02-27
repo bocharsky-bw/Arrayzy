@@ -814,4 +814,52 @@ class MutableArray implements Countable, ArrayAccess, IteratorAggregate
     {
         return new ArrayIterator($this->elements);
     }
+
+    /**
+     * Output instance elements dump
+     *
+     * @return $this
+     */
+    public function dump()
+    {
+        var_dump($this->elements);
+
+        return $this;
+    }
+
+    /**
+     * Output/return printed instance elements for debug
+     *
+     * @param bool $return
+     *
+     * @return $this
+     */
+    public function debug($return = false)
+    {
+        if ($return) {
+            return print_r($this->elements, true);
+        }
+
+        print_r($this->elements, false);
+
+        return $this;
+    }
+
+    /**
+     * Export instance elements
+     *
+     * @param bool $return
+     *
+     * @return $this
+     */
+    public function export($return = false)
+    {
+        if ($return) {
+            return var_export($this->elements, true);
+        }
+
+        var_export($this->elements, false);
+
+        return $this;
+    }
 }
