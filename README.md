@@ -10,6 +10,7 @@ A PHP array easy manipulation library in OOP way.
 * [Installation](#installation)
 * [Creation](#creation)
 * [Usage](#usage)
+    * [Chaining](#chaining)
 * [Public method list](#public-method-list)
     * chunk
     * clear
@@ -17,17 +18,20 @@ A PHP array easy manipulation library in OOP way.
     * contains
     * containsKey
     * count
-    * create
-    * createClone
-    * createFromJson
-    * createFromObject
-    * createFromString
-    * createWithRange
+    * [create](#create)
+    * [createClone](#createclone)
+    * [createFromJson](#createfromjson)
+    * [createFromObject](#createfromobject)
+    * [createFromString](#createfromstring)
+    * [createWithRange](#createwithrange)
     * current
     * customSort
     * customSortKeys
+    * debug
     * diff
+    * dump
     * each
+    * export
     * filter
     * first
     * flip
@@ -51,6 +55,7 @@ A PHP array easy manipulation library in OOP way.
     * prev
     * push
     * reduce
+    * reindex
     * replace
     * reverse
     * shift
@@ -58,12 +63,19 @@ A PHP array easy manipulation library in OOP way.
     * slice
     * sort
     * sortKeys
-    * toArray
-    * toJson
-    * toString
+    * [toArray](#toarray)
+    * [toJson](#tojson)
+    * [toString](#tostring)
     * unique
     * unshift
     * walk
+* [Links](#links)
+
+> **NOTE:** Each functional method operate on the same array and return same instance
+(DO NOT create a new instance) except only few methods `start` with create prefix.
+This way a bit improve performance and provide more convenience usage in OOP way.
+Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
+
 
 ## Installation
 
@@ -104,10 +116,62 @@ Also, a new object can be created with one of few public `static` methods
 that start with `create` prefix and provide additional useful functionality:
 
 * [create](#create)
-* [createFromJson](#createFromJson)
-* [createFromObject](#createFromObject)
-* [createFromString](#createFromString)
-* [createWithRange](#createWithRange)
+* [createFromJson](#createfromjson)
+* [createFromObject](#createfromobject)
+* [createFromString](#createfromstring)
+* [createWithRange](#createwithrange)
+
+## Usage
+
+You can access to the instance as to a simple PHP array
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+
+$a[] = 'e'; // or use $a->offsetSet(null, 'e') method
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'e']
+
+$a[3] = 'd'; // or use $a->offsetSet(3, 'd') method
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
+
+print $a[1]; // 'b'
+// or use corresponding method
+print $a->offsetGet(1); // 'b'
+```
+
+### Chaining
+
+Use chaining methods for fast usage:
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+
+$a
+    ->offsetSet(null, 'e')
+    ->offsetSet(3, 'd')
+    ->offsetSet(null, 'e')
+    ->shuffle()
+    ->reindex()// or any other method that return the current instance
+;
+
+$a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
+```
+
+### Converting
+
+Easily converting instance elements to an array/json/string format:
+
+* [toArray](#toarray)
+* [toJson](#tojson)
+* [toString](#tostring)
+
+### Debugging
+
+* debug
+* dump
+* export
+
+## Public method list
 
 ### Create
 
@@ -145,9 +209,7 @@ $a = MutableArray::createWithRange(2, 6, 2);
 $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 ```
 
-> **NOTE:** Each functional method operate on the same array and return same instance
-(DO NOT create a new instance) except only few methods `start` with create prefix.
-This way a bit improve performance and provide more convenience usage in OOP way.
+### CreateClone
 
 Keep in mind, that in PHP variables contains only reference to the object, **NOT** the same object:
 
@@ -165,42 +227,29 @@ $b = clone $a; // $a and $b are different instances ($a !== $b)
 $b = $a->createClone(); // $a !== $b
 ```
 
-## Usage
-
-You can access to the instance as to a simple PHP array
+### toArray
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-
-$a[] = 'e'; // or use $a->offsetSet(null, 'e') method
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'e']
-
-$a[3] = 'd'; // or use $a->offsetSet(3, 'd') method
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
-
-print $a[1]; // 'b'
-// or use corresponding method
-print $a->offsetGet(1); // 'b'
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
-### Chaining
+### toJson
 
-Use chaining methods for fast usage:
+``` php
+$a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
+print $a->toJson(); // { "a": 1, "b": 2, "c":3 }
+```
+
+### toString
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-
-$a
-    ->offsetSet(null, 'e')
-    ->offsetSet(3, 'd')
-    ->offsetSet(null, 'e') // or any other method that return the current instance
-;
-
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd', 4 => 'e']
+print $a->toString('-'); // 'a-b-c'
 ```
-
-## Public method list
 
 Docs will be added soon...
+
+## Links
 
 Look at the [Stringy](https://github.com/danielstjules/Stringy) if you are looking for a PHP string manipulation library in OOP way.
