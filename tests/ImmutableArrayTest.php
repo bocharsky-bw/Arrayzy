@@ -10,19 +10,19 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     throw new \Exception('Can\'t find autoload.php. Did you install dependencies via composer?');
 }
 
-use Arrayzy\MutableArray;
+use Arrayzy\ImmutableArray;
 
 /**
- * Class MutableArrayTest
+ * Class ImmutableArrayTest
  */
-class MutableArrayTest extends PHPUnit_Framework_TestCase
+class ImmutableArrayTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider simpleArrayProvider
      */
     public function testConstruct(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
 
         $this->assertTrue($array === $ma->toArray());
     }
@@ -32,20 +32,20 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate(array $array)
     {
-        $ma = MutableArray::create($array);
+        $ma = ImmutableArray::create($array);
 
         $this->assertTrue($array === $ma->toArray());
     }
 
     public function testCreateWithRange()
     {
-        $ma1 = MutableArray::createWithRange(2, 7);
+        $ma1 = ImmutableArray::createWithRange(2, 7);
         $array1 = range(2, 7);
-        $ma2 = MutableArray::createWithRange('d', 'h');
+        $ma2 = ImmutableArray::createWithRange('d', 'h');
         $array2 = range('d', 'h');
-        $ma3 = MutableArray::createWithRange(22, 11, 2);
+        $ma3 = ImmutableArray::createWithRange(22, 11, 2);
         $array3 = range(22, 11, 2);
-        $ma4 = MutableArray::createWithRange('y', 'k', 2);
+        $ma4 = ImmutableArray::createWithRange('y', 'k', 2);
         $array4 = range('y', 'k', 2);
 
         $this->assertTrue($array1 === $ma1->toArray());
@@ -59,8 +59,8 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateFromObject(array $array)
     {
-        $ma1 = MutableArray::create($array);
-        $ma2 = MutableArray::createFromObject($ma1);
+        $ma1 = ImmutableArray::create($array);
+        $ma2 = ImmutableArray::createFromObject($ma1);
 
         $this->assertTrue($ma1->toArray() === $ma2->toArray());
     }
@@ -71,7 +71,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testCreateFromJson(array $array)
     {
         $json = json_encode($array);
-        $ma = MutableArray::createFromJson($json);
+        $ma = ImmutableArray::createFromJson($json);
 
         $this->assertTrue($array === $ma->toArray());
     }
@@ -82,7 +82,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testCreateFromString($string, $separator)
     {
         $array = explode($separator, $string);
-        $ma = MutableArray::createFromString($string, $separator);
+        $ma = ImmutableArray::createFromString($string, $separator);
 
         $this->assertTrue($array === $ma->toArray());
     }
@@ -93,7 +93,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testToJson(array $array)
     {
         $json = json_encode($array);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
 
         $this->assertTrue($json === $ma->toJson());
     }
@@ -104,7 +104,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testToString($string, $separator)
     {
         $array = explode($separator, $string);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
 
         $this->assertTrue($string === $ma->toString($separator));
         $this->assertTrue(implode('', $array) === (string)$ma);
@@ -115,7 +115,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateClone(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $clonedMa = $ma->createClone();
 
         $this->assertTrue($clonedMa  == $ma);
@@ -129,11 +129,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testFlip(array $array)
     {
         $flippedArray = array_flip($array);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->flip();
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($flippedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($flippedArray === $copiedMa->toArray());
     }
 
     /**
@@ -142,11 +142,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testReverse(array $array)
     {
         $reversedArray = array_reverse($array);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->reverse();
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($reversedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($reversedArray === $copiedMa->toArray());
     }
 
     /**
@@ -155,11 +155,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testSlice(array $array)
     {
         $slicedArray = array_slice($array, 1, 1);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->slice(1, 1);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($slicedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($slicedArray === $copiedMa->toArray());
     }
 
     /**
@@ -168,11 +168,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testChunk(array $array)
     {
         $chunkArray = array_chunk($array, 2);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->chunk(2);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($chunkArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($chunkArray === $copiedMa->toArray());
     }
 
     /**
@@ -181,11 +181,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testUnique(array $array)
     {
         $uniqueArray = array_unique($array);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->unique();
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($uniqueArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($uniqueArray === $copiedMa->toArray());
     }
 
     /**
@@ -199,11 +199,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $mergedArray = array_merge($array, $secondArray);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->merge($secondArray);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($mergedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($mergedArray === $copiedMa->toArray());
     }
 
     /**
@@ -217,11 +217,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $mergedArray = array_merge_recursive($array, $secondArray);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->merge($secondArray, true);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($mergedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($mergedArray === $copiedMa->toArray());
     }
 
     /**
@@ -235,11 +235,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $replacedArray = array_replace($array, $secondArray);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->replace($secondArray);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($replacedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($replacedArray === $copiedMa->toArray());
     }
 
 
@@ -254,11 +254,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $replacedArray = array_replace_recursive($array, $secondArray);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->replace($secondArray, true);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($replacedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($replacedArray === $copiedMa->toArray());
     }
 
     public function testCombine()
@@ -274,11 +274,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $combinedArray = array_combine($firstArray, $secondArray);
-        $ma = new MutableArray($firstArray);
+        $ma = new ImmutableArray($firstArray);
         $copiedMa = $ma->combine($secondArray);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($combinedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($combinedArray === $copiedMa->toArray());
     }
 
     /**
@@ -292,11 +292,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             2 => 2,
         ];
         $arrayDiff = array_diff($array, $secondArray);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->diff($secondArray);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($arrayDiff === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($arrayDiff === $copiedMa->toArray());
     }
 
     /**
@@ -305,7 +305,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testContainsKey(array $array)
     {
         $key = 2;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $containsKey = array_key_exists($key, $array);
 
         $this->assertTrue($containsKey === $ma->containsKey($key));
@@ -317,7 +317,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testContains(array $array)
     {
         $element = 2;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $contains = in_array($element, $array, true);
 
         $this->assertTrue($contains === $ma->contains($element));
@@ -329,7 +329,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testIndexOf(array $array)
     {
         $element = 2;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $key = array_search($element, $array, true);
 
         $this->assertTrue($key === $ma->indexOf($element));
@@ -344,11 +344,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             return str_repeat($value, 2);
         };
         $mappedArray = array_map($callable, $array);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->map($callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($mappedArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($mappedArray === $copiedMa->toArray());
     }
 
     /**
@@ -360,11 +360,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             return 2 !== $value;
         };
         $filteredArray = array_filter($array, $callable);
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->filter($callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($filteredArray === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($filteredArray === $copiedMa->toArray());
     }
 
     /**
@@ -375,12 +375,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $callable = function(&$value, $key){
             $value = $key;
         };
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->walk($callable);
         array_walk($array, $callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -391,12 +391,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $callable = function(&$value, $key){
             $value = $key;
         };
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->walk($callable, true);
         array_walk_recursive($array, $callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -411,12 +411,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
 
             return ($a < $b) ? -1 : 1;
         };
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->customSort($callable, true);
         usort($array, $callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -431,12 +431,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
 
             return ($a > $b) ? -1 : 1;
         };
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->customSortKeys($callable, true);
         uksort($array, $callable);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -450,7 +450,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             return $carry;
         };
         $reducedArray = array_reduce($array, $callable, 'array');
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
 
         $this->assertTrue($reducedArray === $ma->reduce($callable, 'array'));
     }
@@ -460,7 +460,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testShift(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $shiftedValue = $ma->shift();
         $shiftedArrayValue = array_shift($array);
 
@@ -474,12 +474,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testUnshift(array $array)
     {
         $newElement = 5;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->unshift($newElement);
         array_unshift($array, $newElement);
 
         $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -487,7 +487,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testPop(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $poppedValue = $ma->pop();
         $poppedArrayValue = array_pop($array);
 
@@ -501,12 +501,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testPush(array $array)
     {
         $newElement = 5;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->push($newElement);
         array_push($array, $newElement);
 
         $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -514,12 +514,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testPad(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->pad(10, 5);
         $array = array_pad($array, 10, 5);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -527,7 +527,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetKeys(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $keys = array_keys($array);
 
         $this->assertTrue($keys === $ma->getKeys());
@@ -538,7 +538,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValues(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $values = array_values($array);
 
         $this->assertTrue($values === $ma->getValues());
@@ -549,12 +549,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testReindex(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->reindex();
         $values = array_values($array);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($values === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($values === $copiedMa->toArray());
     }
 
     /**
@@ -566,7 +566,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
             return;
         }
 
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $value = array_rand($array, 1);
         $this->assertTrue(null !== $value and null !== $ma->getRandom());
     }
@@ -576,12 +576,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testShuffle(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->shuffle();
         shuffle($array);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue(count($array) === count($ma->toArray()));
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue(count($array) === count($copiedMa->toArray()));
     }
 
     /**
@@ -589,11 +589,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortAscWithPreserveKeys(array $array)
     {
-        $ma = new MutableArray($array);
-        $ma->sort(SORT_ASC, SORT_REGULAR, true);
+        $ma = new ImmutableArray($array);
+        $copiedMa = $ma->sort(SORT_ASC, SORT_REGULAR, true);
         asort($array, SORT_REGULAR);
 
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -601,12 +602,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortAscWithoutPreserveKeys(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->sort(SORT_ASC, SORT_REGULAR, false);
         sort($array, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -614,12 +615,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortDescWithPreserveKeys(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->sort(SORT_DESC, SORT_REGULAR, true);
         arsort($array, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -627,12 +628,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortDescWithoutPreserveKeys(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->sort(SORT_DESC, SORT_REGULAR, false);
         rsort($array, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -640,12 +641,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortKeysAsc(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->sortKeys(SORT_ASC, SORT_REGULAR);
         ksort($array, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -653,12 +654,12 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testSortKeysDesc(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->sortKeys(SORT_DESC, SORT_REGULAR);
         krsort($array, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($array === $copiedMa->toArray());
     }
 
     /**
@@ -667,7 +668,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     public function testIsEmpty(array $array)
     {
         $isEmpty = ! $array;
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
 
         $this->assertTrue($isEmpty === $ma->isEmpty());
     }
@@ -677,11 +678,11 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testClear(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $copiedMa = $ma->clear();
 
-        $this->assertTrue($copiedMa === $ma);
-        $this->assertTrue([] === $ma->toArray());
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue([] === $copiedMa->toArray());
     }
 
     /**
@@ -689,7 +690,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testCount(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $count = count($array);
 
         $this->assertTrue($count === $ma->count());
@@ -700,7 +701,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testFirst(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $first = reset($array);
 
         $this->assertTrue($first === $ma->first());
@@ -711,7 +712,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testLast(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $last = end($array);
 
         $this->assertTrue($last === $ma->last());
@@ -722,7 +723,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testNext(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $next = next($array);
 
         $this->assertTrue($next === $ma->next());
@@ -733,7 +734,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testPrevious(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $prev = prev($array);
 
         $this->assertTrue($prev === $ma->previous());
@@ -744,7 +745,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testKey(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $key = key($array);
 
         $this->assertTrue($key === $ma->key());
@@ -755,7 +756,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testCurrent(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $current = current($array);
 
         $this->assertTrue($current === $ma->current());
@@ -766,7 +767,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testEach(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $each = each($array);
 
         $this->assertTrue($each === $ma->each());
@@ -777,7 +778,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testOffsetExists(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $offset = 1;
         $value = isset($array[$offset]);
 
@@ -789,7 +790,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testOffsetGet(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $offset = 1;
         $value = isset($array[$offset])
             ? $array[$offset]
@@ -804,7 +805,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testOffsetSet(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $offset = 1;
         $value = 'new';
         if (isset($offset)) {
@@ -822,7 +823,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testOffsetNullSet(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $offset = null;
         $value = 'new';
         if (isset($offset)) {
@@ -840,7 +841,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testOffsetUnset(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $offset = 1;
         unset($array[$offset]);
         $ma->offsetUnset($offset);
@@ -852,7 +853,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
 
     public function testGetIterator()
     {
-        $ma = new MutableArray();
+        $ma = new ImmutableArray();
 
         $this->assertTrue($ma->getIterator() instanceof ArrayIterator);
     }
@@ -862,7 +863,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testExportReturn(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $exported = var_export($array, true);
 
         $this->assertTrue($exported === $ma->export(true));
@@ -873,7 +874,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testDebugReturn(array $array)
     {
-        $ma = new MutableArray($array);
+        $ma = new ImmutableArray($array);
         $printed = print_r($array, true);
 
         $this->assertTrue($printed === $ma->debug(true));

@@ -5,32 +5,28 @@ namespace Arrayzy;
 use Closure;
 
 /**
- * Class MutableArray
+ * Class ImmutableArray
  */
-class MutableArray extends AbstractArray
+class ImmutableArray extends AbstractArray
 {
     /**
      * Reindex the array
      *
-     * @return $this The same instance with re-indexed elements
+     * @return static The new instance with re-indexed elements
      */
     public function reindex()
     {
-        $this->elements = parent::reindex();
-
-        return $this;
+        return new static(parent::reindex());
     }
 
     /**
      * Exchanges all array keys with their associated values
      *
-     * @return $this The same instance with flipped elements
+     * @return static The new instance with flipped elements
      */
     public function flip()
     {
-        $this->elements = parent::flip();
-
-        return $this;
+        return new static(parent::flip());
     }
 
     /**
@@ -38,13 +34,11 @@ class MutableArray extends AbstractArray
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return $this The same instance with reversed elements
+     * @return static The new instance with reversed elements
      */
     public function reverse($preserveKeys = false)
     {
-        $this->elements = parent::reverse($preserveKeys);
-
-        return $this;
+        return new static(parent::reverse($preserveKeys));
     }
 
     /**
@@ -53,13 +47,11 @@ class MutableArray extends AbstractArray
      * @param int $size Size of result array
      * @param mixed $value Empty value by default
      *
-     * @return $this The same instance with padded elements
+     * @return static The new instance with padded elements
      */
     public function pad($size, $value)
     {
-        $this->elements = parent::pad($size, $value);
-
-        return $this;
+        return new static(parent::pad($size, $value));
     }
 
     /**
@@ -69,13 +61,11 @@ class MutableArray extends AbstractArray
      * @param int|null $length Length of sliced array
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return $this The same instance with sliced elements
+     * @return static The new instance with sliced elements
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
-        $this->elements = parent::slice($offset, $length, $preserveKeys);
-
-        return $this;
+        return new static(parent::slice($offset, $length, $preserveKeys));
     }
 
     /**
@@ -84,13 +74,11 @@ class MutableArray extends AbstractArray
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return $this The same instance with splitted elements
+     * @return static The new instance with splitted elements
      */
     public function chunk($size, $preserveKeys = false)
     {
-        $this->elements = parent::chunk($size, $preserveKeys);
-
-        return $this;
+        return new static(parent::chunk($size, $preserveKeys));
     }
 
     /**
@@ -98,13 +86,11 @@ class MutableArray extends AbstractArray
      *
      * @param int|null $sortFlags
      *
-     * @return $this The same instance with unique elements
+     * @return static The new instance with unique elements
      */
     public function unique($sortFlags = null)
     {
-        $this->elements = parent::unique($sortFlags);
-
-        return $this;
+        return new static(parent::unique($sortFlags));
     }
 
     /**
@@ -113,13 +99,11 @@ class MutableArray extends AbstractArray
      * @param array $array Array for merge
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return $this The same instance with merged elements
+     * @return static The new instance with merged elements
      */
     public function merge(array $array, $recursively = false)
     {
-        $this->elements = parent::merge($array, $recursively);
-
-        return $this;
+        return new static(parent::merge($array, $recursively));
     }
 
     /**
@@ -128,13 +112,11 @@ class MutableArray extends AbstractArray
      * @param array $array Array for replace
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return $this The same instance with replaced elements
+     * @return static The new instance with replaced elements
      */
     public function replace(array $array, $recursively = false)
     {
-        $this->elements = parent::replace($array, $recursively);
-
-        return $this;
+        return new static(parent::replace($array, $recursively));
     }
 
     /**
@@ -142,13 +124,11 @@ class MutableArray extends AbstractArray
      *
      * @param array $array Array for combined
      *
-     * @return $this The same instance with combined elements
+     * @return static The new instance with combined elements
      */
     public function combine(array $array)
     {
-        $this->elements = parent::combine($array);
-
-        return $this;
+        return new static(parent::combine($array));
     }
 
     /**
@@ -156,25 +136,25 @@ class MutableArray extends AbstractArray
      *
      * @param array $array Array for diff
      *
-     * @return $this The same instance containing all the entries from array that are not present in given one
+     * @return static The new instance containing all the entries from array that are not present in given one
      */
     public function diff(array $array)
     {
-        $this->elements = parent::diff($array);
-
-        return $this;
+        return new static(parent::diff($array));
     }
 
     /**
      * Shuffle array
      *
-     * @return $this The same instance with shuffled elements
+     * @return static The new instance with shuffled elements
      */
     public function shuffle()
     {
-        shuffle($this->elements);
+        $elements = $this->elements;
 
-        return $this;
+        shuffle($elements);
+
+        return new static($elements);
     }
 
     /**
@@ -197,29 +177,31 @@ class MutableArray extends AbstractArray
      * @param bool $preserveKeys Maintain index association
      * @link http://php.net/manual/en/function.sort.php
      *
-     * @return $this The same instance with sorted elements
+     * @return static The new instance with sorted elements
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
+        $elements = $this->elements;
+
         switch ($order) {
             case SORT_DESC:
                 if ($preserveKeys) {
-                    arsort($this->elements, $strategy);
+                    arsort($elements, $strategy);
                 } else {
-                    rsort($this->elements, $strategy);
+                    rsort($elements, $strategy);
                 }
                 break;
 
             case SORT_ASC:
             default:
                 if ($preserveKeys) {
-                    asort($this->elements, $strategy);
+                    asort($elements, $strategy);
                 } else {
-                    sort($this->elements, $strategy);
+                    sort($elements, $strategy);
                 }
         }
 
-        return $this;
+        return new static($elements);
     }
 
     /**
@@ -241,21 +223,23 @@ class MutableArray extends AbstractArray
      * </ul>
      * @link http://php.net/manual/en/function.sort.php
      *
-     * @return $this The same instance with sorted elements
+     * @return static The new instance with sorted elements
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
+        $elements = $this->elements;
+
         switch ($order) {
             case SORT_DESC:
-                krsort($this->elements, $strategy);
+                krsort($elements, $strategy);
                 break;
 
             case SORT_ASC:
             default:
-                ksort($this->elements, $strategy);
+                ksort($elements, $strategy);
         }
 
-        return $this;
+        return new static($elements);
     }
 
     /**
@@ -263,13 +247,11 @@ class MutableArray extends AbstractArray
      *
      * @param callable $callable
      *
-     * @return $this The same instance with modified elements
+     * @return static The new instance with modified elements
      */
     public function map(Closure $callable)
     {
-        $this->elements = parent::map($callable);
-
-        return $this;
+        return new static(parent::map($callable));
     }
 
     /**
@@ -277,13 +259,11 @@ class MutableArray extends AbstractArray
      *
      * @param callable $callable
      *
-     * @return $this The same instance with filtered elements
+     * @return static The new instance with filtered elements
      */
     public function filter(Closure $callable)
     {
-        $this->elements = parent::filter($callable);
-
-        return $this;
+        return new static(parent::filter($callable));
     }
 
     /**
@@ -292,17 +272,19 @@ class MutableArray extends AbstractArray
      * @param callable $callable
      * @param bool $recursively Whether array will be walked recursively or no
      *
-     * @return $this The same instance with modified elements
+     * @return static The new instance with modified elements
      */
     public function walk(Closure $callable, $recursively = false)
     {
+        $elements = $this->elements;
+
         if (true === $recursively) {
-            array_walk_recursive($this->elements, $callable);
+            array_walk_recursive($elements, $callable);
         } else {
-            array_walk($this->elements, $callable);
+            array_walk($elements, $callable);
         }
 
-        return $this;
+        return new static($elements);
     }
 
     /**
@@ -310,13 +292,15 @@ class MutableArray extends AbstractArray
      *
      * @param callable $callable
      *
-     * @return $this The same instance with custom sorted elements
+     * @return static The new instance with custom sorted elements
      */
     public function customSort(Closure $callable)
     {
-        usort($this->elements, $callable);
+        $elements = $this->elements;
 
-        return $this;
+        usort($elements, $callable);
+
+        return new static($elements);
     }
 
     /**
@@ -324,24 +308,24 @@ class MutableArray extends AbstractArray
      *
      * @param callable $callable
      *
-     * @return $this The same instance with custom sorted elements
+     * @return static The new instance with custom sorted elements
      */
     public function customSortKeys(Closure $callable)
     {
-        uksort($this->elements, $callable);
+        $elements = $this->elements;
 
-        return $this;
+        uksort($elements, $callable);
+
+        return new static($elements);
     }
 
     /**
      * Clear array
      *
-     * @return $this The same instance with cleared elements
+     * @return static The new instance with cleared elements
      */
     public function clear()
     {
-        $this->elements = parent::clear();
-
-        return $this;
+        return new static(parent::clear());
     }
 }

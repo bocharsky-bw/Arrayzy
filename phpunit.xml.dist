@@ -4,6 +4,7 @@
     <testsuites>
         <testsuite name="Arrayzy Test Suite">
             <file>./tests/MutableArrayTest.php</file>
+            <file>./tests/ImmutableArrayTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
