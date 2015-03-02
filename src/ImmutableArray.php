@@ -243,45 +243,45 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given callback to the array elements
+     * Apply the given function to the array elements
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return static The new instance with modified elements
      */
-    public function map(Closure $callable)
+    public function map(Closure $func)
     {
-        return new static(parent::map($callable));
+        return new static(parent::map($func));
     }
 
     /**
-     * Filter array elements with given callback
+     * Filter array elements with given function
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return static The new instance with filtered elements
      */
-    public function filter(Closure $callable)
+    public function filter(Closure $func)
     {
-        return new static(parent::filter($callable));
+        return new static(parent::filter($func));
     }
 
     /**
-     * Apply the given callback to every array element
+     * Apply the given function to every array element
      *
-     * @param callable $callable
+     * @param Closure $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return static The new instance with modified elements
      */
-    public function walk(Closure $callable, $recursively = false)
+    public function walk(Closure $func, $recursively = false)
     {
         $elements = $this->elements;
 
         if (true === $recursively) {
-            array_walk_recursive($elements, $callable);
+            array_walk_recursive($elements, $func);
         } else {
-            array_walk($elements, $callable);
+            array_walk($elements, $func);
         }
 
         return new static($elements);
@@ -290,15 +290,15 @@ class ImmutableArray extends AbstractArray
     /**
      * Sort the array elements with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return static The new instance with custom sorted elements
      */
-    public function customSort(Closure $callable)
+    public function customSort(Closure $func)
     {
         $elements = $this->elements;
 
-        usort($elements, $callable);
+        usort($elements, $func);
 
         return new static($elements);
     }
@@ -306,15 +306,15 @@ class ImmutableArray extends AbstractArray
     /**
      * Sort the array keys with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return static The new instance with custom sorted elements
      */
-    public function customSortKeys(Closure $callable)
+    public function customSortKeys(Closure $func)
     {
         $elements = $this->elements;
 
-        uksort($elements, $callable);
+        uksort($elements, $func);
 
         return new static($elements);
     }

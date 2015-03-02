@@ -259,47 +259,47 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given callback to the array elements
+     * Apply the given function to the array elements
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return $this The same instance with modified elements
      */
-    public function map(Closure $callable)
+    public function map(Closure $func)
     {
-        $this->elements = parent::map($callable);
+        $this->elements = parent::map($func);
 
         return $this;
     }
 
     /**
-     * Filter array elements with given callback
+     * Filter array elements with given function
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return $this The same instance with filtered elements
      */
-    public function filter(Closure $callable)
+    public function filter(Closure $func)
     {
-        $this->elements = parent::filter($callable);
+        $this->elements = parent::filter($func);
 
         return $this;
     }
 
     /**
-     * Apply the given callback to every array element
+     * Apply the given function to every array element
      *
-     * @param callable $callable
+     * @param Closure $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return $this The same instance with modified elements
      */
-    public function walk(Closure $callable, $recursively = false)
+    public function walk(Closure $func, $recursively = false)
     {
         if (true === $recursively) {
-            array_walk_recursive($this->elements, $callable);
+            array_walk_recursive($this->elements, $func);
         } else {
-            array_walk($this->elements, $callable);
+            array_walk($this->elements, $func);
         }
 
         return $this;
@@ -308,13 +308,13 @@ class MutableArray extends AbstractArray
     /**
      * Sort the array elements with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return $this The same instance with custom sorted elements
      */
-    public function customSort(Closure $callable)
+    public function customSort(Closure $func)
     {
-        usort($this->elements, $callable);
+        usort($this->elements, $func);
 
         return $this;
     }
@@ -322,13 +322,13 @@ class MutableArray extends AbstractArray
     /**
      * Sort the array keys with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return $this The same instance with custom sorted elements
      */
-    public function customSortKeys(Closure $callable)
+    public function customSortKeys(Closure $func)
     {
-        uksort($this->elements, $callable);
+        uksort($this->elements, $func);
 
         return $this;
     }

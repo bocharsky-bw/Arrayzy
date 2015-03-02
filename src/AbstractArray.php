@@ -283,50 +283,50 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     abstract public function shuffle();
 
     /**
-     * Apply the given callback to the array elements
+     * Apply the given function to the array elements
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return array The array with modified elements
      */
-    public function map(Closure $callable)
+    public function map(Closure $func)
     {
-        return array_map($callable, $this->elements);
+        return array_map($func, $this->elements);
     }
 
     /**
-     * Filter array elements with given callback
+     * Filter array elements with given function
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return array The array with filtered elements
      */
-    public function filter(Closure $callable)
+    public function filter(Closure $func)
     {
-        return array_filter($this->elements, $callable);
+        return array_filter($this->elements, $func);
     }
 
     /**
-     * Apply the given callback to every array element
+     * Apply the given function to every array element
      *
-     * @param callable $callable
+     * @param Closure $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return static The instance with modified elements
      */
-    abstract public function walk(Closure $callable, $recursively = false);
+    abstract public function walk(Closure $func, $recursively = false);
 
     /**
-     * Iteratively reduce array to a single value using a callback function
+     * Iteratively reduce array to a single value using a function
      *
-     * @param callable $callable
+     * @param Closure $func
      * @param mixed|null $initial
      *
      * @return mixed The resulting value
      */
-    public function reduce(Closure $callable, $initial = null)
+    public function reduce(Closure $func, $initial = null)
     {
-        return array_reduce($this->elements, $callable, $initial);
+        return array_reduce($this->elements, $func, $initial);
     }
 
     /**

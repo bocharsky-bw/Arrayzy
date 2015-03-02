@@ -59,18 +59,18 @@ trait SortableTrait
     /**
      * Sort the array elements with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
      * @return static The instance with custom sorted elements
      */
-    abstract public function customSort(Closure $callable);
+    abstract public function customSort(Closure $func);
 
     /**
      * Sort the array keys with a user-defined comparison function and maintain index association
      *
-     * @param callable $callable
+     * @param Closure $func
      *
-     * @return static The new instance with custom sorted elements
+     * @return static The instance with custom sorted elements
      */
-    abstract public function customSortKeys(Closure $callable);
+    abstract public function customSortKeys(Closure $func);
 }
