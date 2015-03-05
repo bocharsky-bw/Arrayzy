@@ -16,7 +16,7 @@ class ImmutableArray extends AbstractArray
      */
     public function reindex()
     {
-        return new static(parent::reindex());
+        return new static(array_values($this->elements));
     }
 
     /**
@@ -26,7 +26,7 @@ class ImmutableArray extends AbstractArray
      */
     public function flip()
     {
-        return new static(parent::flip());
+        return new static(array_flip($this->elements));
     }
 
     /**
@@ -38,7 +38,7 @@ class ImmutableArray extends AbstractArray
      */
     public function reverse($preserveKeys = false)
     {
-        return new static(parent::reverse($preserveKeys));
+        return new static(array_reverse($this->elements, $preserveKeys));
     }
 
     /**
@@ -51,7 +51,7 @@ class ImmutableArray extends AbstractArray
      */
     public function pad($size, $value)
     {
-        return new static(parent::pad($size, $value));
+        return new static(array_pad($this->elements, $size, $value));
     }
 
     /**
@@ -65,7 +65,7 @@ class ImmutableArray extends AbstractArray
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
-        return new static(parent::slice($offset, $length, $preserveKeys));
+        return new static(array_slice($this->elements, $offset, $length, $preserveKeys));
     }
 
     /**
@@ -78,7 +78,7 @@ class ImmutableArray extends AbstractArray
      */
     public function chunk($size, $preserveKeys = false)
     {
-        return new static(parent::chunk($size, $preserveKeys));
+        return new static(array_chunk($this->elements, $size, $preserveKeys));
     }
 
     /**
@@ -90,7 +90,7 @@ class ImmutableArray extends AbstractArray
      */
     public function unique($sortFlags = null)
     {
-        return new static(parent::unique($sortFlags));
+        return new static(array_unique($this->elements, $sortFlags));
     }
 
     /**
@@ -103,7 +103,11 @@ class ImmutableArray extends AbstractArray
      */
     public function merge(array $array, $recursively = false)
     {
-        return new static(parent::merge($array, $recursively));
+        if (true === $recursively) {
+            return new static(array_merge_recursive($this->elements, $array));
+        }
+
+        return new static(array_merge($this->elements, $array));
     }
 
     /**
@@ -116,7 +120,11 @@ class ImmutableArray extends AbstractArray
      */
     public function replace(array $array, $recursively = false)
     {
-        return new static(parent::replace($array, $recursively));
+        if (true === $recursively) {
+            return new static(array_replace_recursive($this->elements, $array));
+        }
+
+        return new static(array_replace($this->elements, $array));
     }
 
     /**
@@ -128,7 +136,7 @@ class ImmutableArray extends AbstractArray
      */
     public function combine(array $array)
     {
-        return new static(parent::combine($array));
+        return new static(array_combine($this->elements, $array));
     }
 
     /**
@@ -140,7 +148,7 @@ class ImmutableArray extends AbstractArray
      */
     public function diff(array $array)
     {
-        return new static(parent::diff($array));
+        return new static(array_diff($this->elements, $array));
     }
 
     /**
@@ -251,7 +259,7 @@ class ImmutableArray extends AbstractArray
      */
     public function map(Closure $func)
     {
-        return new static(parent::map($func));
+        return new static(array_map($func, $this->elements));
     }
 
     /**
@@ -263,7 +271,7 @@ class ImmutableArray extends AbstractArray
      */
     public function filter(Closure $func)
     {
-        return new static(parent::filter($func));
+        return new static(array_filter($this->elements, $func));
     }
 
     /**
@@ -326,6 +334,6 @@ class ImmutableArray extends AbstractArray
      */
     public function clear()
     {
-        return new static(parent::clear());
+        return new static();
     }
 }

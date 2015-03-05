@@ -132,34 +132,25 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     /**
      * Reindex the array
      *
-     * @return array The array with re-indexed elements
+     * @return static The instance with re-indexed elements
      */
-    public function reindex()
-    {
-        return array_values($this->elements);
-    }
+    abstract public function reindex();
 
     /**
      * Exchanges all array keys with their associated values
      *
-     * @return array The array with flipped elements
+     * @return static The instance with flipped elements
      */
-    public function flip()
-    {
-        return array_flip($this->elements);
-    }
+    abstract public function flip();
 
     /**
      * PLace array in reverse order
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return array The array with reversed elements
+     * @return static The instance with reversed elements
      */
-    public function reverse($preserveKeys = false)
-    {
-        return array_reverse($this->elements, $preserveKeys);
-    }
+    abstract public function reverse($preserveKeys = false);
 
     /**
      * Pad array to the specified length with a given value
@@ -167,12 +158,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      * @param int $size Size of result array
      * @param mixed $value Empty value by default
      *
-     * @return array The array with padded elements
+     * @return static The instance with padded elements
      */
-    public function pad($size, $value)
-    {
-        return array_pad($this->elements, $size, $value);
-    }
+    abstract public function pad($size, $value);
 
     /**
      * Extract a slice of array
@@ -181,12 +169,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      * @param int|null $length Length of sliced array
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return array The array with sliced elements
+     * @return static The instance with sliced elements
      */
-    public function slice($offset, $length = null, $preserveKeys = false)
-    {
-        return array_slice($this->elements, $offset, $length, $preserveKeys);
-    }
+    abstract public function slice($offset, $length = null, $preserveKeys = false);
 
     /**
      * Split array into chunks
@@ -194,24 +179,18 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return array The array with splitted elements
+     * @return static The instance with splitted elements
      */
-    public function chunk($size, $preserveKeys = false)
-    {
-        return array_chunk($this->elements, $size, $preserveKeys);
-    }
+    abstract public function chunk($size, $preserveKeys = false);
 
     /**
      * Removes duplicate values from array
      *
      * @param int|null $sortFlags
      *
-     * @return array The array with unique elements
+     * @return static The instance with unique elements
      */
-    public function unique($sortFlags = null)
-    {
-        return array_unique($this->elements, $sortFlags);
-    }
+    abstract public function unique($sortFlags = null);
 
     /**
      * Merge array with given one
@@ -220,16 +199,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      * @param array $array Array for merge
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return array The result array with merged elements
+     * @return static The instance array with merged elements
      */
-    public function merge(array $array, $recursively = false)
-    {
-        if (true === $recursively) {
-            return array_merge_recursive($this->elements, $array);
-        }
-
-        return array_merge($this->elements, $array);
-    }
+    abstract public function merge(array $array, $recursively = false);
 
     /**
      * Replace array with given one
@@ -238,16 +210,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      * @param array $array Array for replace
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return array The result array with replaced elements
+     * @return static The instance array with replaced elements
      */
-    public function replace(array $array, $recursively = false)
-    {
-        if (true === $recursively) {
-            return array_replace_recursive($this->elements, $array);
-        }
-
-        return array_replace($this->elements, $array);
-    }
+    abstract public function replace(array $array, $recursively = false);
 
     /**
      * Combine array keys with given array values
@@ -255,12 +220,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      *
      * @param array $array Array for combined
      *
-     * @return array The result array with combined elements
+     * @return static The instance array with combined elements
      */
-    public function combine(array $array)
-    {
-        return array_combine($this->elements, $array);
-    }
+    abstract public function combine(array $array);
 
     /**
      * Compute the difference of array with given one
@@ -268,12 +230,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      *
      * @param array $array Array for diff
      *
-     * @return array The result array containing all the entries from array that are not present in given one
+     * @return static The instance array containing all the entries from array that are not present in given one
      */
-    public function diff(array $array)
-    {
-        return array_diff($this->elements, $array);
-    }
+    abstract public function diff(array $array);
 
     /**
      * Shuffle array
@@ -287,24 +246,18 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      *
      * @param Closure $func
      *
-     * @return array The array with modified elements
+     * @return static The instance with modified elements
      */
-    public function map(Closure $func)
-    {
-        return array_map($func, $this->elements);
-    }
+    abstract public function map(Closure $func);
 
     /**
      * Filter array elements with given function
      *
      * @param Closure $func
      *
-     * @return array The array with filtered elements
+     * @return static The instance with filtered elements
      */
-    public function filter(Closure $func)
-    {
-        return array_filter($this->elements, $func);
-    }
+    abstract public function filter(Closure $func);
 
     /**
      * Apply the given function to every array element
@@ -332,12 +285,9 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     /**
      * Clear array
      *
-     * @return array The cleared array
+     * @return static The instance with cleared array
      */
-    public function clear()
-    {
-        return [];
-    }
+    abstract public function clear();
 
     /**
      * Counts all elements in array

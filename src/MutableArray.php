@@ -16,7 +16,7 @@ class MutableArray extends AbstractArray
      */
     public function reindex()
     {
-        $this->elements = parent::reindex();
+        $this->elements = array_values($this->elements);
 
         return $this;
     }
@@ -28,7 +28,7 @@ class MutableArray extends AbstractArray
      */
     public function flip()
     {
-        $this->elements = parent::flip();
+        $this->elements = array_flip($this->elements);
 
         return $this;
     }
@@ -42,7 +42,7 @@ class MutableArray extends AbstractArray
      */
     public function reverse($preserveKeys = false)
     {
-        $this->elements = parent::reverse($preserveKeys);
+        $this->elements = array_reverse($this->elements, $preserveKeys);
 
         return $this;
     }
@@ -57,7 +57,7 @@ class MutableArray extends AbstractArray
      */
     public function pad($size, $value)
     {
-        $this->elements = parent::pad($size, $value);
+        $this->elements = array_pad($this->elements, $size, $value);
 
         return $this;
     }
@@ -73,7 +73,7 @@ class MutableArray extends AbstractArray
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
-        $this->elements = parent::slice($offset, $length, $preserveKeys);
+        $this->elements = array_slice($this->elements, $offset, $length, $preserveKeys);
 
         return $this;
     }
@@ -88,7 +88,7 @@ class MutableArray extends AbstractArray
      */
     public function chunk($size, $preserveKeys = false)
     {
-        $this->elements = parent::chunk($size, $preserveKeys);
+        $this->elements = array_chunk($this->elements, $size, $preserveKeys);
 
         return $this;
     }
@@ -102,7 +102,7 @@ class MutableArray extends AbstractArray
      */
     public function unique($sortFlags = null)
     {
-        $this->elements = parent::unique($sortFlags);
+        $this->elements = array_unique($this->elements, $sortFlags);
 
         return $this;
     }
@@ -117,7 +117,11 @@ class MutableArray extends AbstractArray
      */
     public function merge(array $array, $recursively = false)
     {
-        $this->elements = parent::merge($array, $recursively);
+        if (true === $recursively) {
+            $this->elements = array_merge_recursive($this->elements, $array);
+        } else {
+            $this->elements = array_merge($this->elements, $array);
+        }
 
         return $this;
     }
@@ -132,7 +136,11 @@ class MutableArray extends AbstractArray
      */
     public function replace(array $array, $recursively = false)
     {
-        $this->elements = parent::replace($array, $recursively);
+        if (true === $recursively) {
+            $this->elements = array_replace_recursive($this->elements, $array);
+        } else {
+            $this->elements = array_replace($this->elements, $array);
+        }
 
         return $this;
     }
@@ -146,7 +154,7 @@ class MutableArray extends AbstractArray
      */
     public function combine(array $array)
     {
-        $this->elements = parent::combine($array);
+        $this->elements = array_combine($this->elements, $array);
 
         return $this;
     }
@@ -160,7 +168,7 @@ class MutableArray extends AbstractArray
      */
     public function diff(array $array)
     {
-        $this->elements = parent::diff($array);
+        $this->elements = array_diff($this->elements, $array);
 
         return $this;
     }
@@ -267,7 +275,7 @@ class MutableArray extends AbstractArray
      */
     public function map(Closure $func)
     {
-        $this->elements = parent::map($func);
+        $this->elements = array_map($func, $this->elements);
 
         return $this;
     }
@@ -281,7 +289,7 @@ class MutableArray extends AbstractArray
      */
     public function filter(Closure $func)
     {
-        $this->elements = parent::filter($func);
+        $this->elements = array_filter($this->elements, $func);
 
         return $this;
     }
@@ -340,7 +348,7 @@ class MutableArray extends AbstractArray
      */
     public function clear()
     {
-        $this->elements = parent::clear();
+        $this->elements = [];
 
         return $this;
     }
