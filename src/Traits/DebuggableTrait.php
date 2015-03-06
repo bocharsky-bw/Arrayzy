@@ -8,18 +8,6 @@ namespace Arrayzy\Traits;
 trait DebuggableTrait
 {
     /**
-     * Output dumped array for debug
-     *
-     * @return $this
-     */
-    public function dump()
-    {
-        var_dump($this->elements);
-
-        return $this;
-    }
-
-    /**
      * Output/return printed array for debug
      *
      * @param bool $return Whether return or output directly

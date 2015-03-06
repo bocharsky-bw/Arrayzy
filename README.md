@@ -29,7 +29,6 @@ A PHP array easy manipulation library in OOP way.
     * [customSortKeys](#customsortkeys)
     * [debug](#debug)
     * [diff](#diff)
-    * [dump](#dump)
     * [each](#each)
     * [export](#export)
     * [filter](#filter)
@@ -168,7 +167,6 @@ Easily converting instance elements to an array/json/string format:
 ### Debugging
 
 * [debug](#debug)
-* [dump](#dump)
 * [export](#export)
 
 ## Public method list
@@ -320,13 +318,6 @@ $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 $a = MutableArray::create(['a', 'b', 'c']);
 $a->diff(['c', 'd']);
 $a->toArray(); // [0 => 'a', 1 => 'b']
-```
-
-### dump
-
-``` php
-$a = MutableArray::create(['a', 'b', 'c']);
-$a->dump(); // array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" }
 ```
 
 ### each
