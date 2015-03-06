@@ -7,6 +7,35 @@ A PHP array easy manipulation library in OOP way.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 
+There are two classes with different behaviour:
+
+* [Arrayzy\MutableArray](#mutablearray)
+* [Arrayzy\ImmutableArray](#immutablearray)
+
+## MutableArray
+
+Each functional method operate on the same array and return the same instance
+(DO NOT create a new instance) except only few methods start with `create` prefix.
+This way a bit improve performance and provide more convenience usage in OOP way.
+
+> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
+
+## ImmutableArray
+
+Each functional method operate on the same array but not modified it.
+Instead of this it return a new object (create a new instance)
+This way a bit disimprove performance but give you some behaviour
+seems like most of built-in PHP functions that returns a new array (DO NOT modified input one).
+
+> **NOTE:** If you do not need the first instance you operates on, you can override it manually:
+
+``` php
+$a = ImmutableArray::create(['a', 'b', 'c']);
+$a = $a->shuffle(); // override instance you operates on, because $a !== $a->shuffle()
+```
+
+# Contents
+
 * [Installation](#installation)
 * [Creation](#creation)
 * [Usage](#usage)
@@ -70,12 +99,6 @@ A PHP array easy manipulation library in OOP way.
     * [walk](#walk)
 * [Links](#links)
 
-> **NOTE:** Each functional method operate on the same array and return same instance
-(DO NOT create a new instance) except only few methods `start` with create prefix.
-This way a bit improve performance and provide more convenience usage in OOP way.
-Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
-
-
 ## Installation
 
 Install package with [Composer](https://getcomposer.org/):
@@ -94,7 +117,8 @@ Don't forget about namespace.
 Use [namespace arbitrary alias](http://php.net/manual/en/language.namespaces.importing.php) for simplicity:
 
 ``` php
-use Arrayzy\MutableArray as MuArr; // MuArr is the arbitrary alias
+use Arrayzy\MutableArray as MuArr;   //
+use Arrayzy\ImmutableArray as ImArr; // MuArr and ImArr is the arbitrary aliases
 ```
 
 ## Creation
@@ -102,13 +126,17 @@ use Arrayzy\MutableArray as MuArr; // MuArr is the arbitrary alias
 Create a new empty object with the `new` statement:
 
 ``` php
-$muArr = new MuArr;
+$muArr = new MuArr; // Create new instance of MutableArray by alias
+// or
+$imArr = new ImArr; // Create new instance of ImmutableArray by alias
 ```
 
 or with default values, passed array to the constructor:
 
 ``` php
-$muArr = new MuArr([1,2,3]);
+$a = new MuArr([1,2,3]);
+// or
+$a = new ImArr([1,2,3]);
 ```
 
 Also, a new object can be created with one of few public `static` methods
@@ -119,6 +147,7 @@ that start with `create` prefix and provide additional useful functionality:
 * [createFromObject](#createfromobject)
 * [createFromString](#createfromstring)
 * [createWithRange](#createwithrange)
+
 
 ## Usage
 
@@ -137,6 +166,8 @@ print $a[1]; // 'b'
 // or use corresponding method
 print $a->offsetGet(1); // 'b'
 ```
+
+> **NOTE:** The usage are suitable for both `MutableArray` and `ImmutableArray`
 
 ### Chaining
 
@@ -636,3 +667,5 @@ Feel free to create [issue](https://github.com/bocharsky-bw/Arrayzy/issues) or [
 if you find a bug or just want to propose improvement suggestion
 
 Look at the [Stringy](https://github.com/danielstjules/Stringy) if you are looking for a PHP **string** manipulation library in OOP way.
+
+[Move UP](#arrayzy)
