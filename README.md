@@ -274,7 +274,7 @@ $b = $a->createClone(); // $a !== $b
 
 ### createFromJson
 
-Creates an instance array from a `JSON` string:
+Creates an instance array from a valid `JSON` string:
 
 ``` php
 $a = MutableArray::createFromJson('{"a": 1, "b": 2, "c": 3}');
