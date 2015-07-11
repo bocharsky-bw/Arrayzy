@@ -7,7 +7,7 @@ A PHP array easy manipulation library in OOP way.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 
-There are two classes with different behaviour:
+There are two avaliable classes with a different behaviour:
 
 * [Arrayzy\MutableArray](#mutablearray)
 * [Arrayzy\ImmutableArray](#immutablearray)
@@ -15,7 +15,7 @@ There are two classes with different behaviour:
 ## MutableArray
 
 Each functional method operate on the same array and return the same instance
-(DO NOT create a new instance) except only few methods start with `create` prefix.
+(DO NOT create a new instance) except only few methods starts with `create` prefix.
 This way a bit improve performance and provide more convenience usage in OOP way.
 
 > **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
@@ -24,10 +24,10 @@ This way a bit improve performance and provide more convenience usage in OOP way
 
 Each functional method operate on the same array but not modified it.
 Instead of this it return a new object (create a new instance)
-This way a bit disimprove performance but give you some behaviour
+This way a bit disimprove performance but give you the behaviour
 seems like most of built-in PHP functions that returns a new array (DO NOT modified input one).
 
-> **NOTE:** If you do not need the first instance you operates on, you can override it manually:
+> **NOTE:** If you don't need the first instance you operates on, you can override it manually:
 
 ``` php
 $a = ImmutableArray::create(['a', 'b', 'c']);
@@ -101,20 +101,20 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 
 ## Installation
 
-Install package with [Composer](https://getcomposer.org/):
+The preferred way to install this package is to use [Composer][1]:
 
 ``` bash
 $ composer require bocharsky-bw/arrayzy:dev-master
 ```
 
-or download library manually and require directly in script:
+If you don't use `Composer` - register this package in your autoloader manually
+or download library manually and require the necessary files directly in your scripts:
 
 ``` php
 require_once __DIR__ . '/path/to/library/src/MutableArray.php';
 ```
 
-Don't forget about namespace.
-Use [namespace arbitrary alias](http://php.net/manual/en/language.namespaces.importing.php) for simplicity:
+Don't forget namespace. Use [namespace arbitrary alias][2] for simplicity if you want:
 
 ``` php
 use Arrayzy\MutableArray as MuArr;   //
@@ -123,24 +123,24 @@ use Arrayzy\ImmutableArray as ImArr; // MuArr and ImArr is the arbitrary aliases
 
 ## Creation
 
-Create a new empty object with the `new` statement:
+Create a new empty object with the `new` statement using declared arbitrary namespace aliases above:
 
 ``` php
-$muArr = new MuArr; // Create new instance of MutableArray by alias
+$muArr = new MuArr; // Create new instance of MutableArray by namespace alias
 // or
-$imArr = new ImArr; // Create new instance of ImmutableArray by alias
+$imArr = new ImArr; // Create new instance of ImmutableArray by namespace alias
 ```
 
-or with default values, passed array to the constructor:
+or with default values, passed an array to the constructor:
 
 ``` php
-$a = new MuArr([1,2,3]);
+$a = new MuArr([1, 2, 3]);
 // or
-$a = new ImArr([1,2,3]);
+$a = new ImArr([1, 2, 3]);
 ```
 
-Also, a new object can be created with one of few public `static` methods
-that start with `create` prefix and provide additional useful functionality:
+Also, a new object could be created with one of few public `static` methods
+that starts with `create` prefix and provide additional useful functionality:
 
 * [create](#create)
 * [createFromJson](#createfromjson)
@@ -151,15 +151,15 @@ that start with `create` prefix and provide additional useful functionality:
 
 ## Usage
 
-You can access to the instance as to a simple PHP array
+You can get access to the instance values like with simple PHP `array` behaviour:
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
 
-$a[] = 'e'; // or use $a->offsetSet(null, 'e') method
+$a[] = 'e';    // or use $a->offsetSet(null, 'e') method
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'e']
 
-$a[3] = 'd'; // or use $a->offsetSet(3, 'd') method
+$a[3] = 'd';   // or use $a->offsetSet(3, 'd') method
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 print $a[1]; // 'b'
@@ -181,7 +181,7 @@ $a
     ->offsetSet(3, 'd')
     ->offsetSet(null, 'e')
     ->shuffle()
-    ->reindex()// or any other method that return the current instance
+    ->reindex() // or any other method that return the current instance
 ;
 
 $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
@@ -189,7 +189,7 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
 
 ### Converting
 
-Easily converting instance elements to an array/json/string format:
+Easily converting instance array elements to a simple PHP `array`, `string` or `JSON` format:
 
 * [toArray](#toarray)
 * [toJson](#tojson)
@@ -230,21 +230,21 @@ $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->contains('c'); // true
+$a->contains('c'); // true
 ```
 
 ### containsKey
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->containsKey(2); // true
+$a->containsKey(2); // true
 ```
 
 ### count
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->count(); // 3
+$a->count(); // 3
 ```
 
 ### create
@@ -274,6 +274,8 @@ $b = $a->createClone(); // $a !== $b
 
 ### createFromJson
 
+Creates an instance array from a `JSON` string:
+
 ``` php
 $a = MutableArray::createFromJson('{"a": 1, "b": 2, "c": 3}');
 $a->toArray(); // ['a' => 1, 'b' => 2, 'c' => 3]
@@ -281,13 +283,17 @@ $a->toArray(); // ['a' => 1, 'b' => 2, 'c' => 3]
 
 ### createFromObject
 
+Creates an instance array from any `object` that implemented `\ArrayAccess` interface:
+
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$b = MutableArray::createFromObject($a); // $a could be any object that implemented \ArrayAccess interface
+$b = MutableArray::createFromObject($a); // where $a could be any object that implemented \ArrayAccess interface
 $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### createFromString
+
+Creates an instance array from a simple PHP `string` with specified separator:
 
 ``` php
 $a = MutableArray::createFromString('a;b;c', ';');
@@ -295,6 +301,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### createWithRange
+
+Creates an instance array with specified range:
 
 ``` php
 $a = MutableArray::createWithRange(2, 6, 2);
@@ -305,7 +313,7 @@ $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->current(); // 'a'
+$a->current(); // 'a'
 ```
 
 ### customSort
@@ -313,7 +321,7 @@ print $a->current(); // 'a'
 ``` php
 $a = MutableArray::create(['b', 'a', 'c']);
 $a->customSort(function($a, $b) {
-    if ($a == $b) {
+    if ($a === $b) {
         return 0;
     }
 
@@ -327,7 +335,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ``` php
 $a = MutableArray::create([1 => 'b', 0 => 'a', 2 => 'c']);
 $a->customSortKeys(function($a, $b) {
-    if ($a == $b) {
+    if ($a === $b) {
         return 0;
     }
 
@@ -370,7 +378,7 @@ $a->export(); // array ( 0 => 'a', 1 => 'b', 2 => 'c', )
 ``` php
 $a = MutableArray::create(['a', 'z', 'b', 'z']);
 $a->filter(function($value) {
-    return 'z' != $value; // exclude 'z' value from array 
+    return 'z' !== $value; // exclude 'z' value from array 
 });
 $a->toArray(); // [0 => 'a', 2 => 'b']
 ```
@@ -379,7 +387,7 @@ $a->toArray(); // [0 => 'a', 2 => 'b']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->first(); // 'a'
+$a->first(); // 'a'
 ```
 
 ### flip
@@ -401,7 +409,7 @@ $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c', 'd']);
-print $a->getRandom(); // 'c'
+$a->getRandom(); // 'c'
 ```
 
 ### getValues
@@ -415,7 +423,7 @@ $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->indexOf('b'); // 1 
+$a->indexOf('b'); // 1 
 ```
 
 ### isEmpty
@@ -429,17 +437,17 @@ $a->isEmpty(); // true
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->current(); // 'a'
-print $a->key(); // 0
-print $a->next(); // 'b'
-print $a->key(); // 1
+$a->current(); // 'a'
+$a->key();     // 0
+$a->next();    // 'b'
+$a->key();     // 1
 ```
 
 ### last
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->last(); // 'c'
+$a->last(); // 'c'
 ```
 
 ### map
@@ -456,11 +464,11 @@ $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 
 ``` php
 // indexed array behavior
-$a = MutableArray::create(['a', 'b', 'c']); // indexed array
+$a = MutableArray::create(['a', 'b', 'c']); // create indexed array
 $a->merge(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
 
 // assoc array behavior
-$b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]);
+$b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
 $b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
@@ -468,23 +476,23 @@ $b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->next(); // 'b'
-print $a->next(); // 'c'
+$a->next(); // 'b'
+$a->next(); // 'c'
 ```
 
 ### offsetExists
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$a->offsetExists(2); // true (or isset($a[2]))
-$a->offsetExists(3); // false (or isset($a[3]))
+$a->offsetExists(2); // true (or use isset($a[2]))
+$a->offsetExists(3); // false (or use isset($a[3]))
 ```
 
 ### offsetGet
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->offsetGet(1); // 'b' (or $a[1])
+$a->offsetGet(1); // 'b' (or use $a[1])
 ```
 
 ### offsetSet
@@ -492,19 +500,19 @@ print $a->offsetGet(1); // 'b' (or $a[1])
 ``` php
 $a = MutableArray::create(['a', 'b', 'd']);
 // add new value
-$a->offsetSet(null, 'd'); // or $a[] = 'd';
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'd', 3=> 'd']
+$a->offsetSet(null, 'd'); // or use $a[] = 'd';
+$a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'd', 3=> 'd']
 // replace existing value by key
-$a->offsetSet(2, 'c'); // or $a[2] = 'c';
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3=> 'd']
+$a->offsetSet(2, 'c');    // or use $a[2] = 'c';
+$a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'c', 3=> 'd']
 ```
 
 ### offsetUnset
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$a->offsetUnset(1); // or unset($a[1]);
-$a->toArray(); // [0 => 'a', 2 => 'c']
+$a->offsetUnset(1); // or use unset($a[1]);
+$a->toArray();      // [0 => 'a', 2 => 'c']
 ```
 
 ### pad
@@ -519,7 +527,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'z', 4 => 'z']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->pop(); // 'c'
+$a->pop();     // 'c'
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
 
@@ -527,9 +535,9 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->next(); // 'b'
-print $a->next(); // 'c'
-print $a->previous(); // 'b'
+$a->next();     // 'b'
+$a->next();     // 'c'
+$a->previous(); // 'b'
 ```
 
 ### push
@@ -544,7 +552,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->reduce(function($result, $item) {
+$a->reduce(function($result, $item) {
     return $result . $item;
 }); // 'abc'
 ```
@@ -615,6 +623,8 @@ $a->toArray(); // [0 => 'd', 1 => 'b', 2 => 'c', 3 => 'a']
 
 ### toArray
 
+Converts instance array to a simple PHP `array`:
+
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
@@ -622,16 +632,20 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### toJson
 
+Converts instance array to a `JSON` string:
+
 ``` php
 $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
-print $a->toJson(); // { "a": 1, "b": 2, "c":3 }
+$a->toJson(); // { "a": 1, "b": 2, "c":3 }
 ```
 
 ### toString
 
+Converts instance array to a simple PHP `string`:
+
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-print $a->toString('-'); // 'a-b-c'
+$a->toString('-'); // 'a-b-c'
 ```
 
 ### unique
@@ -663,9 +677,16 @@ $a->toArray(); // [0 => 'a1', 1 => 'b2', 2 => 'c3']
 
 ## Links
 
-Feel free to create [issue](https://github.com/bocharsky-bw/Arrayzy/issues) or [pull request](https://github.com/bocharsky-bw/Arrayzy/pulls)
-if you find a bug or just want to propose improvement suggestion
+Feel free to create an [Issue][3] or [Pull Request][4] if you find a bug 
+or just want to propose improvement suggestion.
 
-Look at the [Stringy](https://github.com/danielstjules/Stringy) if you are looking for a PHP **string** manipulation library in OOP way.
+Look at the [Stringy][5] if you are looking for a PHP **string** manipulation library in OOP way.
 
 [Move UP](#arrayzy)
+
+
+[1]: https://getcomposer.org/
+[2]: http://php.net/manual/en/language.namespaces.importing.php
+[3]: https://github.com/bocharsky-bw/Arrayzy/issues
+[4]: https://github.com/bocharsky-bw/Arrayzy/pulls
+[5]: https://github.com/danielstjules/Stringy
