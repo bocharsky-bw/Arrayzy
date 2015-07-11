@@ -99,12 +99,21 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     }
 
     /**
-     * Pick one random element out of array
-     * @TODO Maybe rename to getRandomValue() and add getRandomKey()/getRandomArray methods?
+     * Pick random element key out key of array
      *
-     * @return mixed Random element of array
+     * @return mixed Random element key of array
      */
-    public function getRandom()
+    public function getRandomKey()
+    {
+        return array_rand($this->elements, 1);
+    }
+
+    /**
+     * Pick random element value out of array
+     *
+     * @return mixed Random element value of array
+     */
+    public function getRandomValue()
     {
         return $this->offsetGet(array_rand($this->elements, 1));
     }
@@ -194,45 +203,41 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
 
     /**
      * Merge array with given one
-     * @TODO Maybe rename to mergeWith()?
      *
      * @param array $array Array for merge
      * @param bool $recursively Whether array will be merged recursively or no
      *
      * @return static The instance array with merged elements
      */
-    abstract public function merge(array $array, $recursively = false);
+    abstract public function mergeWith(array $array, $recursively = false);
 
     /**
      * Replace array with given one
-     * @TODO Maybe rename to replaceWith()?
      *
      * @param array $array Array for replace
      * @param bool $recursively Whether array will be replaced recursively or no
      *
      * @return static The instance array with replaced elements
      */
-    abstract public function replace(array $array, $recursively = false);
+    abstract public function replaceWith(array $array, $recursively = false);
 
     /**
      * Combine array keys with given array values
-     * @TODO Maybe rename to combineWith()?
      *
      * @param array $array Array for combined
      *
      * @return static The instance array with combined elements
      */
-    abstract public function combine(array $array);
+    abstract public function combineWith(array $array);
 
     /**
      * Compute the difference of array with given one
-     * @TODO Maybe rename to diffWith()?
      *
      * @param array $array Array for diff
      *
      * @return static The instance array containing all the entries from array that are not present in given one
      */
-    abstract public function diff(array $array);
+    abstract public function diffWith(array $array);
 
     /**
      * Shuffle array

@@ -115,7 +115,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with merged elements
      */
-    public function merge(array $array, $recursively = false)
+    public function mergeWith(array $array, $recursively = false)
     {
         if (true === $recursively) {
             $this->elements = array_merge_recursive($this->elements, $array);
@@ -134,7 +134,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with replaced elements
      */
-    public function replace(array $array, $recursively = false)
+    public function replaceWith(array $array, $recursively = false)
     {
         if (true === $recursively) {
             $this->elements = array_replace_recursive($this->elements, $array);
@@ -152,7 +152,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with combined elements
      */
-    public function combine(array $array)
+    public function combineWith(array $array)
     {
         $this->elements = array_combine($this->elements, $array);
 
@@ -166,7 +166,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance containing all the entries from array that are not present in given one
      */
-    public function diff(array $array)
+    public function diffWith(array $array)
     {
         $this->elements = array_diff($this->elements, $array);
 

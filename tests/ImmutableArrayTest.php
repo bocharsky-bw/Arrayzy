@@ -1,15 +1,5 @@
 <?php
 
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    // dependencies were installed via composer - this is the main project
-    require __DIR__ . '/../vendor/autoload.php';
-} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
-    // installed as a dependency in `vendor`
-    require __DIR__ . '/../../../autoload.php';
-} else {
-    throw new \Exception('Can\'t find autoload.php. Did you install dependencies via composer?');
-}
-
 use Arrayzy\ImmutableArray;
 
 /**
@@ -191,7 +181,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testMerge(array $array)
+    public function testMergeWith(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -200,7 +190,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $mergedArray = array_merge($array, $secondArray);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->merge($secondArray);
+        $copiedMa = $ma->mergeWith($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($mergedArray === $copiedMa->toArray());
@@ -209,7 +199,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testMergeRecursively(array $array)
+    public function testMergeWithRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -218,7 +208,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $mergedArray = array_merge_recursive($array, $secondArray);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->merge($secondArray, true);
+        $copiedMa = $ma->mergeWith($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($mergedArray === $copiedMa->toArray());
@@ -227,7 +217,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testReplace(array $array)
+    public function testReplaceWith(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -236,7 +226,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $replacedArray = array_replace($array, $secondArray);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replace($secondArray);
+        $copiedMa = $ma->replaceWith($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($replacedArray === $copiedMa->toArray());
@@ -246,7 +236,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testReplaceRecursively(array $array)
+    public function testReplaceWithRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -255,13 +245,13 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $replacedArray = array_replace_recursive($array, $secondArray);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replace($secondArray, true);
+        $copiedMa = $ma->replaceWith($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($replacedArray === $copiedMa->toArray());
     }
 
-    public function testCombine()
+    public function testCombineWith()
     {
         $firstArray = [
             1 => 'one',
@@ -275,7 +265,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $combinedArray = array_combine($firstArray, $secondArray);
         $ma = new ImmutableArray($firstArray);
-        $copiedMa = $ma->combine($secondArray);
+        $copiedMa = $ma->combineWith($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($combinedArray === $copiedMa->toArray());
@@ -284,7 +274,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testDiff(array $array)
+    public function testDiffWith(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -293,7 +283,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         ];
         $arrayDiff = array_diff($array, $secondArray);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->diff($secondArray);
+        $copiedMa = $ma->diffWith($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($arrayDiff === $copiedMa->toArray());
@@ -560,7 +550,7 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testGetRandom(array $array)
+    public function testGetRandomKey(array $array)
     {
         if (0 === count($array)) {
             return;
@@ -568,7 +558,23 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
 
         $ma = new ImmutableArray($array);
         $value = array_rand($array, 1);
-        $this->assertTrue(null !== $value and null !== $ma->getRandom());
+        $this->assertTrue(null !== $value);
+        $this->assertTrue(null !== $ma->getRandomKey());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testGetRandomValue(array $array)
+    {
+        if (0 === count($array)) {
+            return;
+        }
+
+        $ma = new ImmutableArray($array);
+        $value = array_rand($array, 1);
+        $this->assertTrue(null !== $value);
+        $this->assertTrue(null !== $ma->getRandomValue());
     }
 
     /**
