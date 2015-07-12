@@ -1,7 +1,4 @@
 tools:
-    php_code_coverage:
-        enabled: false
-    external_code_coverage: true
     php_cs_fixer:
         enabled: true
         extensions:
@@ -9,3 +6,4 @@ tools:
         command: php-cs-fixer
         config:
             level: psr2
+    external_code_coverage: true
