@@ -140,7 +140,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      */
     public function getRandomKeys($number)
     {
-        $number = (int)$number;
+        $number = (int) $number;
         if (1 >= $number || $this->count() <= $number) {
             throw new \RangeException(sprintf(
                 'The given number "%d" should be greater than "1" and less than "%d" (the number of elements in the array).',
