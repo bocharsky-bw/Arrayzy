@@ -65,9 +65,9 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [flip](#flip)
     * getIterator
     * [getKeys](#getkeys)
+    * [getRandom](#getrandom)
     * [getRandomKey](#getrandomkey)
     * [getRandomKeys](#getrandomkeys)
-    * [getRandomValue](#getrandomvalue)
     * [getRandomValues](#getrandomvalues)
     * [getValues](#getvalues)
     * [indexOf](#indexof)
@@ -408,18 +408,18 @@ $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
+### getRandom
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a->getRandom(); // 'c'
+
 ### getRandomKey
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c', 'd']);
 $a->getRandomKey(); // 2
 ```
-
-### getRandomValue
-
-``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
-$a->getRandomValue(); // 'c'
 ```
 
 ### getRandomKeys

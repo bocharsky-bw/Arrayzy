@@ -565,14 +565,14 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testGetRandomValue(array $array)
+    public function testGetRandom(array $array)
     {
         if (0 === count($array)) {
             return;
         }
 
         $ma = new ImmutableArray($array);
-        $value = $ma->getRandomValue();
+        $value = $ma->getRandom();
         $this->assertTrue(null !== $value);
         $this->assertTrue(in_array($value, $ma->toArray()));
     }

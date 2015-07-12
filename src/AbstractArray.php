@@ -200,7 +200,7 @@ abstract class AbstractArray implements ArrayAccess, Countable, IteratorAggregat
      *
      * @throws \LogicException
      */
-    public function getRandomValue()
+    public function getRandom()
     {
         return $this->offsetGet($this->getRandomKey());
     }
