@@ -55,7 +55,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     /**
      * Check whether array is empty or no
      *
-     * @return bool Whether array is empty or no
+     * @return bool Returns true if empty, false otherwise
      */
     public function isEmpty()
     {
@@ -67,7 +67,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      *
      * @param mixed $element Value to search
      *
-     * @return bool Whether array contains given value or no
+     * @return bool Returns true if the given value exists in array, false otherwise
      */
     public function contains($element)
     {
@@ -75,11 +75,11 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     }
 
     /**
-     * Check if the given key or index exists in array
+     * Check if the given key/index exists in array
      *
-     * @param mixed $key Key or index to search
+     * @param mixed $key Key/index to search
      *
-     * @return bool Whether array contains given key/index or no
+     * @return bool Returns true if the given key/index exists in array, false otherwise
      */
     public function containsKey($key)
     {
@@ -91,7 +91,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
      *
      * @param mixed $element Value to search key/index
      *
-     * @return mixed The corresponding key or index
+     * @return mixed The corresponding key/index
      */
     public function indexOf($element)
     {
@@ -99,29 +99,90 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     }
 
     /**
-     * Pick random element key out key of array
+     * Pick a random key/index out key of array
      *
-     * @return mixed Random element key of array
+     * @return mixed Random key/index of array
+     *
+     * @throws \LogicException
      */
     public function getRandomKey()
     {
+        if (1 >= $this->count()) {
+            throw new \LogicException(sprintf(
+                'The number of elements in the array "%d" should be greater than "1".', $this->count()
+            ));
+        }
+
         return array_rand($this->elements, 1);
     }
 
     /**
-     * Pick random element value out of array
+     * Pick a random value out of array
      *
-     * @return mixed Random element value of array
+     * @return mixed Random value of array
+     *
+     * @throws \LogicException
      */
     public function getRandomValue()
     {
-        return $this->offsetGet(array_rand($this->elements, 1));
+        return $this->offsetGet($this->getRandomKey());
+    }
+
+    /**
+     * Pick a given number of random keys/indexes out of array
+     *
+     * @param int $number The number of keys/indexes (should be > 1 and < $this->count())
+     *
+     * @return array Random keys of array
+     *
+     * @throws \RangeException
+     * @throws \LogicException
+     */
+    public function getRandomKeys($number)
+    {
+        $number = (int)$number;
+        if (1 >= $number || $this->count() <= $number) {
+            throw new \RangeException(sprintf(
+                'The given number "%d" should be greater than "1" and less than "%d" (the number of elements in the array).',
+                $number,
+                $this->count()
+            ));
+        }
+        if ($number > $this->count()) {
+            throw new \LogicException(sprintf(
+                'The given number "%d" should be less than "%d" (the number of elements in the array).',
+                $number,
+                $this->count()
+            ));
+        }
+
+        return array_rand($this->elements, $number);
+    }
+
+    /**
+     * Pick a given number of random values out of array
+     *
+     * @param int $number The number of values (should be > 1 and < $this->count())
+     *
+     * @return array Random values of array
+     *
+     * @throws \RangeException
+     * @throws \LogicException
+     */
+    public function getRandomValues($number)
+    {
+        $values = [];
+        foreach ($this->getRandomKeys($number) as $key) {
+            $values[] = $this->offsetGet($key);
+        }
+
+        return $values;
     }
 
     /**
      * Return all the keys of array
      *
-     * @return array An array of all array keys
+     * @return array An array of all keys
      */
     public function getKeys()
     {
@@ -131,7 +192,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     /**
      * Return all the values of array
      *
-     * @return mixed An array of all array values
+     * @return mixed An array of all values
      */
     public function getValues()
     {
@@ -162,7 +223,7 @@ abstract class AbstractArray implements Countable, ArrayAccess, IteratorAggregat
     abstract public function reverse($preserveKeys = false);
 
     /**
-     * Pad array to the specified length with a given value
+     * Pad array to the specified size with a given value
      *
      * @param int $size Size of result array
      * @param mixed $value Empty value by default

@@ -557,9 +557,9 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         }
 
         $ma = new ImmutableArray($array);
-        $value = array_rand($array, 1);
-        $this->assertTrue(null !== $value);
-        $this->assertTrue(null !== $ma->getRandomKey());
+        $key = $ma->getRandomKey();
+        $this->assertTrue(null !== $key);
+        $this->assertTrue(array_key_exists($key, $ma->toArray()));
     }
 
     /**
@@ -572,9 +572,43 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         }
 
         $ma = new ImmutableArray($array);
-        $value = array_rand($array, 1);
+        $value = $ma->getRandomValue();
         $this->assertTrue(null !== $value);
-        $this->assertTrue(null !== $ma->getRandomValue());
+        $this->assertTrue(in_array($value, $ma->toArray()));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testGetRandomKeys(array $array)
+    {
+        if (0 === count($array)) {
+            return;
+        }
+
+        $ma = new ImmutableArray($array);
+        $keys = $ma->getRandomKeys(2);
+        $this->assertCount(2, $keys);
+        foreach ($keys as $key) {
+            $this->assertTrue(array_key_exists($key, $array));
+        }
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testGetRandomValues(array $array)
+    {
+        if (0 === count($array)) {
+            return;
+        }
+
+        $ma = new ImmutableArray($array);
+        $values = $ma->getRandomValues(2);
+        $this->assertCount(2, $values);
+        foreach ($values as $value) {
+            $this->assertTrue(in_array($value, $array));
+        }
     }
 
     /**

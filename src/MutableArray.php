@@ -48,7 +48,7 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Pad array to the specified length with a given value
+     * Pad array to the specified size with a given value
      *
      * @param int $size Size of result array
      * @param mixed $value Empty value by default
