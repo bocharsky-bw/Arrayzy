@@ -43,7 +43,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 * [Public method list](#public-method-list)
     * [chunk](#chunk)
     * [clear](#clear)
-    * [combine](#combine)
+    * [combineWith](#combinewith)
     * [contains](#contains)
     * [containsKey](#containskey)
     * [count](#count)
@@ -57,7 +57,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [customSort](#customsort)
     * [customSortKeys](#customsortkeys)
     * [debug](#debug)
-    * [diff](#diff)
+    * [diffWith](#diffwith)
     * [each](#each)
     * [export](#export)
     * [filter](#filter)
@@ -65,14 +65,17 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [flip](#flip)
     * getIterator
     * [getKeys](#getkeys)
-    * [getRandom](#getrandom)
+    * [getRandomKey](#getrandomkey)
+    * [getRandomKeys](#getrandomkeys)
+    * [getRandomValue](#getrandomvalue)
+    * [getRandomValues](#getrandomvalues)
     * [getValues](#getvalues)
     * [indexOf](#indexof)
     * [isEmpty](#isempty)
     * [key](#key)
     * [last](#last)
     * [map](#map)
-    * [merge](#merge)
+    * [mergeWith](#mergewith)
     * [next](#next)
     * [offsetExists](#offsetexists)
     * [offsetGet](#offsetget)
@@ -84,7 +87,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [push](#push)
     * [reduce](#reduce)
     * [reindex](#reindex)
-    * [replace](#replace)
+    * [replaceWith](#replacewith)
     * [reverse](#reverse)
     * [shift](#shift)
     * [shuffle](#shuffle)
@@ -218,11 +221,11 @@ $a->clear();
 $a->toArray(); // []
 ```
 
-### combine
+### combineWith
 
 ``` php
 $a = MutableArray::create([1, 2, 3]);
-$a->combine(['a', 'b', 'c']);
+$a->combineWith(['a', 'b', 'c']);
 $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ```
 
@@ -351,11 +354,11 @@ $a = MutableArray::create(['a', 'b', 'c']);
 $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 ```
 
-### diff
+### diffWith
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$a->diff(['c', 'd']);
+$a->diffWith(['c', 'd']);
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
 
@@ -405,11 +408,32 @@ $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
-### getRandom
+### getRandomKey
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c', 'd']);
-$a->getRandom(); // 'c'
+$a->getRandomKey(); // 2
+```
+
+### getRandomValue
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a->getRandomValue(); // 'c'
+```
+
+### getRandomKeys
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a->getRandomKeys(2); // [0, 2]
+```
+
+### getRandomValues
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a->getRandomValues(2); // ['b', 'd']
 ```
 
 ### getValues
@@ -460,16 +484,16 @@ $a->map(function($value) {
 $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 ```
 
-### merge
+### mergeWith
 
 ``` php
 // indexed array behavior
 $a = MutableArray::create(['a', 'b', 'c']); // create indexed array
-$a->merge(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
+$a->mergeWith(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
 
 // assoc array behavior
 $b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
-$b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
+$b->mergeWith(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
 ### next
@@ -565,11 +589,11 @@ $a->reindex();
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
-### replace
+### replaceWith
 
 ``` php
 $a = MutableArray::create(['a', 'd', 'e']);
-$a->replace([1 => 'b', 2 => 'c']);
+$a->replaceWith([1 => 'b', 2 => 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
