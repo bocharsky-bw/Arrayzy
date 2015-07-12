@@ -563,6 +563,15 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \LogicException
+     */
+    public function testGetRandomKeyLogicException()
+    {
+        $ma = new MutableArray(['a']);
+        $ma->getRandomKey();
+    }
+
+    /**
      * @dataProvider simpleArrayProvider
      */
     public function testGetRandom(array $array)
@@ -592,6 +601,24 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         foreach ($keys as $key) {
             $this->assertTrue(array_key_exists($key, $array));
         }
+    }
+
+    /**
+     * @expectedException \RangeException
+     */
+    public function testGetRandomKeysRangeException()
+    {
+        $ma = new MutableArray(['a', 'b', 'c']);
+        $ma->getRandomKeys(4);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetRandomKeysLogicException()
+    {
+        $ma = new MutableArray(['a', 'b', 'c']);
+        $ma->getRandomKeys(3);
     }
 
     /**

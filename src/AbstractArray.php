@@ -218,18 +218,20 @@ abstract class AbstractArray implements ArrayAccess, Countable, IteratorAggregat
     public function getRandomKeys($number)
     {
         $number = (int) $number;
-        if (1 >= $number || $this->count() <= $number) {
-            throw new \RangeException(sprintf(
-                'The given number "%d" should be greater than "1" and less than "%d" (the number of elements in the array).',
+        $count = $this->count();
+        if ($number < 1 || $number > $count) {
+            throw new \RangeException(sprintf(''
+                . 'The given number "%d" should be greater than or equal to "1" '
+                . 'and less than or equal to "%d" (the number of elements in the array).',
                 $number,
-                $this->count()
+                $count
             ));
         }
-        if ($number > $this->count()) {
+        if ($number === 1 || $number === $count) {
             throw new \LogicException(sprintf(
-                'The given number "%d" should be less than "%d" (the number of elements in the array).',
+                'The given number "%d" should not be equal to "1" or "%d" (the number of elements in the array).',
                 $number,
-                $this->count()
+                $count
             ));
         }
 
