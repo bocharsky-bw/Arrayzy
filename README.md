@@ -417,13 +417,13 @@ $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ``` php
 $a = MutableArray::create(['a', 'b', 'c', 'd']);
 $a->getRandom(); // 'c'
+```
 
 ### getRandomKey
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c', 'd']);
 $a->getRandomKey(); // 2
-```
 ```
 
 ### getRandomKeys
