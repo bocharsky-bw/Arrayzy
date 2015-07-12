@@ -1,13 +1,13 @@
 <?php
 
-namespace Arrayzy\Traits;
+namespace Arrayzy\Interfaces;
 
 use Closure;
 
 /**
- * Class SortableTrait
+ * Class SortableInterface
  */
-trait SortableTrait
+interface SortableInterface
 {
     /**
      * Sort array by values
@@ -29,9 +29,9 @@ trait SortableTrait
      * @param bool $preserveKeys Maintain index association
      * @link http://php.net/manual/en/function.sort.php
      *
-     * @return static The instance with sorted elements
+     * @return SortableInterface The instance with sorted elements
      */
-    abstract public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false);
+    public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false);
 
     /**
      * Sort array by keys
@@ -52,25 +52,25 @@ trait SortableTrait
      * </ul>
      * @link http://php.net/manual/en/function.sort.php
      *
-     * @return static The instance with sorted elements
+     * @return SortableInterface The instance with sorted elements
      */
-    abstract public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
+    public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
 
     /**
      * Sort the array elements with a user-defined comparison function and maintain index association
      *
      * @param Closure $func
      *
-     * @return static The instance with custom sorted elements
+     * @return SortableInterface The instance with custom sorted elements
      */
-    abstract public function customSort(Closure $func);
+    public function customSort(Closure $func);
 
     /**
      * Sort the array keys with a user-defined comparison function and maintain index association
      *
      * @param Closure $func
      *
-     * @return static The instance with custom sorted elements
+     * @return SortableInterface The instance with custom sorted elements
      */
-    abstract public function customSortKeys(Closure $func);
+    public function customSortKeys(Closure $func);
 }
