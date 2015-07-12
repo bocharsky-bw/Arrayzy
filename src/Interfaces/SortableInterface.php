@@ -2,7 +2,6 @@
 
 namespace Arrayzy\Interfaces;
 
-use Arrayzy\AbstractArray;
 use Closure;
 
 /**
