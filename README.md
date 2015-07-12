@@ -63,7 +63,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [filter](#filter)
     * [first](#first)
     * [flip](#flip)
-    * getIterator
+    * [getIterator](#getiterator)
     * [getKeys](#getkeys)
     * [getRandom](#getrandom)
     * [getRandomKey](#getrandomkey)
@@ -401,6 +401,10 @@ $a->flip();
 $a->toArray(); // ['a' => 0, 'b' => 1, 'c' => 2]
 ```
 
+### getIterator
+
+Creates an external Iterator. Check the [iteratorAggregate][6] documentation for more information.
+
 ### getKeys
 
 ``` php
@@ -714,3 +718,4 @@ Look at the [Stringy][5] if you are looking for a PHP **string** manipulation li
 [3]: https://github.com/bocharsky-bw/Arrayzy/issues
 [4]: https://github.com/bocharsky-bw/Arrayzy/pulls
 [5]: https://github.com/danielstjules/Stringy
+[6]: http://php.net/manual/en/class.iteratoraggregate.php
