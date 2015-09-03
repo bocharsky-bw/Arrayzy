@@ -1,6 +1,6 @@
 {
     "name": "bocharsky-bw/arrayzy",
-    "description": "A PHP array easy manipulation library in OOP way",
+    "description": "A native PHP arrays easy manipulation library in OOP way.",
     "keywords": ["arrayzy", "array", "manipulation", "oop", "utility", "helper", "wrapper"],
     "homepage": "https://github.com/bocharsky-bw/Arrayzy",
     "license": "MIT",
