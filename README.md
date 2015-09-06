@@ -685,7 +685,7 @@ Converts instance array to a simple PHP `string`:
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$a->toString('-'); // 'a-b-c'
+$a->toString(', '); // 'a, b, c'
 ```
 
 ### unique
