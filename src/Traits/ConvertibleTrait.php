@@ -28,6 +28,25 @@ trait ConvertibleTrait
     }
 
     /**
+     * Implode array to readable string with specified separator
+     *
+     * @param string $separator Element's separator
+     * @param string $conjunction Last element's conjunction
+     *
+     * @return string The string representation of array
+     */
+    public function toReadableString($separator = self::DEFAULT_SEPARATOR, $conjunction = ' and ')
+    {
+        $elements = $this->elements;
+        $lastElement = array_pop($elements);
+
+        $string = implode($separator, $elements) . (count($elements) ? $conjunction : '') . $lastElement;
+        unset($elements, $lastElement);
+
+        return $string;
+    }
+
+    /**
      * Implode array to string with specified separator
      *
      * @param string $separator Element's separator

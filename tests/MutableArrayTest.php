@@ -88,6 +88,24 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($json === $ma->toJson());
     }
 
+    public function testToReadableString()
+    {
+        $ma0 = new MutableArray([]);
+        $this->assertEquals('', $ma0->toReadableString(', ', ' and '));
+
+        $ma1 = new MutableArray(['a']);
+        $this->assertEquals('a', $ma1->toReadableString(', ', ' and '));
+
+        $ma2 = new MutableArray(['a', 'b']);
+        $this->assertEquals('a and b', $ma2->toReadableString(', ', ' and '));
+
+        $ma3 = new MutableArray(['a', 'b', 'c']);
+        $this->assertEquals('a + b and c', $ma3->toReadableString(' + ', ' and '));
+
+        $ma4 = new MutableArray(['a', 'b', 'c', 'd']);
+        $this->assertEquals('a, b, c or d', $ma4->toReadableString(', ', ' or '));
+    }
+
     /**
      * @dataProvider stringWithSeparatorProvider
      */

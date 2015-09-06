@@ -96,6 +96,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [sortKeys](#sortkeys)
     * [toArray](#toarray)
     * [toJson](#tojson)
+    * [toReadableString](#toreadablestring)
     * [toString](#tostring)
     * [unique](#unique)
     * [unshift](#unshift)
@@ -192,10 +193,12 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
 
 ### Converting
 
-Easily converting instance array elements to a simple PHP `array`, `string` or `JSON` format:
+Easily converting instance array elements to a simple PHP `array`, `string`,
+`readable string` or `JSON` format:
 
 * [toArray](#toarray)
 * [toJson](#tojson)
+* [toReadableString](#toreadablestring)
 * [toString](#tostring)
 
 ### Debugging
@@ -665,6 +668,15 @@ Converts instance array to a `JSON` string:
 ``` php
 $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->toJson(); // { "a": 1, "b": 2, "c":3 }
+```
+
+### toReadableString
+
+Converts instance array to a readable PHP `string`:
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->toReadableString(', ', ' and '); // 'a, b, and c'
 ```
 
 ### toString
