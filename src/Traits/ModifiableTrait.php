@@ -3,7 +3,9 @@
 namespace Arrayzy\Traits;
 
 /**
- * Class ModifiableTrait
+ * Trait with helpful modifiable methods.
+ *
+ * @property array $elements
  */
 trait ModifiableTrait
 {

@@ -2,8 +2,12 @@
 
 namespace Arrayzy\Traits;
 
+use Arrayzy\AbstractArray;
+
 /**
- * Class ConvertibleTrait
+ * Trait with helpful convertible methods.
+ *
+ * @property array $elements
  */
 trait ConvertibleTrait
 {
@@ -35,7 +39,7 @@ trait ConvertibleTrait
      *
      * @return string The string representation of array
      */
-    public function toReadableString($separator = self::DEFAULT_SEPARATOR, $conjunction = ' and ')
+    public function toReadableString($separator = AbstractArray::DEFAULT_SEPARATOR, $conjunction = ' and ')
     {
         $elements = $this->elements;
         $lastElement = array_pop($elements);
@@ -53,7 +57,7 @@ trait ConvertibleTrait
      *
      * @return string The string representation of array
      */
-    public function toString($separator = self::DEFAULT_SEPARATOR)
+    public function toString($separator = AbstractArray::DEFAULT_SEPARATOR)
     {
         return implode($separator, $this->elements);
     }

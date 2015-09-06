@@ -3,7 +3,9 @@
 namespace Arrayzy\Traits;
 
 /**
- * Class DebuggableTrait
+ * Trait with helpful methods for debugging.
+ *
+ * @property array $elements
  */
 trait DebuggableTrait
 {

@@ -3,7 +3,9 @@
 namespace Arrayzy\Traits;
 
 /**
- * Class TraversableTrait
+ * Trait with helpful traversable methods.
+ *
+ * @property array $elements
  */
 trait TraversableTrait
 {
