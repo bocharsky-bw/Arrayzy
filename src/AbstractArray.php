@@ -30,7 +30,7 @@ abstract class AbstractArray implements ArrayAccess, Countable, IteratorAggregat
     /**
      * @const string
      */
-    const DEFAULT_SEPARATOR = '';
+    const DEFAULT_SEPARATOR = ', ';
 
     /**
      * @var array

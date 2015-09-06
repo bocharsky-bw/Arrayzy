@@ -115,7 +115,7 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $ma = new MutableArray($array);
 
         $this->assertTrue($string === $ma->toString($separator));
-        $this->assertTrue(implode('', $array) === (string)$ma);
+        $this->assertTrue(implode(', ', $array) === (string)$ma);
     }
 
     /**
