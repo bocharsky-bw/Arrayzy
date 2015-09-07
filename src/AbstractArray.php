@@ -533,4 +533,49 @@ abstract class AbstractArray implements
     {
         return new ArrayIterator($this->elements);
     }
+
+    /**
+     * @param array &$elements
+     * @param int $order
+     * @param int $strategy
+     * @param bool $preserveKeys
+     */
+    protected function sorting(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                if ($preserveKeys) {
+                    arsort($elements, $strategy);
+                } else {
+                    rsort($elements, $strategy);
+                }
+                break;
+
+            case SORT_ASC:
+            default:
+                if ($preserveKeys) {
+                    asort($elements, $strategy);
+                } else {
+                    sort($elements, $strategy);
+                }
+        }
+    }
+
+    /**
+     * @param array &$elements
+     * @param int $order
+     * @param int $strategy
+     */
+    protected function sortingKeys(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                krsort($elements, $strategy);
+                break;
+
+            case SORT_ASC:
+            default:
+                ksort($elements, $strategy);
+        }
+    }
 }

@@ -176,24 +176,7 @@ class ImmutableArray extends AbstractArray
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
         $elements = $this->elements;
-
-        switch ($order) {
-            case SORT_DESC:
-                if ($preserveKeys) {
-                    arsort($elements, $strategy);
-                } else {
-                    rsort($elements, $strategy);
-                }
-                break;
-
-            case SORT_ASC:
-            default:
-                if ($preserveKeys) {
-                    asort($elements, $strategy);
-                } else {
-                    sort($elements, $strategy);
-                }
-        }
+        parent::sorting($elements, $order, $strategy, $preserveKeys);
 
         return new static($elements);
     }
@@ -207,16 +190,7 @@ class ImmutableArray extends AbstractArray
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
         $elements = $this->elements;
-
-        switch ($order) {
-            case SORT_DESC:
-                krsort($elements, $strategy);
-                break;
-
-            case SORT_ASC:
-            default:
-                ksort($elements, $strategy);
-        }
+        parent::sortingKeys($elements, $order, $strategy);
 
         return new static($elements);
     }

@@ -195,23 +195,7 @@ class MutableArray extends AbstractArray
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
-        switch ($order) {
-            case SORT_DESC:
-                if ($preserveKeys) {
-                    arsort($this->elements, $strategy);
-                } else {
-                    rsort($this->elements, $strategy);
-                }
-                break;
-
-            case SORT_ASC:
-            default:
-                if ($preserveKeys) {
-                    asort($this->elements, $strategy);
-                } else {
-                    sort($this->elements, $strategy);
-                }
-        }
+        parent::sorting($this->elements, $order, $strategy, $preserveKeys);
 
         return $this;
     }
@@ -224,15 +208,7 @@ class MutableArray extends AbstractArray
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
-        switch ($order) {
-            case SORT_DESC:
-                krsort($this->elements, $strategy);
-                break;
-
-            case SORT_ASC:
-            default:
-                ksort($this->elements, $strategy);
-        }
+        parent::sortingKeys($this->elements, $order, $strategy);
 
         return $this;
     }
