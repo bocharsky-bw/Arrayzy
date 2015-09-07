@@ -108,7 +108,7 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Merge array with given one
+     * Merges array with given one
      *
      * @param array $array Array for merge
      * @param bool $recursively Whether array will be merged recursively or no
@@ -121,6 +121,25 @@ class MutableArray extends AbstractArray
             $this->elements = array_merge_recursive($this->elements, $array);
         } else {
             $this->elements = array_merge($this->elements, $array);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Merges array to given one
+     *
+     * @param array $array Array for merge
+     * @param bool $recursively Whether array will be merged recursively or no
+     *
+     * @return $this The same instance with merged elements
+     */
+    public function mergeTo(array $array, $recursively = false)
+    {
+        if (true === $recursively) {
+            $this->elements = array_merge_recursive($array, $this->elements);
+        } else {
+            $this->elements = array_merge($array, $this->elements);
         }
 
         return $this;

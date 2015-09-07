@@ -196,6 +196,25 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($mergedArray === $copiedMa->toArray());
     }
 
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testMergeTo(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $mergedArray = array_merge($secondArray, $array);
+        $ma = new ImmutableArray($array);
+        $copiedMa = $ma->mergeTo($secondArray);
+
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($mergedArray === $copiedMa->toArray());
+    }
+
     /**
      * @dataProvider simpleArrayProvider
      */
@@ -209,6 +228,24 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         $mergedArray = array_merge_recursive($array, $secondArray);
         $ma = new ImmutableArray($array);
         $copiedMa = $ma->mergeWith($secondArray, true);
+
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($mergedArray === $copiedMa->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testMergeToRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $mergedArray = array_merge_recursive($secondArray, $array);
+        $ma = new ImmutableArray($array);
+        $copiedMa = $ma->mergeTo($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($mergedArray === $copiedMa->toArray());

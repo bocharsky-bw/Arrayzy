@@ -217,6 +217,24 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testMergeTo(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $mergedArray = array_merge($secondArray, $array);
+        $ma = new MutableArray($array);
+        $copiedMa = $ma->mergeTo($secondArray);
+
+        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($mergedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testMergeWithRecursively(array $array)
     {
         $secondArray = [
@@ -227,6 +245,24 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $mergedArray = array_merge_recursive($array, $secondArray);
         $ma = new MutableArray($array);
         $copiedMa = $ma->mergeWith($secondArray, true);
+
+        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($mergedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testMergeToRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $mergedArray = array_merge_recursive($secondArray, $array);
+        $ma = new MutableArray($array);
+        $copiedMa = $ma->mergeTo($secondArray, true);
 
         $this->assertTrue($copiedMa === $ma);
         $this->assertTrue($mergedArray === $ma->toArray());

@@ -94,7 +94,7 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Merge array with given one
+     * Merges array with given one
      *
      * @param array $array Array for merge
      * @param bool $recursively Whether array will be merged recursively or no
@@ -108,6 +108,23 @@ class ImmutableArray extends AbstractArray
         }
 
         return new static(array_merge($this->elements, $array));
+    }
+
+    /**
+     * Merges array to given one
+     *
+     * @param array $array Array for merge
+     * @param bool $recursively Whether array will be merged recursively or no
+     *
+     * @return static The new instance with merged elements
+     */
+    public function mergeTo(array $array, $recursively = false)
+    {
+        if (true === $recursively) {
+            return new static(array_merge_recursive($array, $this->elements));
+        }
+
+        return new static(array_merge($array, $this->elements));
     }
 
     /**
