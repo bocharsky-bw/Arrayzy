@@ -166,26 +166,12 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Sort array by values
+     * {@inheritdoc}
      *
-     * @param int $order The order direction:
-     * <ul>
-     * <li>SORT_ASC</li>
-     * <li>SORT_DESC</li>
-     * </ul>
-     * @param int $strategy The order behavior:
-     * <ul>
-     * <li>SORT_REGULAR</li>
-     * <li>SORT_NUMERIC</li>
-     * <li>SORT_STRING</li>
-     * <li>SORT_LOCALE_STRING</li>
-     * <li>SORT_NATURAL</li>
-     * <li>SORT_FLAG_CASE</li>
-     * </ul>
-     * @param bool $preserveKeys Maintain index association
+     * @link http://php.net/manual/en/function.arsort.php
      * @link http://php.net/manual/en/function.sort.php
-     *
-     * @return static The new instance with sorted elements
+     * @link http://php.net/manual/en/function.asort.php
+     * @link http://php.net/manual/en/function.rsort.php
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
@@ -213,25 +199,10 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Sort array by keys
+     * {@inheritdoc}
      *
-     * @param int $order The order direction:
-     * <ul>
-     * <li>SORT_ASC</li>
-     * <li>SORT_DESC</li>
-     * </ul>
-     * @param int $strategy The order behavior:
-     * <ul>
-     * <li>SORT_REGULAR</li>
-     * <li>SORT_NUMERIC</li>
-     * <li>SORT_STRING</li>
-     * <li>SORT_LOCALE_STRING</li>
-     * <li>SORT_NATURAL</li>
-     * <li>SORT_FLAG_CASE</li>
-     * </ul>
-     * @link http://php.net/manual/en/function.sort.php
-     *
-     * @return static The new instance with sorted elements
+     * @link http://php.net/manual/en/function.ksort.php
+     * @link http://php.net/manual/en/function.krsort.php
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
@@ -296,11 +267,9 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Sort the array elements with a user-defined comparison function and maintain index association
+     * {@inheritdoc}
      *
-     * @param Closure $func
-     *
-     * @return static The new instance with custom sorted elements
+     * @link http://php.net/manual/en/function.usort.php
      */
     public function customSort(Closure $func)
     {
@@ -312,11 +281,9 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Sort the array keys with a user-defined comparison function and maintain index association
+     * {@inheritdoc}
      *
-     * @param Closure $func
-     *
-     * @return static The new instance with custom sorted elements
+     * @link http://php.net/manual/en/function.uksort.php
      */
     public function customSortKeys(Closure $func)
     {

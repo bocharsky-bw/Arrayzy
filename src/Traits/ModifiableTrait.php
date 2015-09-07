@@ -10,9 +10,11 @@ namespace Arrayzy\Traits;
 trait ModifiableTrait
 {
     /**
-     * Shift an value off the beginning of array
+     * Shifts a specified value off the beginning of array.
      *
      * @return mixed The shifted element
+     *
+     * @link http://php.net/manual/en/function.array-shift.php
      */
     public function shift()
     {
@@ -20,11 +22,13 @@ trait ModifiableTrait
     }
 
     /**
-     * Prepend a new value to the beginning of array
+     * Prepends a new value to the beginning of array.
      *
-     * @param mixed $element Element for prepend
+     * @param mixed $element The element for prepend
      *
      * @return $this The same instance with prepended element to the beginning of array
+     *
+     * @link http://php.net/manual/en/function.array-unshift.php
      */
     public function unshift($element)
     {
@@ -34,9 +38,11 @@ trait ModifiableTrait
     }
 
     /**
-     * Pop the value off the end of array
+     * Pop a specified value off the end of array.
      *
      * @return mixed The popped element
+     *
+     * @link http://php.net/manual/en/function.array-pop.php
      */
     public function pop()
     {
@@ -44,11 +50,13 @@ trait ModifiableTrait
     }
 
     /**
-     * Push value onto the end of array
+     * Push value onto the end of array.
      *
-     * @param mixed $element Element for push
+     * @param mixed $element The pushed element
      *
      * @return $this The same instance with pushed element to the end of array
+     *
+     * @link http://php.net/manual/en/function.array-push.php
      */
     public function push($element)
     {

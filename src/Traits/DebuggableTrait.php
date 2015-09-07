@@ -10,7 +10,7 @@ namespace Arrayzy\Traits;
 trait DebuggableTrait
 {
     /**
-     * Output/return printed array for debug
+     * Outputs/returns printed array for debug.
      *
      * @param bool $return Whether return or output directly
      *
@@ -28,11 +28,13 @@ trait DebuggableTrait
     }
 
     /**
-     * Export array for using in PHP scripts
+     * Exports array for using in PHP scripts.
      *
      * @param bool $return Whether return or output directly
      *
      * @return $this|string
+     *
+     * @link http://php.net/manual/en/function.var-export.php
      */
     public function export($return = false)
     {

@@ -5,70 +5,67 @@ namespace Arrayzy\Interfaces;
 use Traversable;
 
 /**
- * Interface TraversableInterface
+ * An interface with helpful array traversing methods.
  */
 interface TraversableInterface extends Traversable
 {
     /**
-     * Set the internal pointer of an array to its first element
+     * Sets the internal pointer of an array to its first element.
      *
-     * @link http://php.net/manual/en/function.reset.php
-     *
-     * @return mixed
+     * @return mixed The value of the first array element, or false if the array is empty.
      */
     public function first();
 
     /**
-     * Set the internal pointer of an array to its last element
+     * Sets the internal pointer of an array to its last element.
      *
-     * @link http://php.net/manual/en/function.end.php
-     *
-     * @return mixed
+     * @return mixed The value of the last array element, or false if the array is empty.
      */
     public function last();
 
     /**
-     * Advance the internal array pointer of an array
+     * Advances the internal array pointer of an array.
      *
-     * @link http://php.net/manual/en/function.next.php
-     *
-     * @return mixed
+     * @return mixed The array value in the next place that's pointed
+     * to by the internal array pointer, or false if there are no more elements.
      */
     public function next();
 
     /**
-     * Rewind the internal array pointer
+     * Rewinds the internal array pointer.
      *
-     * @link http://php.net/manual/en/function.prev.php
-     *
-     * @return mixed
+     * @return mixed The array value in the previous place that's pointed
+     * to by the internal array pointer, or false if there are no more elements.
      */
     public function previous();
 
     /**
-     * Fetch a key from an array
+     * Fetch a key from an array.
      *
-     * @link http://php.net/manual/en/function.key.php
-     *
-     * @return mixed
+     * @return mixed The key function simply returns the key of the array element
+     * that's currently being pointed to by the internal pointer. It does not move
+     * the pointer in any way. If the internal pointer points beyond the end
+     * of the elements list or the array is empty, key returns null.
      */
     public function key();
 
     /**
-     * Return the current element in an array
+     * Returns the current element in an array.
      *
-     * @link http://php.net/manual/en/function.current.php
-     *
-     * @return mixed
+     * @return mixed The current function simply returns the value of the array element
+     * that's currently being pointed to by the internal pointer. It does not move
+     * the pointer in any way. If the internal pointer points beyond the end
+     * of the elements list or the array is empty, current returns false.
      */
     public function current();
 
     /**
-     * Return the current key and value pair from an array and advance the array cursor
+     * Returns the current key and value pair from an array and advance the array cursor.
      *
-     * @link http://php.net/manual/en/function.each.php
-     *
-     * @return array
+     * @return array The current key and value pair from the array array.
+     * This pair is returned in a four-element array, with the keys 0, 1, key, and value.
+     * Elements 0 and key contain the key name of the array element, and 1 and value contain the data.
+     * If the internal pointer for the array points past the end of the array contents, each returns false.
      */
     public function each();
 }

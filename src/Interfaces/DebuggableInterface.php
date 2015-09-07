@@ -3,12 +3,12 @@
 namespace Arrayzy\Interfaces;
 
 /**
- * Interface DebuggableInterface
+ * An interface with helpful array debugging methods.
  */
 interface DebuggableInterface
 {
     /**
-     * Output/return printed array for debug
+     * Outputs/returns printed array for debug.
      *
      * @param bool $return Whether return or output directly
      *
@@ -17,7 +17,7 @@ interface DebuggableInterface
     public function debug($return = false);
 
     /**
-     * Export array for using in PHP scripts
+     * Exports array for using in PHP scripts.
      *
      * @param bool $return Whether return or output directly
      *

@@ -12,9 +12,9 @@ use Arrayzy\AbstractArray;
 trait ConvertibleTrait
 {
     /**
-     * Converting array to a string with default separator
+     * Converts array to a string with default separator.
      *
-     * @return string
+     * @return string The string representation of array
      */
     public function __toString()
     {
@@ -22,9 +22,9 @@ trait ConvertibleTrait
     }
 
     /**
-     * Convert instance to PHP array
+     * Converts instance to a native PHP array.
      *
-     * @return array The PHP array
+     * @return array The native PHP array
      */
     public function toArray()
     {
@@ -32,12 +32,14 @@ trait ConvertibleTrait
     }
 
     /**
-     * Implode array to readable string with specified separator
+     * Implodes array to a readable string with specified separator.
      *
-     * @param string $separator Element's separator
-     * @param string $conjunction Last element's conjunction
+     * @param string $separator The element's separator
+     * @param string $conjunction The last element conjunction
      *
-     * @return string The string representation of array
+     * @return string The readable string representation of array
+     *
+     * @link http://php.net/manual/en/function.implode.php
      */
     public function toReadableString($separator = AbstractArray::DEFAULT_SEPARATOR, $conjunction = ' and ')
     {
@@ -51,11 +53,13 @@ trait ConvertibleTrait
     }
 
     /**
-     * Implode array to string with specified separator
+     * Implodes array to a string with specified separator.
      *
-     * @param string $separator Element's separator
+     * @param string $separator The element's separator
      *
      * @return string The string representation of array
+     *
+     * @link http://php.net/manual/en/function.implode.php
      */
     public function toString($separator = AbstractArray::DEFAULT_SEPARATOR)
     {
@@ -63,12 +67,14 @@ trait ConvertibleTrait
     }
 
     /**
-     * Encode array to JSON string
+     * Encodes array to a JSON string.
      *
-     * @param int $options Bitmask
-     * @param int $depth Set the maximum depth. Must be greater than zero
+     * @param int $options The bitmask
+     * @param int $depth The maximum depth (must be greater than zero)
      *
      * @return string The JSON string representation of array
+     *
+     * @link http://php.net/manual/en/function.json-encode.php
      */
     public function toJson($options = 0, $depth = 512)
     {

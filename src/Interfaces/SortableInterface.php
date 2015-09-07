@@ -5,12 +5,12 @@ namespace Arrayzy\Interfaces;
 use Closure;
 
 /**
- * Class SortableInterface
+ * An interface with helpful array sorting methods.
  */
 interface SortableInterface
 {
     /**
-     * Sort array by values
+     * Sorts array by values.
      *
      * @param int $order The order direction:
      * <ul>
@@ -27,14 +27,13 @@ interface SortableInterface
      * <li>SORT_FLAG_CASE</li>
      * </ul>
      * @param bool $preserveKeys Maintain index association
-     * @link http://php.net/manual/en/function.sort.php
      *
      * @return SortableInterface The instance with sorted elements
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false);
 
     /**
-     * Sort array by keys
+     * Sorts array by keys.
      *
      * @param int $order The order direction:
      * <ul>
@@ -50,14 +49,13 @@ interface SortableInterface
      * <li>SORT_NATURAL</li>
      * <li>SORT_FLAG_CASE</li>
      * </ul>
-     * @link http://php.net/manual/en/function.sort.php
      *
      * @return SortableInterface The instance with sorted elements
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
 
     /**
-     * Sort the array elements with a user-defined comparison function and maintain index association
+     * Sorts the array elements with a user-defined comparison function and maintain index association.
      *
      * @param Closure $func
      *
@@ -66,7 +64,7 @@ interface SortableInterface
     public function customSort(Closure $func);
 
     /**
-     * Sort the array keys with a user-defined comparison function and maintain index association
+     * Sorts the array keys with a user-defined comparison function and maintain index association.
      *
      * @param Closure $func
      *

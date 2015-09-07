@@ -3,18 +3,18 @@
 namespace Arrayzy\Traits;
 
 /**
- * Trait with helpful traversable methods.
+ * Trait with helpful methods for traversing array.
  *
  * @property array $elements
  */
 trait TraversableTrait
 {
     /**
-     * Set the internal pointer of an array to its first element
+     * Sets the internal pointer of an array to its first element.
+     *
+     * @return mixed The value of the first array element, or false if the array is empty.
      *
      * @link http://php.net/manual/en/function.reset.php
-     *
-     * @return mixed
      */
     public function first()
     {
@@ -22,11 +22,11 @@ trait TraversableTrait
     }
 
     /**
-     * Set the internal pointer of an array to its last element
+     * Sets the internal pointer of an array to its last element.
+     *
+     * @return mixed The value of the last array element, or false if the array is empty.
      *
      * @link http://php.net/manual/en/function.end.php
-     *
-     * @return mixed
      */
     public function last()
     {
@@ -34,11 +34,12 @@ trait TraversableTrait
     }
 
     /**
-     * Advance the internal array pointer of an array
+     * Advances the internal array pointer of an array.
+     *
+     * @return mixed The array value in the next place that's pointed
+     * to by the internal array pointer, or false if there are no more elements.
      *
      * @link http://php.net/manual/en/function.next.php
-     *
-     * @return mixed
      */
     public function next()
     {
@@ -46,11 +47,12 @@ trait TraversableTrait
     }
 
     /**
-     * Rewind the internal array pointer
+     * Rewinds the internal array pointer.
+     *
+     * @return mixed The array value in the previous place that's pointed
+     * to by the internal array pointer, or false if there are no more elements.
      *
      * @link http://php.net/manual/en/function.prev.php
-     *
-     * @return mixed
      */
     public function previous()
     {
@@ -58,11 +60,14 @@ trait TraversableTrait
     }
 
     /**
-     * Fetch a key from an array
+     * Fetch a key from an array.
+     *
+     * @return mixed The key function simply returns the key of the array element
+     * that's currently being pointed to by the internal pointer. It does not move
+     * the pointer in any way. If the internal pointer points beyond the end
+     * of the elements list or the array is empty, key returns null.
      *
      * @link http://php.net/manual/en/function.key.php
-     *
-     * @return mixed
      */
     public function key()
     {
@@ -70,11 +75,14 @@ trait TraversableTrait
     }
 
     /**
-     * Return the current element in an array
+     * Returns the current element in an array.
+     *
+     * @return mixed The current function simply returns the value of the array element
+     * that's currently being pointed to by the internal pointer. It does not move
+     * the pointer in any way. If the internal pointer points beyond the end
+     * of the elements list or the array is empty, current returns false.
      *
      * @link http://php.net/manual/en/function.current.php
-     *
-     * @return mixed
      */
     public function current()
     {
@@ -82,11 +90,14 @@ trait TraversableTrait
     }
 
     /**
-     * Return the current key and value pair from an array and advance the array cursor
+     * Returns the current key and value pair from an array and advance the array cursor.
      *
-     * @link http://php.net/manual/en/function.current.php
+     * @return array The current key and value pair from the array array.
+     * This pair is returned in a four-element array, with the keys 0, 1, key, and value.
+     * Elements 0 and key contain the key name of the array element, and 1 and value contain the data.
+     * If the internal pointer for the array points past the end of the array contents, each returns false.
      *
-     * @return array
+     * @link http://php.net/manual/en/function.each.php
      */
     public function each()
     {
