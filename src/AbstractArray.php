@@ -2,7 +2,11 @@
 
 namespace Arrayzy;
 
+use Arrayzy\Interfaces\ConvertibleInterface;
+use Arrayzy\Interfaces\DebuggableInterface;
+use Arrayzy\Interfaces\ModifiableInterface;
 use Arrayzy\Interfaces\SortableInterface;
+use Arrayzy\Interfaces\TraversableInterface;
 use Arrayzy\Traits\ConvertibleTrait;
 use Arrayzy\Traits\DebuggableTrait;
 use Arrayzy\Traits\ModifiableTrait;
@@ -17,7 +21,15 @@ use Traversable;
 /**
  * Class AbstractArray
  */
-abstract class AbstractArray implements ArrayAccess, Countable, IteratorAggregate, SortableInterface
+abstract class AbstractArray implements
+    ArrayAccess,
+    ConvertibleInterface,
+    Countable,
+    DebuggableInterface,
+    IteratorAggregate,
+    ModifiableInterface,
+    SortableInterface,
+    TraversableInterface
 {
     use ConvertibleTrait;
 

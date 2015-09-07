@@ -2,10 +2,12 @@
 
 namespace Arrayzy\Interfaces;
 
+use Traversable;
+
 /**
  * Interface TraversableInterface
  */
-interface TraversableInterface
+interface TraversableInterface extends Traversable
 {
     /**
      * Set the internal pointer of an array to its first element
@@ -64,7 +66,7 @@ interface TraversableInterface
     /**
      * Return the current key and value pair from an array and advance the array cursor
      *
-     * @link http://php.net/manual/en/function.current.php
+     * @link http://php.net/manual/en/function.each.php
      *
      * @return array
      */
