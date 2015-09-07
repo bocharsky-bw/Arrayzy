@@ -75,6 +75,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [key](#key)
     * [last](#last)
     * [map](#map)
+    * [mergeTo](#mergeto)
     * [mergeWith](#mergewith)
     * [next](#next)
     * [offsetExists](#offsetexists)
@@ -489,6 +490,18 @@ $a->map(function($value) {
     return $value . $value;
 });
 $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
+```
+
+### mergeTo
+
+``` php
+// indexed array behavior
+$a = MutableArray::create(['a', 'b', 'c']); // create indexed array
+$a->mergeTo(['c', 'd']); // [0 => 'c', 1 => 'd', 2 => 'a', 3 => 'b', 4 => 'c']
+
+// assoc array behavior
+$b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
+$b->mergeTo(['c' => 3, 'd' => 4]); // ['c' => 99, 'd' => 4, 'a' => 1, 'b' => 2]
 ```
 
 ### mergeWith
