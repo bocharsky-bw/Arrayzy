@@ -7,7 +7,7 @@ A native PHP arrays easy manipulation library in OOP way.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 
-There are two avaliable classes with a different behaviour:
+There are two available classes with a different behaviour:
 
 * [Arrayzy\MutableArray](#mutablearray)
 * [Arrayzy\ImmutableArray](#immutablearray)
@@ -36,6 +36,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 
 # Contents
 
+* [Requirements](#requirements)
 * [Installation](#installation)
 * [Creation](#creation)
 * [Usage](#usage)
@@ -104,6 +105,11 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [walk](#walk)
 * [Links](#links)
 
+## Requirements
+
+* PHP `5.4` or higher
+* PHP `JSON` extension
+
 ## Installation
 
 The preferred way to install this package is to use [Composer][1]:
@@ -152,7 +158,6 @@ that starts with `create` prefix and provide additional useful functionality:
 * [createFromObject](#createfromobject)
 * [createFromString](#createfromstring)
 * [createWithRange](#createwithrange)
-
 
 ## Usage
 
