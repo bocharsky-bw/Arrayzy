@@ -364,6 +364,16 @@ abstract class AbstractArray implements
     abstract public function mergeWith(array $array, $recursively = false);
 
     /**
+     * Merges array to given one
+     *
+     * @param array $array Array for merge
+     * @param bool $recursively Whether array will be merged recursively or no
+     *
+     * @return static The instance array with merged elements
+     */
+    abstract public function mergeTo(array $array, $recursively = false);
+
+    /**
      * Replace array with given one
      *
      * @param array $array Array for replace
