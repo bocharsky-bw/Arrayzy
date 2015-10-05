@@ -694,7 +694,7 @@ Converts instance array to a `JSON` string:
 
 ``` php
 $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
-$a->toJson(); // { "a": 1, "b": 2, "c":3 }
+$a->toJson(); // { "a": 1, "b": 2, "c": 3 }
 ```
 
 ### toReadableString
@@ -703,7 +703,7 @@ Converts instance array to a readable PHP `string`:
 
 ``` php
 $a = MutableArray::create(['a', 'b', 'c']);
-$a->toReadableString(', ', ' and '); // 'a, b, and c'
+$a->toReadableString(', ', ' and '); // 'a, b and c'
 ```
 
 ### toString
