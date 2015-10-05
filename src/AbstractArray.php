@@ -394,15 +394,6 @@ abstract class AbstractArray implements
     abstract public function replaceIn(array $array, $recursively = false);
 
     /**
-     * Combine array values to a given array values used as keys
-     *
-     * @param array $array Array for combining
-     *
-     * @return static The instance array with combined elements
-     */
-    abstract public function combineTo(array $array);
-
-    /**
      * Combine array values used as keys with a given array values
      *
      * @param array $array Array for combining
@@ -410,6 +401,15 @@ abstract class AbstractArray implements
      * @return static The instance array with combined elements
      */
     abstract public function combineWith(array $array);
+
+    /**
+     * Combine array values to a given array values used as keys
+     *
+     * @param array $array Array for combining
+     *
+     * @return static The instance array with combined elements
+     */
+    abstract public function combineTo(array $array);
 
     /**
      * Compute the difference of array with given one

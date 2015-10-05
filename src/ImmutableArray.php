@@ -162,18 +162,6 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Combine array values to a given array values used as keys
-     *
-     * @param array $array Array for combining
-     *
-     * @return static The new instance with combined elements
-     */
-    public function combineTo(array $array)
-    {
-        return new static(array_combine($array, $this->elements));
-    }
-
-    /**
      * Combine array values used as keys with a given array values
      *
      * @param array $array Array for combining
@@ -183,6 +171,18 @@ class ImmutableArray extends AbstractArray
     public function combineWith(array $array)
     {
         return new static(array_combine($this->elements, $array));
+    }
+
+    /**
+     * Combine array values to a given array values used as keys
+     *
+     * @param array $array Array for combining
+     *
+     * @return static The new instance with combined elements
+     */
+    public function combineTo(array $array)
+    {
+        return new static(array_combine($array, $this->elements));
     }
 
     /**
