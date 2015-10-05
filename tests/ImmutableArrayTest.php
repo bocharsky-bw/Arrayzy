@@ -269,7 +269,6 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($replacedArray === $copiedMa->toArray());
     }
 
-
     /**
      * @dataProvider simpleArrayProvider
      */
@@ -283,6 +282,42 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
         $replacedArray = array_replace_recursive($array, $secondArray);
         $ma = new ImmutableArray($array);
         $copiedMa = $ma->replaceWith($secondArray, true);
+
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($replacedArray === $copiedMa->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReplaceIn(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $replacedArray = array_replace($secondArray, $array);
+        $ma = new ImmutableArray($array);
+        $copiedMa = $ma->replaceIn($secondArray);
+
+        $this->assertTrue($copiedMa !== $ma);
+        $this->assertTrue($replacedArray === $copiedMa->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReplaceInRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $replacedArray = array_replace_recursive($secondArray, $array);
+        $ma = new ImmutableArray($array);
+        $copiedMa = $ma->replaceIn($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($replacedArray === $copiedMa->toArray());

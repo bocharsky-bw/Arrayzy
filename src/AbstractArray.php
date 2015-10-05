@@ -384,6 +384,16 @@ abstract class AbstractArray implements
     abstract public function replaceWith(array $array, $recursively = false);
 
     /**
+     * Replace array in given one
+     *
+     * @param array $array Array for replace
+     * @param bool $recursively Whether array will be replaced recursively or no
+     *
+     * @return static The instance array with replaced elements
+     */
+    abstract public function replaceIn(array $array, $recursively = false);
+
+    /**
      * Combine array keys with given array values
      *
      * @param array $array Array for combined

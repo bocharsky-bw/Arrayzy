@@ -145,6 +145,23 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
+     * Replace array in given one
+     *
+     * @param array $array Array for replace
+     * @param bool $recursively Whether array will be replaced recursively or no
+     *
+     * @return static The new instance with replaced elements
+     */
+    public function replaceIn(array $array, $recursively = false)
+    {
+        if (true === $recursively) {
+            return new static(array_replace_recursive($array, $this->elements));
+        }
+
+        return new static(array_replace($array, $this->elements));
+    }
+
+    /**
      * Combine array keys with given array values
      *
      * @param array $array Array for combined

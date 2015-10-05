@@ -286,7 +286,6 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($replacedArray === $ma->toArray());
     }
 
-
     /**
      * @dataProvider simpleArrayProvider
      */
@@ -300,6 +299,42 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $replacedArray = array_replace_recursive($array, $secondArray);
         $ma = new MutableArray($array);
         $copiedMa = $ma->replaceWith($secondArray, true);
+
+        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($replacedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReplaceIn(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $replacedArray = array_replace($secondArray, $array);
+        $ma = new MutableArray($array);
+        $copiedMa = $ma->replaceIn($secondArray);
+
+        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($replacedArray === $ma->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testReplaceInRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $replacedArray = array_replace_recursive($secondArray, $array);
+        $ma = new MutableArray($array);
+        $copiedMa = $ma->replaceIn($secondArray, true);
 
         $this->assertTrue($copiedMa === $ma);
         $this->assertTrue($replacedArray === $ma->toArray());

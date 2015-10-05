@@ -165,6 +165,25 @@ class MutableArray extends AbstractArray
     }
 
     /**
+     * Replace array in given one
+     *
+     * @param array $array Array for replace
+     * @param bool $recursively Whether array will be replaced recursively or no
+     *
+     * @return $this The same instance with replaced elements
+     */
+    public function replaceIn(array $array, $recursively = false)
+    {
+        if (true === $recursively) {
+            $this->elements = array_replace_recursive($array, $this->elements);
+        } else {
+            $this->elements = array_replace($array, $this->elements);
+        }
+
+        return $this;
+    }
+
+    /**
      * Combine array keys with given array values
      *
      * @param array $array Array for combined

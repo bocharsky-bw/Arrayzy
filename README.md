@@ -89,6 +89,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [push](#push)
     * [reduce](#reduce)
     * [reindex](#reindex)
+    * [replaceIn](#replacein)
     * [replaceWith](#replacewith)
     * [reverse](#reverse)
     * [shift](#shift)
@@ -611,6 +612,14 @@ $a->reduce(function($result, $item) {
 ``` php
 $a = MutableArray::create([2 => 'a', 1 => 'b', 3 => 'c']);
 $a->reindex();
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
+```
+
+### replaceIn
+
+``` php
+$a = MutableArray::create([1 => 'b', 2 => 'c']);
+$a->replaceIn(['a', 'd', 'e']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
