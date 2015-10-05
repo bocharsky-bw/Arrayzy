@@ -44,6 +44,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 * [Public method list](#public-method-list)
     * [chunk](#chunk)
     * [clear](#clear)
+    * [combineTo](#combineto)
     * [combineWith](#combinewith)
     * [contains](#contains)
     * [containsKey](#containskey)
@@ -229,6 +230,14 @@ $a->toArray(); // [0 => [0 => 'a', 1 => 'b'], 1 => [0 => 'c']]
 $a = MutableArray::create(['a', 'b', 'c']);
 $a->clear();
 $a->toArray(); // []
+```
+
+### combineTo
+
+``` php
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->combineTo([1, 2, 3]);
+$a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ```
 
 ### combineWith

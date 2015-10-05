@@ -340,6 +340,26 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($replacedArray === $ma->toArray());
     }
 
+    public function testCombineTo()
+    {
+        $firstArray = [
+            1 => 'one',
+            2 => 'two',
+            3 => 'three',
+        ];
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+        $combinedArray = array_combine($secondArray, $firstArray);
+        $ma = new MutableArray($firstArray);
+        $copiedMa = $ma->combineTo($secondArray);
+
+        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($combinedArray === $ma->toArray());
+    }
+
     public function testCombineWith()
     {
         $firstArray = [

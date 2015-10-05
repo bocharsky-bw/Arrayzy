@@ -184,9 +184,23 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Combine array keys with given array values
+     * Combine array values to a given array values used as keys
      *
-     * @param array $array Array for combined
+     * @param array $array Array for combining
+     *
+     * @return $this The same instance with combined elements
+     */
+    public function combineTo(array $array)
+    {
+        $this->elements = array_combine($array, $this->elements);
+
+        return $this;
+    }
+
+    /**
+     * Combine array values used as keys with a given array values
+     *
+     * @param array $array Array for combining
      *
      * @return $this The same instance with combined elements
      */
