@@ -405,6 +405,15 @@ $a->filter(function($value) {
 $a->toArray(); // [0 => 'a', 2 => 'b']
 ```
 
+### find
+
+``` php
+$a = MutableArray::create([4, 3, 2, 1]);
+$value = $a->find(function($value, $key, $array) {
+    return ($value % 2) === 0;
+});
+$value // 4
+
 ### first
 
 ``` php
