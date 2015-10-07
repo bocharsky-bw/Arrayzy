@@ -4,6 +4,8 @@ use Arrayzy\MutableArray;
 
 /**
  * Class MutableArrayTest
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class MutableArrayTest extends PHPUnit_Framework_TestCase
 {

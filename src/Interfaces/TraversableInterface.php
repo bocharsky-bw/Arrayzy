@@ -6,6 +6,8 @@ use Traversable;
 
 /**
  * An interface with helpful array traversing methods.
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 interface TraversableInterface extends Traversable
 {

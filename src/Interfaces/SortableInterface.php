@@ -6,6 +6,8 @@ use Closure;
 
 /**
  * An interface with helpful array sorting methods.
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 interface SortableInterface
 {

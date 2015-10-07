@@ -6,6 +6,8 @@ use Closure;
 
 /**
  * Class ImmutableArray
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class ImmutableArray extends AbstractArray
 {

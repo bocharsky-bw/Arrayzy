@@ -7,6 +7,8 @@ use Arrayzy\AbstractArray;
 /**
  * Trait with helpful convertible methods.
  *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
+ *
  * @property array $elements
  */
 trait ConvertibleTrait

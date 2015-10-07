@@ -5,6 +5,8 @@ namespace Arrayzy\Traits;
 /**
  * Trait with helpful methods for traversing array.
  *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
+ *
  * @property array $elements
  */
 trait TraversableTrait

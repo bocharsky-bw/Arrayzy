@@ -4,6 +4,8 @@ namespace Arrayzy\Interfaces;
 
 /**
  * An interface with helpful array debugging methods.
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 interface DebuggableInterface
 {

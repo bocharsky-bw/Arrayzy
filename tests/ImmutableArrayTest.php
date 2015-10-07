@@ -4,6 +4,8 @@ use Arrayzy\ImmutableArray;
 
 /**
  * Class ImmutableArrayTest
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class ImmutableArrayTest extends PHPUnit_Framework_TestCase
 {

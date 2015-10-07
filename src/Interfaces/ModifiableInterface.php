@@ -4,6 +4,8 @@ namespace Arrayzy\Interfaces;
 
 /**
  * An interface with helpful array modification methods.
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 interface ModifiableInterface
 {

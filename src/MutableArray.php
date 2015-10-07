@@ -6,6 +6,8 @@ use Closure;
 
 /**
  * Class MutableArray
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class MutableArray extends AbstractArray
 {

@@ -6,6 +6,8 @@ use Arrayzy\AbstractArray;
 
 /**
  * An interface with helpful array converting methods.
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 interface ConvertibleInterface
 {
