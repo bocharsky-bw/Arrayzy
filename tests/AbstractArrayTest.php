@@ -1,6 +1,11 @@
 <?php
 
-class ArrayzyTest extends PHPUnit_Framework_TestCase
+/**
+ * The base class for testing
+ *
+ * @author Victor Bocharsky <bocharsky.bw@gmail.com>
+ */
+abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
 {
     public function simpleArrayProvider()
     {

@@ -7,7 +7,7 @@ use Arrayzy\ImmutableArray;
  *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class ImmutableArrayTest extends ArrayzyTest
+class ImmutableArrayTest extends AbstractArrayTest
 {
     /**
      * @dataProvider simpleArrayProvider

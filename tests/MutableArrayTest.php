@@ -7,7 +7,7 @@ use Arrayzy\MutableArray;
  *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class MutableArrayTest extends ArrayzyTest
+class MutableArrayTest extends AbstractArrayTest
 {
     /**
      * @dataProvider simpleArrayProvider
