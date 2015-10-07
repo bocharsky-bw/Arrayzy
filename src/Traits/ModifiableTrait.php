@@ -32,7 +32,10 @@ trait ModifiableTrait
      */
     public function unshift($element)
     {
-        array_unshift($this->elements, $element);
+        if (func_num_args()) {
+            $args = array_merge([&$this->elements], func_get_args());
+            call_user_func_array('array_unshift', $args);
+        }
 
         return $this;
     }
@@ -60,7 +63,10 @@ trait ModifiableTrait
      */
     public function push($element)
     {
-        array_push($this->elements, $element);
+        if (func_num_args()) {
+            $args = array_merge([&$this->elements], func_get_args());
+            call_user_func_array('array_push', $args);
+        }
 
         return $this;
     }
