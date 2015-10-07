@@ -13,7 +13,7 @@ matrix:
 
 before_script:
     - composer self-update
-    - composer install --dev --prefer-source
+    - composer install --prefer-source
 
 script:
     - vendor/bin/phpunit --coverage-clover=coverage.clover
