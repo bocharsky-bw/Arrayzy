@@ -640,4 +640,22 @@ abstract class AbstractArray implements
                 ksort($elements, $strategy);
         }
     }
+
+    /**
+     * Returns the first value that matches $func condition
+     *
+     * @param Closure $func
+     *
+     * @return mixed The resulting value
+     */
+    public function find(Closure $func)
+    {
+        foreach ($this->elements as $key => $value) {
+            if($func($value, $key)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
 }

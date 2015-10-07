@@ -451,6 +451,21 @@ class ImmutableArrayTest extends AbstractArrayTest
         $this->assertTrue($filteredArray === $copiedMa->toArray());
     }
 
+    public function testFind()
+    {
+        $callable = function($value) {
+            return 2 === $value;
+        };
+
+        $array = ['a', 'key' => 0, 2, 'hello'];
+
+        $a = new ImmutableArray($array);
+
+        $found = $a->find($callable);
+
+        $this->assertTrue($found === 2);
+    }
+
     /**
      * @dataProvider simpleArrayProvider
      */
