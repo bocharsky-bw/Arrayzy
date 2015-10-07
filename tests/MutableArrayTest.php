@@ -466,6 +466,21 @@ class MutableArrayTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($filteredArray === $ma->toArray());
     }
 
+    public function testFind()
+    {
+        $callable = function($value) {
+            return 2 === $value;
+        };
+
+        $array = ['a', 'key' => 0, 2, 'hello'];
+
+        $a = new MutableArray($array);
+
+        $found = $a->find($callable);
+
+        $this->assertTrue($found === 2);
+    }
+
     /**
      * @dataProvider simpleArrayProvider
      */
