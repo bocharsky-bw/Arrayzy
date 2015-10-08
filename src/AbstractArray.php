@@ -357,6 +357,46 @@ abstract class AbstractArray implements
     }
 
     /**
+     * Check whether array is associative or not
+     *
+     * @return bool Returns true if associative, false otherwise
+     */
+    public function isAssoc()
+    {
+        if ($this->isEmpty()) {
+            return false;
+        }
+
+        foreach ($this->getKeys() as $key) {
+            if (!is_string($key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether array is numeric or not
+     *
+     * @return bool Returns true if numeric, false otherwise
+     */
+    public function isNumeric()
+    {
+        if ($this->isEmpty()) {
+            return false;
+        }
+
+        foreach ($this->getKeys() as $key) {
+            if (!is_int($key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Check if the given value exists in array
      *
      * @param mixed $element Value to search

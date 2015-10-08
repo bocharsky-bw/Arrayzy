@@ -74,6 +74,8 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [getRandomValues](#getrandomvalues)
     * [getValues](#getvalues)
     * [indexOf](#indexof)
+    * [isAssoc](#isassoc)
+    * [isNumeric](#isnumeric)
     * [isEmpty](#isempty)
     * [key](#key)
     * [last](#last)
@@ -492,6 +494,20 @@ $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->indexOf('b'); // 1
+```
+
+### isAssoc
+
+``` php
+$a = A::create(['key' => 'value']);
+$a->isAssoc(); // true
+```
+
+### isNumeric
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->isNumeric(); // true
 ```
 
 ### isEmpty

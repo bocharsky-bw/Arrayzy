@@ -10,34 +10,37 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
     public function simpleArrayProvider()
     {
         return [
-            // empty array
+            'empty_array' =>
             [
                 [],
+                'empty'
             ],
-            // indexed array
+            'indexed_array' =>
             [
                 [
                     1 => 'one',
                     2 => 'two',
                     3 => 'three',
-                ]
+                ],
+                'numeric'
             ],
-            // assoc array
+            'assoc_array' =>
             [
                 [
                     'one' => 1,
                     'two' => 2,
                     'three' => 3,
-                ]
+                ],
+                'assoc'
             ],
-            // mixed array
+            'mixed_array' =>
             [
                 [
                     1 => 'one',
                     'two' => 2,
                     3 => 'three',
-                ]
-
+                ],
+                'mixed'
             ],
         ];
     }

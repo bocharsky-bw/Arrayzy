@@ -865,6 +865,26 @@ class MutableArrayTest extends AbstractArrayTest
     /**
      * @dataProvider simpleArrayProvider
      */
+    public function testIsAssoc(array $array, $type = false)
+    {
+        $ma = new MutableArray($array);
+
+        $this->assertTrue(($type === 'assoc') === $ma->isAssoc());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
+    public function testIsNumeric(array $array, $type = false)
+    {
+        $ma = new MutableArray($array);
+
+        $this->assertTrue(($type === 'numeric') === $ma->isNumeric());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     */
     public function testClear(array $array)
     {
         $ma = new MutableArray($array);
