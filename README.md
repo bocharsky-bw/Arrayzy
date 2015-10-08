@@ -63,6 +63,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [each](#each)
     * [export](#export)
     * [filter](#filter)
+    * [find](#find)
     * [first](#first)
     * [flip](#flip)
     * [getIterator](#getiterator)
@@ -408,11 +409,10 @@ $a->toArray(); // [0 => 'a', 2 => 'b']
 ### find
 
 ``` php
-$a = MutableArray::create([4, 3, 2, 1]);
-$value = $a->find(function($value, $key, $array) {
-    return ($value % 2) === 0;
-});
-$value // 4
+$a = MutableArray::create(['a', 'b', 'c']);
+$a->find(function($value, $key) {
+    return 'b' == $value && 0 < $key;
+}); // 'b'
 
 ### first
 

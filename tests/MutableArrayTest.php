@@ -470,17 +470,14 @@ class MutableArrayTest extends AbstractArrayTest
 
     public function testFind()
     {
-        $callable = function($value) {
-            return 2 === $value;
+        $callable = function($value, $key) {
+            return 'a' === $value and 2 < $key;
         };
 
-        $array = ['a', 'key' => 0, 2, 'hello'];
-
-        $a = new MutableArray($array);
-
+        $a = new MutableArray(['a', 'b', 'c', 'b', 'a']);
         $found = $a->find($callable);
 
-        $this->assertTrue($found === 2);
+        $this->assertTrue('a' === $found);
     }
 
     /**

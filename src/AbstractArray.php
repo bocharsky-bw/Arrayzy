@@ -642,11 +642,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Returns the first value that matches $func condition
+     * Returns the first occurrence of value that matches $func conditions
      *
      * @param Closure $func
      *
-     * @return mixed The resulting value
+     * @return mixed The first found value occurrence
      */
     public function find(Closure $func)
     {
