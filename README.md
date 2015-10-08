@@ -15,7 +15,7 @@ There are two available classes with a different behaviour:
 ## MutableArray
 
 Each functional method operate on the same array and return the same instance
-(DO NOT create a new instance) except only few methods starts with `create` prefix.
+(**DO NOT** create a new instance) except only few methods starts with `create` prefix.
 This way a bit improve performance and provide more convenience usage in OOP way.
 
 > **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
@@ -23,9 +23,9 @@ This way a bit improve performance and provide more convenience usage in OOP way
 ## ImmutableArray
 
 Each functional method operate on the same array but not modified it.
-Instead of this it return a new object (create a new instance)
+Instead of this it return a new object (create a new instance).
 This way a bit disimprove performance but give you the behaviour
-seems like most of built-in PHP functions that returns a new array (DO NOT modified input one).
+seems like most of built-in PHP functions that returns a new array (**DO NOT** modified input one).
 
 > **NOTE:** If you don't need the first instance you operates on, you can override it manually:
 
@@ -140,9 +140,9 @@ use Arrayzy\ImmutableArray as ImArr; // MuArr and ImArr is the arbitrary aliases
 Create a new empty object with the `new` statement using declared arbitrary namespace aliases above:
 
 ``` php
-$muArr = new MuArr; // Create new instance of MutableArray by namespace alias
+$a = new MuArr; // Create new instance of MutableArray by namespace alias
 // or
-$imArr = new ImArr; // Create new instance of ImmutableArray by namespace alias
+$a = new ImArr; // Create new instance of ImmutableArray by namespace alias
 ```
 
 or with default values, passed an array to the constructor:
@@ -416,6 +416,7 @@ $a = A::create(['a', 'b', 'c']);
 $a->find(function($value, $key) {
     return 'b' == $value && 0 < $key;
 }); // 'b'
+```
 
 ### first
 
@@ -749,7 +750,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ### unshift
 
 ``` php
-$a = A::create([('a', 'b']);
+$a = A::create(['a', 'b']);
 $a->unshift('y', 'z');
 $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 ```
@@ -760,7 +761,7 @@ $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->walk(function(&$value, $key) { //  
+$a->walk(function(&$value, $key) {
     $key++; // the $key variable passed by value, (original value will not modified)
     $value = $value . $key; // the $value variable passed by reference (modify original value)
 });
