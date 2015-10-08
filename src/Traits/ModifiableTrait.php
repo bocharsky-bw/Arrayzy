@@ -24,17 +24,21 @@ trait ModifiableTrait
     }
 
     /**
-     * Prepends a new value to the beginning of array.
+     * Prepends one or more values to the beginning of array at once.
      *
      * @param mixed $element The element for prepend
+     * @param mixed $_ [optional] Multiple arguments allowed
      *
-     * @return $this The same instance with prepended element to the beginning of array
+     * @return $this The same instance with prepended elements to the beginning of array
      *
      * @link http://php.net/manual/en/function.array-unshift.php
      */
-    public function unshift($element)
+    public function unshift($element, $_ = null)
     {
-        array_unshift($this->elements, $element);
+        if (func_num_args()) {
+            $args = array_merge([&$this->elements], func_get_args());
+            call_user_func_array('array_unshift', $args);
+        }
 
         return $this;
     }
@@ -52,17 +56,21 @@ trait ModifiableTrait
     }
 
     /**
-     * Push value onto the end of array.
+     * Push one or more values onto the end of array at once.
      *
      * @param mixed $element The pushed element
+     * @param mixed $_ [optional] Multiple arguments allowed
      *
-     * @return $this The same instance with pushed element to the end of array
+     * @return $this The same instance with pushed elements to the end of array
      *
      * @link http://php.net/manual/en/function.array-push.php
      */
-    public function push($element)
+    public function push($element, $_ = null)
     {
-        array_push($this->elements, $element);
+        if (func_num_args()) {
+            $args = array_merge([&$this->elements], func_get_args());
+            call_user_func_array('array_push', $args);
+        }
 
         return $this;
     }
