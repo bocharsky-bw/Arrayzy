@@ -602,9 +602,9 @@ $a->previous(); // 'b'
 ### push
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
-$a->push('d', 'e', 'f');
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd', 4 => 'e', 5 => 'f']
+$a = MutableArray::create(['a', 'b']);
+$a->push('c', 'd');
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 ```
 
 > Method `push()` allow multiple arguments.
@@ -737,9 +737,9 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ### unshift
 
 ``` php
-$a = MutableArray::create([('a', 'b', 'c']);
-$a->unshift('x', 'y', 'z');
-$a->toArray(); // [0 => 'x', 1 => 'y', 2 => 'z', 3 => 'a', 4 => 'b', 5 => 'c']
+$a = MutableArray::create([('a', 'b']);
+$a->unshift('y', 'z');
+$a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 ```
 
 > Method `unshift()` allow multiple arguments.
