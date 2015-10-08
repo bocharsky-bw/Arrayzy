@@ -555,10 +555,11 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testUnshift(array $array)
     {
-        $newElement = 5;
+        $newElement1 = 5;
+        $newElement2 = 10;
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->unshift($newElement);
-        array_unshift($array, $newElement);
+        $copiedMa = $ma->unshift($newElement1, $newElement2);
+        array_unshift($array, $newElement1, $newElement2);
 
         $this->assertTrue($copiedMa === $ma);
         $this->assertTrue($array === $copiedMa->toArray());
@@ -582,10 +583,11 @@ class ImmutableArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testPush(array $array)
     {
-        $newElement = 5;
+        $newElement1 = 5;
+        $newElement2 = 10;
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->push($newElement);
-        array_push($array, $newElement);
+        $copiedMa = $ma->push($newElement1, $newElement2);
+        array_push($array, $newElement1, $newElement2);
 
         $this->assertTrue($copiedMa === $ma);
         $this->assertTrue($array === $copiedMa->toArray());
