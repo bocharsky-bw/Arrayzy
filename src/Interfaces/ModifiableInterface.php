@@ -15,13 +15,14 @@ interface ModifiableInterface
     public function shift();
 
     /**
-     * Prepends a new value to the beginning of array.
+     * Prepends one or more values to the beginning of array at once.
      *
      * @param mixed $element The element for prepend
+     * @param mixed $_ [optional] Multiple arguments allowed
      *
-     * @return $this The same instance with prepended element to the beginning of array
+     * @return $this The same instance with prepended elements to the beginning of array
      */
-    public function unshift($element);
+    public function unshift($element, $_ = null);
 
     /**
      * Pop a specified value off the end of array.
@@ -31,11 +32,12 @@ interface ModifiableInterface
     public function pop();
 
     /**
-     * Push value onto the end of array.
+     * Push one or more values onto the end of array at once.
      *
      * @param mixed $element The pushed element
+     * @param mixed $_ [optional] Multiple arguments allowed
      *
-     * @return $this The same instance with pushed element to the end of array
+     * @return $this The same instance with pushed elements to the end of array
      */
-    public function push($element);
+    public function push($element, $_ = null);
 }
