@@ -144,7 +144,7 @@ Create a new empty array with the `new` statement.
 ``` php
 $a = new MutableArray; // Create new instance of MutableArray
 // or
-$a = new ImmutabelArray; // Create new instance of ImmutableArray
+$a = new ImmutableArray; // Create new instance of ImmutableArray
 // or
 $a = new MuArr; // using namespace aliases
 ```
@@ -154,7 +154,7 @@ or with default values, passed to the constructor in an array:
 ``` php
 $a = new MutableArray([1, 2, 3]);
 // or
-$a = new ImmutabelArray([1, 2, 3]);
+$a = new ImmutableArray([1, 2, 3]);
 ```
 
 Also, new objects can be created with one of the public static methods
