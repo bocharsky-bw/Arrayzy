@@ -186,7 +186,7 @@ print $a->offsetGet(1); // 'b'
 
 *NOTE: The following methods and principles apply to `ImmutableArray` and
 `MutableArray` alike. In the examples provided they are are interchangeable and
-aliased with `A`*
+aliased with `A`.*
 
 ### Chaining
 
@@ -286,6 +286,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createClone
 
+Creates a shallow copy of the array.
+
 Keep in mind, that in PHP variables contain only references to the object, **NOT** the object itself:
 
 ``` php
@@ -323,7 +325,7 @@ $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createFromString
 
-Creates an instance array from a simple PHP `string` with specified separator:
+Creates an array from a simple PHP `string` with specified separator:
 
 ``` php
 $a = A::createFromString('a;b;c', ';');
@@ -340,6 +342,8 @@ $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 ```
 
 ### current
+
+Position of the iterator.
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
