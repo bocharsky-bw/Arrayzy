@@ -5,14 +5,17 @@ namespace Arrayzy;
 /**
  * Class MutableArray
  *
+ * All methods change the array instance itself and return $this to allow
+ * method chaining.
+ *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class MutableArray extends AbstractArray
 {
     /**
-     * Reindex the array
+     * Reindex the array numerically.
      *
-     * @return $this The same instance with re-indexed elements
+     * @return $this The same array with numerically-indexed elements
      */
     public function reindex()
     {
@@ -22,9 +25,9 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Exchanges all array keys with their associated values
+     * Exchanges all array keys with their associated values.
      *
-     * @return $this The same instance with flipped elements
+     * @return $this The same array with keys/values flipped
      */
     public function flip()
     {
@@ -34,11 +37,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * PLace array in reverse order
+     * Reverse the order of the array values.
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return $this The same instance with reversed elements
+     * @return $this The same array with the order of the elements reversed
      */
     public function reverse($preserveKeys = false)
     {
@@ -48,12 +51,12 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Pad array to the specified size with a given value
+     * Pad array to the specified size with a given value.
      *
-     * @param int $size Size of result array
+     * @param int $size Size of the result array
      * @param mixed $value Empty value by default
      *
-     * @return $this The same instance with padded elements
+     * @return $this The same array padded to $size with $value
      */
     public function pad($size, $value)
     {
@@ -63,13 +66,13 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Extract a slice of array
+     * Extract a slice of the array.
      *
-     * @param int $offset Offset value of array
-     * @param int|null $length Length of sliced array
-     * @param bool $preserveKeys Whether array keys are preserved or no
+     * @param int $offset Slice begin index
+     * @param int|null $length Length of the slice
+     * @param bool $preserveKeys Whether array keys are preserved or not
      *
-     * @return $this The same instance with sliced elements
+     * @return $this The same array, which is now a slice of itself
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
@@ -79,12 +82,12 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Split array into chunks
+     * Split the array into chunks.
      *
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return $this The same instance with splitted elements
+     * @return $this The same array, which is now an array of chunks
      */
     public function chunk($size, $preserveKeys = false)
     {
@@ -94,11 +97,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Removes duplicate values from array
+     * Removes duplicate values from the array.
      *
      * @param int|null $sortFlags
      *
-     * @return $this The same instance with unique elements
+     * @return $this The same array with only unique elements
      */
     public function unique($sortFlags = null)
     {
@@ -108,12 +111,12 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Merges array with given one
+     * Merges this array with the provided one. Latter array is overwriting.
      *
-     * @param array $array Array for merge
-     * @param bool $recursively Whether array will be merged recursively or no
+     * @param array $array Array to merge with (overwrites)
+     * @param bool $recursively Whether arrays will be merged recursively or no
      *
-     * @return $this The same instance with merged elements
+     * @return $this The same arrray with the keys/values from $array added
      */
     public function mergeWith(array $array, $recursively = false)
     {
@@ -127,12 +130,12 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Merges array to given one
+     * Merges array with the provided one. This array is overwriting.
      *
-     * @param array $array Array for merge
-     * @param bool $recursively Whether array will be merged recursively or no
+     * @param array $array Array to merge with (is overwritten)
+     * @param bool $recursively Whether arrays will be merged recursively or not
      *
-     * @return $this The same instance with merged elements
+     * @return $this The same array with the keys/values from $array added, that weren't present in the original
      */
     public function mergeTo(array $array, $recursively = false)
     {
@@ -146,12 +149,13 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Replace array with given one
+     * Replace values in this array with values in the other array that have the
+     * same key.
      *
-     * @param array $array Array for replace
+     * @param array $array Array of replacing values
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return $this The same instance with replaced elements
+     * @return $this The same array with new values.
      */
     public function replaceWith(array $array, $recursively = false)
     {
@@ -165,12 +169,13 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Replace array in given one
+     * Replace the entire array with the other one except keys present in both.
+     * For keys present in both arrays the value from this array will be used.
      *
-     * @param array $array Array for replace
+     * @param array $array Array to replace with
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return $this The same instance with replaced elements
+     * @return $this The same array with keys from $array and values from both.
      */
     public function replaceIn(array $array, $recursively = false)
     {
@@ -184,11 +189,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Combine array values used as keys with a given array values
+     * Create an array using this array as keys and the other array as values.
      *
-     * @param array $array Array for combining
+     * @param array $array Values array
      *
-     * @return $this The same instance with combined elements
+     * @return $this The same array with values from the other array
      */
     public function combineWith(array $array)
     {
@@ -198,11 +203,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Combine array values to a given array values used as keys
+     * Create an array using this array as values and the other array as keys.
      *
-     * @param array $array Array for combining
+     * @param array $array Key array
      *
-     * @return $this The same instance with combined elements
+     * @return $this The same array with keys from the other.
      */
     public function combineTo(array $array)
     {
@@ -212,11 +217,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Compute the difference of array with given one
+     * Compute the array of values not present in the other array.
      *
      * @param array $array Array for diff
      *
-     * @return $this The same instance containing all the entries from array that are not present in given one
+     * @return $this The same array containing all the entries from this array that are not present in $array
      */
     public function diffWith(array $array)
     {
@@ -226,9 +231,9 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Shuffle array
+     * Randomize element order.
      *
-     * @return $this The same instance with shuffled elements
+     * @return $this The same array with the elemant order shuffled
      */
     public function shuffle()
     {
@@ -266,11 +271,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given function to the array elements
+     * Apply the given function to the every element of the array, collecting the results.
      *
      * @param callable $func
      *
-     * @return $this The same instance with modified elements
+     * @return $this The same array with modified elements
      */
     public function map(callable $func)
     {
@@ -280,11 +285,11 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Filter array elements with given function
+     * Filter the array for elements satisfying the predicate $func.
      *
-     * @param callable $func
+     * @param callable $func predicate
      *
-     * @return $this The same instance with filtered elements
+     * @return $this The same array with only element satisfying $func
      */
     public function filter(callable $func)
     {
@@ -294,12 +299,12 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given function to every array element
+     * Apply the given function to every element in the array, discarding the results.
      *
      * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
-     * @return $this The same instance with modified elements
+     * @return $this The original array (with elements modified, should $func do so)
      */
     public function walk(callable $func, $recursively = false)
     {
@@ -337,9 +342,9 @@ class MutableArray extends AbstractArray
     }
 
     /**
-     * Clear array
+     * Clear array.
      *
-     * @return $this The same instance with cleared elements
+     * @return $this This array, empty.
      */
     public function clear()
     {

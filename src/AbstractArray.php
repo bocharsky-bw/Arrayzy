@@ -20,6 +20,8 @@ use Traversable;
 /**
  * Class AbstractArray
  *
+ * Defines common methods and method signatures of the Mutable- and ImmutableArray.
+ *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 abstract class AbstractArray implements
@@ -61,139 +63,141 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Reindex the array
+     * Reindex the array numerically.
      *
-     * @return static The instance with re-indexed elements
+     * @return $this An array with numerically-indexed elements
      */
     abstract public function reindex();
 
     /**
-     * Exchanges all array keys with their associated values
+     * Exchanges all array keys with their associated values.
      *
-     * @return static The instance with flipped elements
+     * @return static An array with flipped elements
      */
     abstract public function flip();
 
     /**
-     * PLace array in reverse order
+     * Reverse the order of the array values.
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The instance with reversed elements
+     * @return $this An array with the order of the elements reversed
      */
     abstract public function reverse($preserveKeys = false);
 
     /**
-     * Pad array to the specified size with a given value
+     * Pad array to the specified size with a given value.
      *
-     * @param int $size Size of result array
+     * @param int $size Size of the result array
      * @param mixed $value Empty value by default
      *
-     * @return static The instance with padded elements
+     * @return static An array padded to $size with $value
      */
     abstract public function pad($size, $value);
 
     /**
-     * Extract a slice of array
+     * Extract a slice of the array.
      *
-     * @param int $offset Offset value of array
-     * @param int|null $length Length of sliced array
+     * @param int $offset Slice begin index
+     * @param int|null $length Length of the slice
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The instance with sliced elements
+     * @return static A slice of the original array with length $length
      */
     abstract public function slice($offset, $length = null, $preserveKeys = false);
 
     /**
-     * Split array into chunks
+     * Split array into chunks.
      *
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The instance with splitted elements
+     * @return static An array of chunks from the original array
      */
     abstract public function chunk($size, $preserveKeys = false);
 
     /**
-     * Removes duplicate values from array
+     * Removes duplicate values from the array.
      *
      * @param int|null $sortFlags
      *
-     * @return static The instance with unique elements
+     * @return static An array with only unique elements
      */
     abstract public function unique($sortFlags = null);
 
     /**
-     * Merge array with given one
+     * Merges this array with the provided one. Latter array is overwriting.
      *
-     * @param array $array Array for merge
+     * @param array $array Array to merge with (overwrites)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static The instance array with merged elements
+     * @return static An array with the keys/values from $array added
      */
     abstract public function mergeWith(array $array, $recursively = false);
 
     /**
-     * Merges array to given one
+     * Merges array with the provided one. This array is overwriting.
      *
-     * @param array $array Array for merge
+     * @param array $array Array to merge with (is overwritten)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static The instance array with merged elements
+     * @return static An array with the keys/values from $array added, that weren't present in the original
      */
     abstract public function mergeTo(array $array, $recursively = false);
 
     /**
-     * Replace array with given one
+     * Replace values in this array with values in the other array that have the
+     * same key.
      *
-     * @param array $array Array for replace
+     * @param array $array Array of replacing values
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static The instance array with replaced elements
+     * @return static An array with the same keys but new values
      */
     abstract public function replaceWith(array $array, $recursively = false);
 
     /**
-     * Replace array in given one
+     * Replace the entire array with the other one except keys present in both.
+     * For keys present in both arrays the value from this array will be used.
      *
-     * @param array $array Array for replace
+     * @param array $array Array to replace with
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static The instance array with replaced elements
+     * @return static An array with keys from $array and values from both.
      */
     abstract public function replaceIn(array $array, $recursively = false);
 
     /**
-     * Combine array values used as keys with a given array values
+     * Create an array using this array as keys and the other array as values.
      *
-     * @param array $array Array for combining
+     * @param array $array Values array
      *
-     * @return static The instance array with combined elements
+     * @return static An array with values from the other array
      */
     abstract public function combineWith(array $array);
 
     /**
-     * Combine array values to a given array values used as keys
+     * Create an array using this array as values and the other array as keys.
      *
-     * @param array $array Array for combining
+     * @param array $array Key array
      *
-     * @return static The instance array with combined elements
+     * @return static An array with keys from the other.
      */
     abstract public function combineTo(array $array);
 
     /**
-     * Compute the difference of array with given one
+     * Compute the array of values not present in the other array.
      *
      * @param array $array Array for diff
      *
-     * @return static The instance array containing all the entries from array that are not present in given one
+     * @return static An array containing all the entries from this array that are not present in $array
      */
     abstract public function diffWith(array $array);
 
     /**
-     * Shuffle array
+     * Randomize element order.
      *
-     * @return static The instance with shuffled elements
+     * @return static An array with the elemant order shuffled
      */
     abstract public function shuffle();
 
@@ -216,30 +220,30 @@ abstract class AbstractArray implements
     abstract public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
 
     /**
-     * Apply the given function to the array elements
+     * Apply the given function to the every element of the array, collecting the results.
      *
      * @param callable $func
      *
-     * @return static The instance with modified elements
+     * @return static An array with modified elements
      */
     abstract public function map(callable $func);
 
     /**
-     * Filter array elements with given function
+     * Filter the array for elements satisfying the predicate $func.
      *
      * @param callable $func
      *
-     * @return static The instance with filtered elements
+     * @return static An array with only element satisfying $func
      */
     abstract public function filter(callable $func);
 
     /**
-     * Apply the given function to every array element
+     * Apply the given function to every element in the array, discarding the results.
      *
      * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
-     * @return static The instance with modified elements
+     * @return static The original array with potentially modified elements.
      */
     abstract public function walk(callable $func, $recursively = false);
 
@@ -260,12 +264,12 @@ abstract class AbstractArray implements
     /**
      * Clear array
      *
-     * @return static The instance with cleared array
+     * @return static An empty array.
      */
     abstract public function clear();
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $elements
      *
@@ -277,9 +281,9 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Create a new instance from the implemented ArrayAccess instance
+     * Create a new instance filled with values from an object implementing ArrayAccess.
      *
-     * @param ArrayAccess $elements Object that implements the ArrayAccess
+     * @param ArrayAccess $elements Object that implements ArrayAccess
      *
      * @return static Returns created instance
      */
@@ -295,13 +299,13 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Decode a JSON string to new instance
+     * Decode a JSON string to new instance.
      *
-     * @param string $json The json string being decoded
+     * @param string $json The JSON string being decoded
      * @param int $options Bitmask of JSON decode options
      * @param int $depth Specified recursion depth
      *
-     * @return static Returns created instance
+     * @return static The created array
      */
     public static function createFromJson($json, $options = 0, $depth = 512)
     {
@@ -309,12 +313,12 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Explode a string to new instance by specified separator
+     * Explode a string to new instance by specified separator.
      *
      * @param string $string Converted string
      * @param string $separator Element's separator
      *
-     * @return static Returns created instance
+     * @return static The created array
      */
     public static function createFromString($string, $separator)
     {
@@ -322,13 +326,13 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Create a new instance containing a range of elements
+     * Create a new instance containing a range of elements.
      *
      * @param mixed $low First value of the sequence
      * @param mixed $high The sequence is ended upon reaching the end value
      * @param int $step Used as the increment between elements in the sequence
      *
-     * @return static Returns created instance
+     * @return static The created array
      */
     public static function createWithRange($low, $high, $step = 1)
     {
@@ -336,9 +340,9 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Clone current instance to new instance
+     * Clone current instance to new instance.
      *
-     * @return $this Returns cloned instance
+     * @return $this Shallow copy of $this
      */
     public function createClone()
     {
@@ -346,7 +350,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Check whether array is empty or no
+     * Check whether the array is empty or not.
      *
      * @return bool Returns true if empty, false otherwise
      */
@@ -356,7 +360,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Check whether array is associative or not
+     * Check whether array is associative or not.
      *
      * @return bool Returns true if associative, false otherwise
      */
@@ -376,7 +380,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Check whether array is numeric or not
+     * Check whether array is numeric or not.
      *
      * @return bool Returns true if numeric, false otherwise
      */
@@ -396,11 +400,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Check if the given value exists in array
+     * Check if the given value exists in the array.
      *
-     * @param mixed $element Value to search
+     * @param mixed $element Value to search for
      *
-     * @return bool Returns true if the given value exists in array, false otherwise
+     * @return bool Returns true if the given value exists in the array, false otherwise
      */
     public function contains($element)
     {
@@ -408,11 +412,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Check if the given key/index exists in array
+     * Check if the given key/index exists in the array.
      *
-     * @param mixed $key Key/index to search
+     * @param mixed $key Key/index to search for
      *
-     * @return bool Returns true if the given key/index exists in array, false otherwise
+     * @return bool Returns true if the given key/index exists in the array, false otherwise
      */
     public function containsKey($key)
     {
@@ -420,9 +424,9 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Search in array for a given element
+     * Search for a given element and return the index of its first occurrence.
      *
-     * @param mixed $element Value to search key/index
+     * @param mixed $element Value to search for
      *
      * @return mixed The corresponding key/index
      */
@@ -432,7 +436,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Pick a random key/index out key of array
+     * Pick a random key/index from the keys of this array.
      *
      * @return mixed Random key/index of array
      *
@@ -450,7 +454,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Pick a random value out of array
+     * Pick a random value out of this array.
      *
      * @return mixed Random value of array
      *
@@ -462,7 +466,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Pick a given number of random keys/indexes out of array
+     * Pick a given number of random keys/indexes out of this array.
      *
      * @param int $number The number of keys/indexes (should be > 1 and < $this->count())
      *
@@ -495,7 +499,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Pick a given number of random values out of array
+     * Pick a given number of random values with non-duplicate indexes out of the array.
      *
      * @param int $number The number of values (should be > 1 and < $this->count())
      *
@@ -515,7 +519,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Return all the keys of array
+     * Return an array all the keys of this array.
      *
      * @return array An array of all keys
      */
@@ -525,7 +529,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Return all the values of array
+     * Return an array of all values from this array numerically indexed.
      *
      * @return mixed An array of all values
      */
@@ -535,12 +539,12 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Iteratively reduce array to a single value using a function
+     * Reduce the array to a single value iteratively combining all values using $func.
      *
-     * @param callable $func
-     * @param mixed|null $initial
+     * @param callable $func callback ($carry, $item) -> next $carry
+     * @param mixed|null $initial starting value of the $carry
      *
-     * @return mixed The resulting value
+     * @return mixed Final value of $carry
      */
     public function reduce(callable $func, $initial = null)
     {
@@ -548,11 +552,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Counts all elements in array
+     * Returns the number of values in the array.
      *
      * @link http://php.net/manual/en/function.count.php
      *
-     * @return int
+     * @return int total number of values
      */
     public function count()
     {
@@ -560,7 +564,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Whether a offset exists
+     * Whether an offset exists.
      *
      * @param mixed $offset An offset to check for.
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -573,7 +577,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Offset to retrieve
+     * Retrieve the current offset or null.
      *
      * @param mixed $offset The offset to retrieve.
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -589,7 +593,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Offset to set
+     * Set an offset for this array.
      *
      * @param mixed $offset The offset to assign the value to.
      * @param mixed $value The value to set.
@@ -609,7 +613,7 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Offset to unset
+     * Remove a present offset.
      *
      * @param mixed $offset The offset to unset.
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
@@ -624,11 +628,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Retrieve an external iterator
+     * Create an iterator over this array.
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * @return Traversable An instance of an object implementing <b>Iterator</b>
      */
     public function getIterator()
     {
@@ -681,11 +685,11 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Returns the first occurrence of value that matches $func conditions
+     * Returns the first occurrence of a value that satisfies the predicate $func.
      *
      * @param callable $func
      *
-     * @return mixed The first found value occurrence
+     * @return mixed The first occurrence found
      */
     public function find(callable $func)
     {

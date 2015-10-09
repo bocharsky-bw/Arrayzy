@@ -5,12 +5,15 @@ namespace Arrayzy;
 /**
  * Class ImmutableArray
  *
+ * None of the methods change the array instance itself and instead return
+ * a new ImmutableArray.
+ *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
 class ImmutableArray extends AbstractArray
 {
     /**
-     * Reindex the array
+     * Create a numerically reindexed array.
      *
      * @return static The new instance with re-indexed elements
      */
@@ -20,7 +23,7 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Exchanges all array keys with their associated values
+     * Exchanges all array keys with their associated values.
      *
      * @return static The new instance with flipped elements
      */
@@ -30,11 +33,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * PLace array in reverse order
+     * Reverse the order of the array values.
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The new instance with reversed elements
+     * @return static A new array with the order of the elements reversed
      */
     public function reverse($preserveKeys = false)
     {
@@ -42,12 +45,12 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Pad array to the specified size with a given value
+     * Pad array to the specified size with a given value.
      *
-     * @param int $size Size of result array
+     * @param int $size Size of the result array
      * @param mixed $value Empty value by default
      *
-     * @return static The new instance with padded elements
+     * @return static A new array padded to $size with $value
      */
     public function pad($size, $value)
     {
@@ -55,13 +58,13 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Extract a slice of array
+     * Extract a slice of the array.
      *
-     * @param int $offset Offset value of array
-     * @param int|null $length Length of sliced array
+     * @param int $offset Slice begin index
+     * @param int|null $length Length of the slice
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The new instance with sliced elements
+     * @return static A slice of the original array with length $length
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
@@ -69,12 +72,12 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Split array into chunks
+     * Create a chunked version of this array.
      *
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static The new instance with splitted elements
+     * @return static A new array of chunks from the original array
      */
     public function chunk($size, $preserveKeys = false)
     {
@@ -82,11 +85,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Removes duplicate values from array
+     * Removes duplicate values from the array.
      *
      * @param int|null $sortFlags
      *
-     * @return static The new instance with unique elements
+     * @return static A new array with only unique elements
      */
     public function unique($sortFlags = null)
     {
@@ -94,12 +97,12 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Merges array with given one
+     * Merges this array with the provided one. Latter array is overwriting.
      *
-     * @param array $array Array for merge
+     * @param array $array Array to merge with (overwrites)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static The new instance with merged elements
+     * @return static A new array with the keys/values from $array added
      */
     public function mergeWith(array $array, $recursively = false)
     {
@@ -111,12 +114,12 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Merges array to given one
+     * Merges array with the provided one. This array is overwriting.
      *
-     * @param array $array Array for merge
+     * @param array $array Array to merge with (is overwritten)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static The new instance with merged elements
+     * @return static An array with the keys/values from $array added, that weren't present in the original
      */
     public function mergeTo(array $array, $recursively = false)
     {
@@ -157,12 +160,13 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Replace array with given one
+     * Replace values in this array with values in the other array that have the
+     * same key.
      *
-     * @param array $array Array for replace
+     * @param array $array Array of replacing values
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static The new instance with replaced elements
+     * @return static A new array with the same keys but new values
      */
     public function replaceWith(array $array, $recursively = false)
     {
@@ -174,12 +178,13 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Replace array in given one
+     * Replace the entire array with the other one except keys present in both.
+     * For keys present in both arrays the value from this array will be used.
      *
-     * @param array $array Array for replace
+     * @param array $array Array to replace with
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static The new instance with replaced elements
+     * @return static A new array with keys from $array and values from both.
      */
     public function replaceIn(array $array, $recursively = false)
     {
@@ -191,11 +196,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Combine array values used as keys with a given array values
+     * Create an array using this array as keys and the other array as values.
      *
-     * @param array $array Array for combining
+     * @param array $array Values array
      *
-     * @return static The new instance with combined elements
+     * @return static A new array with values from the other array
      */
     public function combineWith(array $array)
     {
@@ -203,11 +208,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Combine array values to a given array values used as keys
+     * Create an array using this array as values and the other array as keys.
      *
-     * @param array $array Array for combining
+     * @param array $array Key array
      *
-     * @return static The new instance with combined elements
+     * @return static A new array with keys from the other.
      */
     public function combineTo(array $array)
     {
@@ -215,11 +220,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Compute the difference of array with given one
+     * Compute the array of values not present in the other array.
      *
      * @param array $array Array for diff
      *
-     * @return static The new instance containing all the entries from array that are not present in given one
+     * @return static An array containing all the entries from this array that are not present in $array
      */
     public function diffWith(array $array)
     {
@@ -256,9 +261,9 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Shuffle array
+     * Randomize element order.
      *
-     * @return static The new instance with shuffled elements
+     * @return static A new array with the elemant order shuffled
      */
     public function shuffle()
     {
@@ -300,11 +305,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given function to the array elements
+     * Apply the given function to the every element of the array, collecting the results.
      *
      * @param callable $func
      *
-     * @return static The new instance with modified elements
+     * @return static A new array with modified elements
      */
     public function map(callable $func)
     {
@@ -312,11 +317,11 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Filter array elements with given function
+     * Filter the array for elements satisfying the predicate $func.
      *
      * @param callable $func
      *
-     * @return static The new instance with filtered elements
+     * @return static A new array with only element satisfying $func
      */
     public function filter(callable $func)
     {
@@ -324,7 +329,7 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Apply the given function to every array element
+     * Apply the given function to every element in the array, discarding the results.
      *
      * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
@@ -373,9 +378,9 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Clear array
+     * Clear array.
      *
-     * @return static The new instance with cleared elements
+     * @return static A new empty array.
      */
     public function clear()
     {
