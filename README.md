@@ -184,14 +184,17 @@ print $a[1]; // 'b'
 print $a->offsetGet(1); // 'b'
 ```
 
+*NOTE: The following methods and principles apply to `ImmutableArray` and
+`MutableArray` alike. In the examples provided they are are interchangeable and
+aliased with `A`*
+
 ### Chaining
 
-*NOTE: The following methods and principles apply to `ImmutableArray` and `MutableArray` alike.*
 
 Methods may be chained for ease of use:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 
 $a
     ->offsetSet(null, 'e')
@@ -224,7 +227,7 @@ readable `string` or JSON format:
 ### chunk
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->chunk(2);
 $a->toArray(); // [0 => [0 => 'a', 1 => 'b'], 1 => [0 => 'c']]
 ```
@@ -232,7 +235,7 @@ $a->toArray(); // [0 => [0 => 'a', 1 => 'b'], 1 => [0 => 'c']]
 ### clear
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->clear();
 $a->toArray(); // []
 ```
@@ -240,7 +243,7 @@ $a->toArray(); // []
 ### combineTo
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->combineTo([1, 2, 3]);
 $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ```
@@ -248,7 +251,7 @@ $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ### combineWith
 
 ``` php
-$a = MutableArray::create([1, 2, 3]);
+$a = A::create([1, 2, 3]);
 $a->combineWith(['a', 'b', 'c']);
 $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ```
@@ -256,28 +259,28 @@ $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ### contains
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->contains('c'); // true
 ```
 
 ### containsKey
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->containsKey(2); // true
 ```
 
 ### count
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->count(); // 3
 ```
 
 ### create
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -286,14 +289,14 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 Keep in mind, that in PHP variables contain only references to the object, **NOT** the object itself:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $b = $a; // $a and $b are different variables referencing the same object ($a === $b)
 ```
 
 So if you **DO NOT** want to modify the current array, you need to clone it manually first:
 
 ``` php
-$a = AMutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $b = clone $a; // $a and $b are different instances ($a !== $b)
 // or do it with built-in method
 $b = $a->createClone(); // $a !== $b
@@ -304,7 +307,7 @@ $b = $a->createClone(); // $a !== $b
 Creates an array by parsing a JSON string:
 
 ``` php
-$a = MutableArray::createFromJson('{"a": 1, "b": 2, "c": 3}');
+$a = A::createFromJson('{"a": 1, "b": 2, "c": 3}');
 $a->toArray(); // ['a' => 1, 'b' => 2, 'c' => 3]
 ```
 
@@ -313,8 +316,8 @@ $a->toArray(); // ['a' => 1, 'b' => 2, 'c' => 3]
 Creates an instance array from any `object` that implemented `\ArrayAccess` interface:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
-$b = MutableArray::createFromObject($a); // where $a could be any object that implemented \ArrayAccess interface
+$a = A::create(['a', 'b', 'c']);
+$b = A::createFromObject($a); // where $a could be any object that implemented \ArrayAccess interface
 $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -323,7 +326,7 @@ $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 Creates an instance array from a simple PHP `string` with specified separator:
 
 ``` php
-$a = MutableArray::createFromString('a;b;c', ';');
+$a = A::createFromString('a;b;c', ';');
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -332,21 +335,21 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 Creates an array of a specified range:
 
 ``` php
-$a = MutableArray::createWithRange(2, 6, 2);
+$a = A::createWithRange(2, 6, 2);
 $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 ```
 
 ### current
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->current(); // 'a'
 ```
 
 ### customSort
 
 ``` php
-$a = MutableArray::create(['b', 'a', 'c']);
+$a = A::create(['b', 'a', 'c']);
 $a->customSort(function($a, $b) {
     if ($a === $b) {
         return 0;
@@ -360,7 +363,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ### customSortKeys
 
 ``` php
-$a = MutableArray::create([1 => 'b', 0 => 'a', 2 => 'c']);
+$a = A::create([1 => 'b', 0 => 'a', 2 => 'c']);
 $a->customSortKeys(function($a, $b) {
     if ($a === $b) {
         return 0;
@@ -374,14 +377,14 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ### debug
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 ```
 
 ### diffWith
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->diffWith(['c', 'd']);
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
@@ -389,21 +392,21 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 ### each
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->each(); // [0 => 0, 'key' => 0, 1 => 'a', 'value' => 'a']
 ```
 
 ### export
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->export(); // array ( 0 => 'a', 1 => 'b', 2 => 'c', )
 ```
 
 ### filter
 
 ``` php
-$a = MutableArray::create(['a', 'z', 'b', 'z']);
+$a = A::create(['a', 'z', 'b', 'z']);
 $a->filter(function($value) {
     return 'z' !== $value; // exclude 'z' value from array
 });
@@ -413,7 +416,7 @@ $a->toArray(); // [0 => 'a', 2 => 'b']
 ### find
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->find(function($value, $key) {
     return 'b' == $value && 0 < $key;
 }); // 'b'
@@ -422,14 +425,14 @@ $a->find(function($value, $key) {
 ### first
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->first(); // 'a'
 ```
 
 ### flip
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->flip();
 $a->toArray(); // ['a' => 0, 'b' => 1, 'c' => 2]
 ```
@@ -441,63 +444,63 @@ Creates an external Iterator. Check the [iteratorAggregate][6] documentation for
 ### getKeys
 
 ``` php
-$a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
+$a = A::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### getRandom
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandom(); // 'c'
 ```
 
 ### getRandomKey
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandomKey(); // 2
 ```
 
 ### getRandomKeys
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandomKeys(2); // [0, 2]
 ```
 
 ### getRandomValues
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandomValues(2); // ['b', 'd']
 ```
 
 ### getValues
 
 ``` php
-$a = MutableArray::create([1 => 'a', 2 => 'b', 3 => 'c']);
+$a = A::create([1 => 'a', 2 => 'b', 3 => 'c']);
 $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### indexOf
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->indexOf('b'); // 1
 ```
 
 ### isEmpty
 
 ``` php
-$a = MutableArray::create([]);
+$a = A::create([]);
 $a->isEmpty(); // true
 ```
 
 ### key
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->current(); // 'a'
 $a->key();     // 0
 $a->next();    // 'b'
@@ -507,14 +510,14 @@ $a->key();     // 1
 ### last
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->last(); // 'c'
 ```
 
 ### map
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->map(function($value) {
     return $value . $value;
 });
@@ -525,11 +528,11 @@ $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 
 ``` php
 // indexed array behavior
-$a = MutableArray::create(['a', 'b', 'c']); // create indexed array
+$a = A::create(['a', 'b', 'c']); // create indexed array
 $a->mergeTo(['c', 'd']); // [0 => 'c', 1 => 'd', 2 => 'a', 3 => 'b', 4 => 'c']
 
 // assoc array behavior
-$b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
+$b = A::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
 $b->mergeTo(['c' => 3, 'd' => 4]); // ['c' => 99, 'd' => 4, 'a' => 1, 'b' => 2]
 ```
 
@@ -537,18 +540,18 @@ $b->mergeTo(['c' => 3, 'd' => 4]); // ['c' => 99, 'd' => 4, 'a' => 1, 'b' => 2]
 
 ``` php
 // indexed array behavior
-$a = MutableArray::create(['a', 'b', 'c']); // create indexed array
+$a = A::create(['a', 'b', 'c']); // create indexed array
 $a->mergeWith(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
 
 // assoc array behavior
-$b = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
+$b = A::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
 $b->mergeWith(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
 ### next
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->next(); // 'b'
 $a->next(); // 'c'
 ```
@@ -556,7 +559,7 @@ $a->next(); // 'c'
 ### offsetExists
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->offsetExists(2); // true (or use isset($a[2]))
 $a->offsetExists(3); // false (or use isset($a[3]))
 ```
@@ -564,14 +567,14 @@ $a->offsetExists(3); // false (or use isset($a[3]))
 ### offsetGet
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->offsetGet(1); // 'b' (or use $a[1])
 ```
 
 ### offsetSet
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'd']);
+$a = A::create(['a', 'b', 'd']);
 // add a new value
 $a->offsetSet(null, 'd'); // or use $a[] = 'd';
 $a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'd', 3=> 'd']
@@ -583,7 +586,7 @@ $a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'c', 3=> 'd']
 ### offsetUnset
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->offsetUnset(1); // or use unset($a[1]);
 $a->toArray();      // [0 => 'a', 2 => 'c']
 ```
@@ -591,7 +594,7 @@ $a->toArray();      // [0 => 'a', 2 => 'c']
 ### pad
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->pad(5, 'z');
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'z', 4 => 'z']
 ```
@@ -599,7 +602,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'z', 4 => 'z']
 ### pop
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->pop();     // 'c'
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
@@ -607,7 +610,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 ### previous
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->next();     // 'b'
 $a->next();     // 'c'
 $a->previous(); // 'b'
@@ -616,7 +619,7 @@ $a->previous(); // 'b'
 ### push
 
 ``` php
-$a = MutableArray::create(['a', 'b']);
+$a = A::create(['a', 'b']);
 $a->push('c', 'd');
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 ```
@@ -626,7 +629,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 ### reduce
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->reduce(function($result, $item) {
     return $result . $item;
 }); // 'abc'
@@ -635,7 +638,7 @@ $a->reduce(function($result, $item) {
 ### reindex
 
 ``` php
-$a = MutableArray::create([2 => 'a', 1 => 'b', 3 => 'c']);
+$a = A::create([2 => 'a', 1 => 'b', 3 => 'c']);
 $a->reindex();
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
@@ -643,7 +646,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ### replaceIn
 
 ``` php
-$a = MutableArray::create([1 => 'b', 2 => 'c']);
+$a = A::create([1 => 'b', 2 => 'c']);
 $a->replaceIn(['a', 'd', 'e']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
@@ -651,7 +654,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ### replaceWith
 
 ``` php
-$a = MutableArray::create(['a', 'd', 'e']);
+$a = A::create(['a', 'd', 'e']);
 $a->replaceWith([1 => 'b', 2 => 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
@@ -659,7 +662,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ### reverse
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->reverse();
 $a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
 ```
@@ -667,7 +670,7 @@ $a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
 ### shift
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->shift();
 $a->toArray(); // [0 => 'b', 1 => 'c']
 ```
@@ -675,7 +678,7 @@ $a->toArray(); // [0 => 'b', 1 => 'c']
 ### shuffle
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->shuffle();
 $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'b']
 ```
@@ -683,7 +686,7 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'b']
 ### slice
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c', 'd']);
+$a = A::create(['a', 'b', 'c', 'd']);
 $a->slice(1, 2);
 $a->toArray(); // [0 => 'b', 1 => 'c']
 ```
@@ -691,7 +694,7 @@ $a->toArray(); // [0 => 'b', 1 => 'c']
 ### sort
 
 ``` php
-$a = MutableArray::create(['b', 'a', 'd', 'c']);
+$a = A::create(['b', 'a', 'd', 'c']);
 $a->sort(SORT_DESC);
 $a->toArray(); // [0 => 'd', 1 => 'c', 2 => 'b', 3 => 'a']
 ```
@@ -699,7 +702,7 @@ $a->toArray(); // [0 => 'd', 1 => 'c', 2 => 'b', 3 => 'a']
 ### sortKeys
 
 ``` php
-$a = MutableArray::create([3 => 'a', 1 => 'b', 2 => 'c', 0 => 'd']);
+$a = A::create([3 => 'a', 1 => 'b', 2 => 'c', 0 => 'd']);
 $a->sortKeys(SORT_ASC);
 $a->toArray(); // [0 => 'd', 1 => 'b', 2 => 'c', 3 => 'a']
 ```
@@ -709,7 +712,7 @@ $a->toArray(); // [0 => 'd', 1 => 'b', 2 => 'c', 3 => 'a']
 Convert the array to a simple PHP `array`:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -718,7 +721,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 Creates a JSON string from the array:
 
 ``` php
-$a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
+$a = A::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->toJson(); // { "a": 1, "b": 2, "c": 3 }
 ```
 
@@ -727,7 +730,7 @@ $a->toJson(); // { "a": 1, "b": 2, "c": 3 }
 Converts instance array to a readable PHP `string`:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->toReadableString(', ', ' and '); // 'a, b and c'
 ```
 
@@ -736,14 +739,14 @@ $a->toReadableString(', ', ' and '); // 'a, b and c'
 Converts instance array to a simple PHP `string`:
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->toString(', '); // 'a, b, c'
 ```
 
 ### unique
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'b', 'c']);
+$a = A::create(['a', 'b', 'b', 'c']);
 $a->unique();
 $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ```
@@ -751,7 +754,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ### unshift
 
 ``` php
-$a = MutableArray::create(['a', 'b']);
+$a = A::create(['a', 'b']);
 $a->unshift('y', 'z');
 $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 ```
@@ -761,7 +764,7 @@ $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 ### walk
 
 ``` php
-$a = MutableArray::create(['a', 'b', 'c']);
+$a = A::create(['a', 'b', 'c']);
 $a->walk(function(&$value, $key) {
     $key++; // the $key variable passed by value, (original value will not modified)
     $value = $value . $key; // the $value variable passed by reference (modifies original value)
