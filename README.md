@@ -1,6 +1,6 @@
 # Arrayzy
 
-A native PHP library for manipulating arrays in an OOP way.
+The wrapper for all PHP built-in array functions and easy, object-oriented array manipulation library. In short: Arrays on steroids.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb/mini.png)](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb)
 [![Build Status](https://travis-ci.org/bocharsky-bw/Arrayzy.svg?branch=master)](https://travis-ci.org/bocharsky-bw/Arrayzy)
@@ -19,7 +19,7 @@ Each method operates on the same array and returns the array itself
 `create` prefix. This way has slightly better performance and is more
 convenient to use in an OOP way.
 
-> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on a new instance INSTEAD of the instance itself.
+> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on a new instance to preserve the current one.
 
 ## ImmutableArray
 
@@ -156,7 +156,7 @@ $a = new ImmutabelArray([1, 2, 3]);
 ```
 
 Also, new objects can be created with one of the public static methods
-prefixed with 'create'.
+prefixed with 'create':
 
 * [create](#create)
 * [createFromJson](#createfromjson)
@@ -166,7 +166,7 @@ prefixed with 'create'.
 
 ## Usage
 
-You can get access to the values like with the familiar PHP array indexing:
+You can get access to the values like with the familiar PHP array syntax:
 
 ``` php
 use Arrayzy\MutableArray as A;
@@ -186,7 +186,7 @@ print $a->offsetGet(1); // 'b'
 
 ### Chaining
 
-*NOTE: The following methods and principles apply to ImmutableArray and MutableArray alike*
+*NOTE: The following methods and principles apply to `ImmutableArray` and `MutableArray` alike.*
 
 Methods may be chained for ease of use:
 
@@ -207,7 +207,7 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
 ### Converting
 
 Easily convert instance array elements to a simple PHP `array`, `string`,
-`readable string` or JSON format:
+readable `string` or JSON format:
 
 * [toArray](#toarray)
 * [toJson](#tojson)
@@ -715,7 +715,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### toJson
 
-Creates JSON string from the array:
+Creates a JSON string from the array:
 
 ``` php
 $a = MutableArray::create(['a' => 1, 'b' => 2, 'c' => 3]);
