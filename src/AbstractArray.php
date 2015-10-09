@@ -142,7 +142,7 @@ abstract class AbstractArray implements
      *
      * @return static The instance array with merged elements
      */
-    abstract public function mergeTo(array $array, $recursively = false);
+    abstract public function useAndMergeTo(array $array, $recursively = false);
 
     /**
      * Replace array with given one
@@ -162,7 +162,7 @@ abstract class AbstractArray implements
      *
      * @return static The instance array with replaced elements
      */
-    abstract public function replaceIn(array $array, $recursively = false);
+    abstract public function useAndReplaceIn(array $array, $recursively = false);
 
     /**
      * Combine array values used as keys with a given array values
@@ -180,7 +180,7 @@ abstract class AbstractArray implements
      *
      * @return static The instance array with combined elements
      */
-    abstract public function combineTo(array $array);
+    abstract public function useAndCombineTo(array $array);
 
     /**
      * Compute the difference of array with given one

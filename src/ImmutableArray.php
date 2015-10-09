@@ -120,7 +120,7 @@ class ImmutableArray extends AbstractArray
      *
      * @return static The new instance with merged elements
      */
-    public function mergeTo(array $array, $recursively = false)
+    public function useAndMergeTo(array $array, $recursively = false)
     {
         if (true === $recursively) {
             return new static(array_merge_recursive($array, $this->elements));
@@ -154,7 +154,7 @@ class ImmutableArray extends AbstractArray
      *
      * @return static The new instance with replaced elements
      */
-    public function replaceIn(array $array, $recursively = false)
+    public function useAndReplaceIn(array $array, $recursively = false)
     {
         if (true === $recursively) {
             return new static(array_replace_recursive($array, $this->elements));
@@ -182,7 +182,7 @@ class ImmutableArray extends AbstractArray
      *
      * @return static The new instance with combined elements
      */
-    public function combineTo(array $array)
+    public function useAndCombineTo(array $array)
     {
         return new static(array_combine($array, $this->elements));
     }

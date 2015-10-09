@@ -136,7 +136,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with merged elements
      */
-    public function mergeTo(array $array, $recursively = false)
+    public function useAndMergeTo(array $array, $recursively = false)
     {
         if (true === $recursively) {
             $this->elements = array_merge_recursive($array, $this->elements);
@@ -174,7 +174,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with replaced elements
      */
-    public function replaceIn(array $array, $recursively = false)
+    public function useAndReplaceIn(array $array, $recursively = false)
     {
         if (true === $recursively) {
             $this->elements = array_replace_recursive($array, $this->elements);
@@ -206,7 +206,7 @@ class MutableArray extends AbstractArray
      *
      * @return $this The same instance with combined elements
      */
-    public function combineTo(array $array)
+    public function useAndCombineTo(array $array)
     {
         $this->elements = array_combine($array, $this->elements);
 

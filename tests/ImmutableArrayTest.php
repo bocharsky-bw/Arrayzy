@@ -202,7 +202,7 @@ class ImmutableArrayTest extends AbstractArrayTest
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testMergeTo(array $array)
+    public function testUseAndMergeTo(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -211,7 +211,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         ];
         $mergedArray = array_merge($secondArray, $array);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeTo($secondArray);
+        $copiedMa = $ma->useAndMergeTo($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($mergedArray === $copiedMa->toArray());
@@ -238,7 +238,7 @@ class ImmutableArrayTest extends AbstractArrayTest
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testMergeToRecursively(array $array)
+    public function testUseAndMergeToRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -247,7 +247,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         ];
         $mergedArray = array_merge_recursive($secondArray, $array);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeTo($secondArray, true);
+        $copiedMa = $ma->useAndMergeTo($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($mergedArray === $copiedMa->toArray());
@@ -292,7 +292,7 @@ class ImmutableArrayTest extends AbstractArrayTest
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testReplaceIn(array $array)
+    public function testUseAndReplaceIn(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -301,7 +301,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         ];
         $replacedArray = array_replace($secondArray, $array);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceIn($secondArray);
+        $copiedMa = $ma->useAndReplaceIn($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($replacedArray === $copiedMa->toArray());
@@ -310,7 +310,7 @@ class ImmutableArrayTest extends AbstractArrayTest
     /**
      * @dataProvider simpleArrayProvider
      */
-    public function testReplaceInRecursively(array $array)
+    public function testUseAndReplaceInRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -319,13 +319,13 @@ class ImmutableArrayTest extends AbstractArrayTest
         ];
         $replacedArray = array_replace_recursive($secondArray, $array);
         $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceIn($secondArray, true);
+        $copiedMa = $ma->useAndReplaceIn($secondArray, true);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($replacedArray === $copiedMa->toArray());
     }
 
-    public function testCombineTo()
+    public function testUseAndCombineTo()
     {
         $firstArray = [
             1 => 'one',
@@ -339,7 +339,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         ];
         $combinedArray = array_combine($secondArray, $firstArray);
         $ma = new ImmutableArray($firstArray);
-        $copiedMa = $ma->combineTo($secondArray);
+        $copiedMa = $ma->useAndCombineTo($secondArray);
 
         $this->assertTrue($copiedMa !== $ma);
         $this->assertTrue($combinedArray === $copiedMa->toArray());
