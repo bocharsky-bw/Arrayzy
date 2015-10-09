@@ -1,33 +1,33 @@
 # Arrayzy
 
-A native PHP arrays easy manipulation library in OOP way.
+The wrapper for all PHP built-in array functions and easy, object-oriented array manipulation library. In short: Arrays on steroids.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb/mini.png)](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb)
 [![Build Status](https://travis-ci.org/bocharsky-bw/Arrayzy.svg?branch=master)](https://travis-ci.org/bocharsky-bw/Arrayzy)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 
-There are two available classes with a different behaviour:
+There are two classes available with different behavior:
 
 * [Arrayzy\MutableArray](#mutablearray)
 * [Arrayzy\ImmutableArray](#immutablearray)
 
 ## MutableArray
 
-Each functional method operate on the same array and return the same instance
-(**DO NOT** create a new instance) except only few methods starts with `create` prefix.
-This way a bit improve performance and provide more convenience usage in OOP way.
+Each method operates on the same array and returns the array itself
+(it **DOES NOT** create a new instance), except methods starting with the
+`create` prefix. This way has slightly better performance and is more
+convenient to use in an OOP way.
 
-> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on new instance NOT on same instance.
+> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on a new instance to preserve the current one.
 
 ## ImmutableArray
 
-Each functional method operate on the same array but not modified it.
-Instead of this it return a new object (create a new instance).
-This way a bit disimprove performance but give you the behaviour
-seems like most of built-in PHP functions that returns a new array (**DO NOT** modified input one).
+Each method creates a new array, leaving the original array unchanged.
+This way has slightly worse performance but give you a behavior similar
+to most of the built-in PHP functions that return a new array.
 
-> **NOTE:** If you don't need the first instance you operates on, you can override it manually:
+> **NOTE:** If you don't need the first array you operate on, you can override it manually:
 
 ``` php
 $a = ImmutableArray::create(['a', 'b', 'c']);
@@ -122,39 +122,41 @@ $ composer require bocharsky-bw/arrayzy:dev-master
 ```
 
 If you don't use `Composer` - register this package in your autoloader manually
-or download library manually and require the necessary files directly in your scripts:
+or download the library manually and `require` the necessary files directly in your scripts:
 
 ``` php
 require_once __DIR__ . '/path/to/library/src/MutableArray.php';
 ```
 
-Don't forget namespace. Use [namespace arbitrary alias][2] for simplicity if you want:
+Don't forget namespaces. Use [namespace aliases][2] for simplicity if you want:
 
 ``` php
-use Arrayzy\MutableArray as MuArr;   //
-use Arrayzy\ImmutableArray as ImArr; // MuArr and ImArr is the arbitrary aliases
+use Arrayzy\MutableArray as MuArr;
+use Arrayzy\ImmutableArray as ImArr;
 ```
 
 ## Creation
 
-Create a new empty object with the `new` statement using declared arbitrary namespace aliases above:
+Create a new empty array with the `new` statement.
 
 ``` php
-$a = new MuArr; // Create new instance of MutableArray by namespace alias
+$a = new MutableArray; // Create new instance of MutableArray
 // or
-$a = new ImArr; // Create new instance of ImmutableArray by namespace alias
+$a = new ImmutabelArray; // Create new instance of ImmutableArray
+// or
+$a = new MuArr; // using namespace aliases
 ```
 
-or with default values, passed an array to the constructor:
+or with default values, passed to the constructor in an array:
 
 ``` php
-$a = new MuArr([1, 2, 3]);
+$a = new MutableArray([1, 2, 3]);
 // or
-$a = new ImArr([1, 2, 3]);
+$a = new ImmutabelArray([1, 2, 3]);
 ```
 
-Also, a new object could be created with one of few public `static` methods
-that starts with `create` prefix and provide additional useful functionality:
+Also, new objects can be created with one of the public static methods
+prefixed with 'create':
 
 * [create](#create)
 * [createFromJson](#createfromjson)
@@ -164,7 +166,7 @@ that starts with `create` prefix and provide additional useful functionality:
 
 ## Usage
 
-You can get access to the instance values like with simple PHP `array` behaviour:
+You can get access to the values like with the familiar PHP array syntax:
 
 ``` php
 use Arrayzy\MutableArray as A;
@@ -178,16 +180,18 @@ $a[3] = 'd';   // or use $a->offsetSet(3, 'd') method
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 print $a[1]; // 'b'
-// or use corresponding method
+// or use the corresponding method
 print $a->offsetGet(1); // 'b'
 ```
 
-> **NOTE:** Further will be used the `A` namespace alias to shorten usage examples, but keep in mind
-  that the usage are suitable for both `MutableArray` and `ImmutableArray` in this case.
+*NOTE: The following methods and principles apply to `ImmutableArray` and
+`MutableArray` alike. In the examples provided they are are interchangeable and
+aliased with `A`.*
 
 ### Chaining
 
-Use chaining methods for fast usage:
+
+Methods may be chained for ease of use:
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -197,7 +201,7 @@ $a
     ->offsetSet(3, 'd')
     ->offsetSet(null, 'e')
     ->shuffle()
-    ->reindex() // or any other method that return the current instance
+    ->reindex() // or any other method that returns the current instance
 ;
 
 $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
@@ -205,8 +209,8 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
 
 ### Converting
 
-Easily converting instance array elements to a simple PHP `array`, `string`,
-`readable string` or `JSON` format:
+Easily convert instance array elements to a simple PHP `array`, `string`,
+readable `string` or JSON format:
 
 * [toArray](#toarray)
 * [toJson](#tojson)
@@ -282,14 +286,16 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createClone
 
-Keep in mind, that in PHP variables contains only reference to the object, **NOT** the same object:
+Creates a shallow copy of the array.
+
+Keep in mind, that in PHP variables contain only references to the object, **NOT** the object itself:
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$b = $a; // $a and $b are different variables referenced to the same object ($a === $b)
+$b = $a; // $a and $b are different variables referencing the same object ($a === $b)
 ```
 
-So if you **DO NOT** want to modify current instance, you need to clone it manually first:
+So if you **DO NOT** want to modify the current array, you need to clone it manually first:
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -300,7 +306,7 @@ $b = $a->createClone(); // $a !== $b
 
 ### createFromJson
 
-Creates an instance array from a valid `JSON` string:
+Creates an array by parsing a JSON string:
 
 ``` php
 $a = A::createFromJson('{"a": 1, "b": 2, "c": 3}');
@@ -319,7 +325,7 @@ $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createFromString
 
-Creates an instance array from a simple PHP `string` with specified separator:
+Creates an array from a simple PHP `string` with specified separator:
 
 ``` php
 $a = A::createFromString('a;b;c', ';');
@@ -328,7 +334,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createWithRange
 
-Creates an instance array with specified range:
+Creates an array of a specified range:
 
 ``` php
 $a = A::createWithRange(2, 6, 2);
@@ -336,6 +342,8 @@ $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 ```
 
 ### current
+
+Position of the iterator.
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -404,7 +412,7 @@ $a->export(); // array ( 0 => 'a', 1 => 'b', 2 => 'c', )
 ``` php
 $a = A::create(['a', 'z', 'b', 'z']);
 $a->filter(function($value) {
-    return 'z' !== $value; // exclude 'z' value from array 
+    return 'z' !== $value; // exclude 'z' value from array
 });
 $a->toArray(); // [0 => 'a', 2 => 'b']
 ```
@@ -483,7 +491,7 @@ $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->indexOf('b'); // 1 
+$a->indexOf('b'); // 1
 ```
 
 ### isEmpty
@@ -571,10 +579,10 @@ $a->offsetGet(1); // 'b' (or use $a[1])
 
 ``` php
 $a = A::create(['a', 'b', 'd']);
-// add new value
+// add a new value
 $a->offsetSet(null, 'd'); // or use $a[] = 'd';
 $a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'd', 3=> 'd']
-// replace existing value by key
+// replace an existing value by key
 $a->offsetSet(2, 'c');    // or use $a[2] = 'c';
 $a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'c', 3=> 'd']
 ```
@@ -620,7 +628,7 @@ $a->push('c', 'd');
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 ```
 
-> Method `push()` allow multiple arguments.
+> The `push()` method allows multiple arguments.
 
 ### reduce
 
@@ -705,7 +713,7 @@ $a->toArray(); // [0 => 'd', 1 => 'b', 2 => 'c', 3 => 'a']
 
 ### toArray
 
-Converts instance array to a simple PHP `array`:
+Convert the array to a simple PHP `array`:
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -714,7 +722,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### toJson
 
-Converts instance array to a `JSON` string:
+Creates a JSON string from the array:
 
 ``` php
 $a = A::create(['a' => 1, 'b' => 2, 'c' => 3]);
@@ -763,17 +771,17 @@ $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 $a = A::create(['a', 'b', 'c']);
 $a->walk(function(&$value, $key) {
     $key++; // the $key variable passed by value, (original value will not modified)
-    $value = $value . $key; // the $value variable passed by reference (modify original value)
+    $value = $value . $key; // the $value variable passed by reference (modifies original value)
 });
 $a->toArray(); // [0 => 'a1', 1 => 'b2', 2 => 'c3']
 ```
 
 ## Links
 
-Feel free to create an [Issue][3] or [Pull Request][4] if you find a bug 
-or just want to propose improvement suggestion.
+Feel free to create an [Issue][3] or [Pull Request][4] if you find a bug
+or just want to propose an improvement suggestion.
 
-Look at the [Stringy][5] if you are looking for a PHP **string** manipulation library in OOP way.
+Look at the [Stringy][5] if you are looking for a PHP **string** manipulation library in an OOP way.
 
 [Move UP](#arrayzy)
 
