@@ -2,8 +2,6 @@
 
 namespace Arrayzy\Interfaces;
 
-use Closure;
-
 /**
  * An interface with helpful array sorting methods.
  *
@@ -59,18 +57,18 @@ interface SortableInterface
     /**
      * Sorts the array elements with a user-defined comparison function and maintain index association.
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return SortableInterface The instance with custom sorted elements
      */
-    public function customSort(Closure $func);
+    public function customSort(callable $func);
 
     /**
      * Sorts the array keys with a user-defined comparison function and maintain index association.
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return SortableInterface The instance with custom sorted elements
      */
-    public function customSortKeys(Closure $func);
+    public function customSortKeys(callable $func);
 }

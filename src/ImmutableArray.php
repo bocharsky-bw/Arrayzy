@@ -2,8 +2,6 @@
 
 namespace Arrayzy;
 
-use Closure;
-
 /**
  * Class ImmutableArray
  *
@@ -246,11 +244,11 @@ class ImmutableArray extends AbstractArray
     /**
      * Apply the given function to the array elements
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return static The new instance with modified elements
      */
-    public function map(Closure $func)
+    public function map(callable $func)
     {
         return new static(array_map($func, $this->elements));
     }
@@ -258,11 +256,11 @@ class ImmutableArray extends AbstractArray
     /**
      * Filter array elements with given function
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return static The new instance with filtered elements
      */
-    public function filter(Closure $func)
+    public function filter(callable $func)
     {
         return new static(array_filter($this->elements, $func));
     }
@@ -270,12 +268,12 @@ class ImmutableArray extends AbstractArray
     /**
      * Apply the given function to every array element
      *
-     * @param Closure $func
+     * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return static The new instance with modified elements
      */
-    public function walk(Closure $func, $recursively = false)
+    public function walk(callable $func, $recursively = false)
     {
         $elements = $this->elements;
 
@@ -293,7 +291,7 @@ class ImmutableArray extends AbstractArray
      *
      * @link http://php.net/manual/en/function.usort.php
      */
-    public function customSort(Closure $func)
+    public function customSort(callable $func)
     {
         $elements = $this->elements;
 
@@ -307,7 +305,7 @@ class ImmutableArray extends AbstractArray
      *
      * @link http://php.net/manual/en/function.uksort.php
      */
-    public function customSortKeys(Closure $func)
+    public function customSortKeys(callable $func)
     {
         $elements = $this->elements;
 

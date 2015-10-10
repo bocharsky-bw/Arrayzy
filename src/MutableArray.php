@@ -2,8 +2,6 @@
 
 namespace Arrayzy;
 
-use Closure;
-
 /**
  * Class MutableArray
  *
@@ -270,11 +268,11 @@ class MutableArray extends AbstractArray
     /**
      * Apply the given function to the array elements
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return $this The same instance with modified elements
      */
-    public function map(Closure $func)
+    public function map(callable $func)
     {
         $this->elements = array_map($func, $this->elements);
 
@@ -284,11 +282,11 @@ class MutableArray extends AbstractArray
     /**
      * Filter array elements with given function
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return $this The same instance with filtered elements
      */
-    public function filter(Closure $func)
+    public function filter(callable $func)
     {
         $this->elements = array_filter($this->elements, $func);
 
@@ -298,12 +296,12 @@ class MutableArray extends AbstractArray
     /**
      * Apply the given function to every array element
      *
-     * @param Closure $func
+     * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return $this The same instance with modified elements
      */
-    public function walk(Closure $func, $recursively = false)
+    public function walk(callable $func, $recursively = false)
     {
         if (true === $recursively) {
             array_walk_recursive($this->elements, $func);
@@ -319,7 +317,7 @@ class MutableArray extends AbstractArray
      *
      * @link http://php.net/manual/en/function.usort.php
      */
-    public function customSort(Closure $func)
+    public function customSort(callable $func)
     {
         usort($this->elements, $func);
 
@@ -331,7 +329,7 @@ class MutableArray extends AbstractArray
      *
      * @link http://php.net/manual/en/function.uksort.php
      */
-    public function customSortKeys(Closure $func)
+    public function customSortKeys(callable $func)
     {
         uksort($this->elements, $func);
 

@@ -13,7 +13,6 @@ use Arrayzy\Traits\ModifiableTrait;
 use Arrayzy\Traits\TraversableTrait;
 use ArrayAccess;
 use ArrayIterator;
-use Closure;
 use Countable;
 use IteratorAggregate;
 use Traversable;
@@ -219,44 +218,44 @@ abstract class AbstractArray implements
     /**
      * Apply the given function to the array elements
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return static The instance with modified elements
      */
-    abstract public function map(Closure $func);
+    abstract public function map(callable $func);
 
     /**
      * Filter array elements with given function
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return static The instance with filtered elements
      */
-    abstract public function filter(Closure $func);
+    abstract public function filter(callable $func);
 
     /**
      * Apply the given function to every array element
      *
-     * @param Closure $func
+     * @param callable $func
      * @param bool $recursively Whether array will be walked recursively or no
      *
      * @return static The instance with modified elements
      */
-    abstract public function walk(Closure $func, $recursively = false);
+    abstract public function walk(callable $func, $recursively = false);
 
     /**
      * {@inheritdoc}
      *
      * @link http://php.net/manual/en/function.usort.php
      */
-    abstract public function customSort(Closure $func);
+    abstract public function customSort(callable $func);
 
     /**
      * {@inheritdoc}
      *
      * @link http://php.net/manual/en/function.uksort.php
      */
-    abstract public function customSortKeys(Closure $func);
+    abstract public function customSortKeys(callable $func);
 
     /**
      * Clear array
@@ -538,12 +537,12 @@ abstract class AbstractArray implements
     /**
      * Iteratively reduce array to a single value using a function
      *
-     * @param Closure $func
+     * @param callable $func
      * @param mixed|null $initial
      *
      * @return mixed The resulting value
      */
-    public function reduce(Closure $func, $initial = null)
+    public function reduce(callable $func, $initial = null)
     {
         return array_reduce($this->elements, $func, $initial);
     }
@@ -684,11 +683,11 @@ abstract class AbstractArray implements
     /**
      * Returns the first occurrence of value that matches $func conditions
      *
-     * @param Closure $func
+     * @param callable $func
      *
      * @return mixed The first found value occurrence
      */
-    public function find(Closure $func)
+    public function find(callable $func)
     {
         foreach ($this->elements as $key => $value) {
             if($func($value, $key)) {
