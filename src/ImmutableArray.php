@@ -128,6 +128,35 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
+     * Push one or more values onto the end of array at once.
+     *
+     * @param mixed $element The pushed element
+     * @param mixed $_ [optional] Multiple arguments allowed
+     *
+     * @return static The new instance with pushed elements to the end of array
+     */
+    public function push($element, $_ = null)
+    {
+        $elements = $this->elements;
+        if (func_num_args()) {
+            $args = array_merge([&$elements], func_get_args());
+            call_user_func_array('array_push', $args);
+        }
+
+        return new static($elements);
+    }
+
+    /**
+     * Pop a specified value off the end of array.
+     *
+     * @return mixed The popped element
+     */
+    public function pop()
+    {
+        return $this->count() ? $this->last() : null;
+    }
+
+    /**
      * Replace array with given one
      *
      * @param array $array Array for replace
@@ -195,6 +224,35 @@ class ImmutableArray extends AbstractArray
     public function diffWith(array $array)
     {
         return new static(array_diff($this->elements, $array));
+    }
+
+    /**
+     * Unshift array
+     *
+     * @param mixed $element The element for prepend
+     * @param mixed $_ [optional] Multiple arguments allowed
+     *
+     * @return static The new instance with prepended elements to the beginning of array
+     */
+    public function unshift($element, $_ = null)
+    {
+        $elements = $this->elements;
+        if (func_num_args()) {
+            $args = array_merge([&$elements], func_get_args());
+            call_user_func_array('array_unshift', $args);
+        }
+
+        return new static($elements);
+    }
+
+    /**
+     * Shifts a specified value off the beginning of array.
+     *
+     * @return mixed The shifted element
+     */
+    public function shift()
+    {
+        return $this->count() ? $this->first() : null;
     }
 
     /**

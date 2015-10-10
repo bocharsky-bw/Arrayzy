@@ -557,10 +557,11 @@ class ImmutableArrayTest extends AbstractArrayTest
     public function testShift(array $array)
     {
         $ma = new ImmutableArray($array);
+        $copyMa = new ImmutableArray($array);
         $shiftedValue = $ma->shift();
         $shiftedArrayValue = array_shift($array);
 
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copyMa->toArray() === $ma->toArray());
         $this->assertTrue($shiftedArrayValue === $shiftedValue);
     }
 
@@ -575,7 +576,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         $copiedMa = $ma->unshift($newElement1, $newElement2);
         array_unshift($array, $newElement1, $newElement2);
 
-        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($copiedMa->toArray() !== $ma->toArray());
         $this->assertTrue($array === $copiedMa->toArray());
     }
 
@@ -585,10 +586,11 @@ class ImmutableArrayTest extends AbstractArrayTest
     public function testPop(array $array)
     {
         $ma = new ImmutableArray($array);
+        $copyMa = new ImmutableArray($array);
         $poppedValue = $ma->pop();
         $poppedArrayValue = array_pop($array);
 
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertTrue($copyMa->toArray() === $ma->toArray());
         $this->assertTrue($poppedArrayValue === $poppedValue);
     }
 
@@ -603,7 +605,7 @@ class ImmutableArrayTest extends AbstractArrayTest
         $copiedMa = $ma->push($newElement1, $newElement2);
         array_push($array, $newElement1, $newElement2);
 
-        $this->assertTrue($copiedMa === $ma);
+        $this->assertTrue($copiedMa->toArray() !== $ma->toArray());
         $this->assertTrue($array === $copiedMa->toArray());
     }
 
