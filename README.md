@@ -61,6 +61,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [debug](#debug)
     * [diffWith](#diffwith)
     * [each](#each)
+    * [exists](#exists)
     * [export](#export)
     * [filter](#filter)
     * [find](#find)
@@ -400,6 +401,21 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->each(); // [0 => 0, 'key' => 0, 1 => 'a', 'value' => 'a']
+```
+
+### exists
+
+A custom contains function where you can supply your own contains function as a closure. 
+The closure must take two parameters, a needle and an element it will be comparing.
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+
+$closure = function($needle, $element) {
+    return $needle === $element;
+};
+
+$a->exists($closure, 'a'); // true
 ```
 
 ### export

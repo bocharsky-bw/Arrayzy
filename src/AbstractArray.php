@@ -429,6 +429,25 @@ abstract class AbstractArray implements
     }
 
     /**
+     * Find the given value in the array using a closure
+     *
+     * @param callable $callable
+     * @param mixed $needle
+     *
+     * @return bool Returns true if the given value is found, false otherwise
+     */
+    public function exists(callable $callable, $needle)
+    {
+        foreach ($this->elements as $el) {
+            if ($callable($needle, $el)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Search for a given element and return the index of its first occurrence.
      *
      * @param mixed $element Value to search for
