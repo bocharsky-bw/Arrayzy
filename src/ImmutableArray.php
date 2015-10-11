@@ -232,7 +232,7 @@ class ImmutableArray extends AbstractArray
     }
 
     /**
-     * Unshift array
+     * Prepends one or more values to the beginning of array at once.
      *
      * @param mixed $element The element for prepend
      * @param mixed $_ [optional] Multiple arguments allowed

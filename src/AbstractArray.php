@@ -9,7 +9,6 @@ use Arrayzy\Interfaces\SortableInterface;
 use Arrayzy\Interfaces\TraversableInterface;
 use Arrayzy\Traits\ConvertibleTrait;
 use Arrayzy\Traits\DebuggableTrait;
-use Arrayzy\Traits\ModifiableTrait;
 use Arrayzy\Traits\TraversableTrait;
 use ArrayAccess;
 use ArrayIterator;
@@ -37,8 +36,6 @@ abstract class AbstractArray implements
     use ConvertibleTrait;
 
     use DebuggableTrait;
-
-    use ModifiableTrait;
 
     use TraversableTrait;
 
