@@ -1,6 +1,6 @@
 <?php
 
-use Arrayzy\ImmutableArray;
+use Arrayzy\ImmutableArray as A;
 
 /**
  * Class ImmutableArrayTest
@@ -9,320 +9,196 @@ use Arrayzy\ImmutableArray;
  */
 class ImmutableArrayTest extends AbstractArrayTest
 {
+    public function setUp()
+    {
+        $this->arrayzyClassName = 'Arrayzy\ImmutableArray';
+    }
+
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testConstruct(array $array)
     {
-        $ma = new ImmutableArray($array);
+        $arrayzy = new A($array);
 
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertSame($array, $arrayzy->toArray());
     }
+
+    // The static method list order by ASC
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testCreate(array $array)
     {
-        $ma = ImmutableArray::create($array);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->create($array);
 
-        $this->assertTrue($array === $ma->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
 
-    public function testCreateWithRange()
-    {
-        $ma1 = ImmutableArray::createWithRange(2, 7);
-        $array1 = range(2, 7);
-        $ma2 = ImmutableArray::createWithRange('d', 'h');
-        $array2 = range('d', 'h');
-        $ma3 = ImmutableArray::createWithRange(22, 11, 2);
-        $array3 = range(22, 11, 2);
-        $ma4 = ImmutableArray::createWithRange('y', 'k', 2);
-        $array4 = range('y', 'k', 2);
-
-        $this->assertTrue($array1 === $ma1->toArray());
-        $this->assertTrue($array2 === $ma2->toArray());
-        $this->assertTrue($array3 === $ma3->toArray());
-        $this->assertTrue($array4 === $ma4->toArray());
-    }
     /**
      * @dataProvider simpleArrayProvider
-     * @depends testCreate
+     *
+     * @param array $array
      */
-    public function testCreateFromObject(array $array)
+    public function testCreateClone(array $array)
     {
-        $ma1 = ImmutableArray::create($array);
-        $ma2 = ImmutableArray::createFromObject($ma1);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->createClone();
 
-        $this->assertTrue($ma1->toArray() === $ma2->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testCreateFromJson(array $array)
     {
         $json = json_encode($array);
-        $ma = ImmutableArray::createFromJson($json);
 
-        $this->assertTrue($array === $ma->toArray());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->createFromJson($json);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testCreateFromObject(array $array)
+    {
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->createFromObject($arrayzy);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
 
     /**
      * @dataProvider stringWithSeparatorProvider
+     *
+     * @param string $string
+     * @param string $separator
      */
     public function testCreateFromString($string, $separator)
     {
         $array = explode($separator, $string);
-        $ma = ImmutableArray::createFromString($string, $separator);
 
-        $this->assertTrue($array === $ma->toArray());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->createFromString($string, $separator);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
+    }
+
+    public function testCreateWithRange()
+    {
+        $arrayzy1 = A::createWithRange(2, 7);
+        $array1 = range(2, 7);
+        $arrayzy2 = A::createWithRange('d', 'h');
+        $array2 = range('d', 'h');
+        $arrayzy3 = A::createWithRange(22, 11, 2);
+        $array3 = range(22, 11, 2);
+        $arrayzy4 = A::createWithRange('y', 'k', 2);
+        $array4 = range('y', 'k', 2);
+
+        $this->assertSame($array1, $arrayzy1->toArray());
+        $this->assertSame($array2, $arrayzy2->toArray());
+        $this->assertSame($array3, $arrayzy3->toArray());
+        $this->assertSame($array4, $arrayzy4->toArray());
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testToJson(array $array)
+    public function testStaticCreate(array $array)
+    {
+        $arrayzy = new A($array);
+        $resultArrayzy = A::create($array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testStaticCreateFromJson(array $array)
     {
         $json = json_encode($array);
-        $ma = new ImmutableArray($array);
 
-        $this->assertTrue($json === $ma->toJson());
+        $arrayzy = A::create($array);
+        $resultArrayzy = A::createFromJson($json);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testStaticCreateFromObject(array $array)
+    {
+        $arrayzy = A::create($array);
+        $resultArrayzy = A::createFromObject($arrayzy);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
 
     /**
      * @dataProvider stringWithSeparatorProvider
+     *
+     * @param string $string
+     * @param string $separator
      */
-    public function testToString($string, $separator)
+    public function testStaticCreateFromString($string, $separator)
     {
         $array = explode($separator, $string);
-        $ma = new ImmutableArray($array);
 
-        $this->assertTrue($string === $ma->toString($separator));
-        $this->assertTrue(implode(', ', $array) === (string)$ma);
+        $arrayzy = A::create($array);
+        $resultArrayzy = A::createFromString($string, $separator);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
+
+    // The method list order by ASC
 
     /**
      * @dataProvider simpleArrayProvider
-     */
-    public function testCreateClone(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $clonedMa = $ma->createClone();
-
-        $this->assertTrue($clonedMa  == $ma);
-        $this->assertTrue($clonedMa !== $ma);
-        $this->assertTrue($clonedMa->toArray() === $ma->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testFlip(array $array)
-    {
-        $flippedArray = array_flip($array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->flip();
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($flippedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testReverse(array $array)
-    {
-        $reversedArray = array_reverse($array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->reverse();
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($reversedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testSlice(array $array)
-    {
-        $slicedArray = array_slice($array, 1, 1);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->slice(1, 1);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($slicedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testChunk(array $array)
     {
-        $chunkArray = array_chunk($array, 2);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->chunk(2);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->chunk(2);
+        $resultArray = array_chunk($array, 2);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($chunkArray === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testUnique(array $array)
+    public function testClear(array $array)
     {
-        $uniqueArray = array_unique($array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->unique();
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->clear();
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($uniqueArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testMergeWith(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $mergedArray = array_merge($array, $secondArray);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeWith($secondArray);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($mergedArray === $copiedMa->toArray());
-    }
-
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testMergeTo(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $mergedArray = array_merge($secondArray, $array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeTo($secondArray);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($mergedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testMergeWithRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $mergedArray = array_merge_recursive($array, $secondArray);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeWith($secondArray, true);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($mergedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testMergeToRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $mergedArray = array_merge_recursive($secondArray, $array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->mergeTo($secondArray, true);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($mergedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testReplaceWith(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $replacedArray = array_replace($array, $secondArray);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceWith($secondArray);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($replacedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testReplaceWithRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $replacedArray = array_replace_recursive($array, $secondArray);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceWith($secondArray, true);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($replacedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testReplaceIn(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $replacedArray = array_replace($secondArray, $array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceIn($secondArray);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($replacedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testReplaceInRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $replacedArray = array_replace_recursive($secondArray, $array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->replaceIn($secondArray, true);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($replacedArray === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, []);
     }
 
     public function testCombineTo()
@@ -337,12 +213,12 @@ class ImmutableArrayTest extends AbstractArrayTest
             1 => 'one',
             2 => 2,
         ];
-        $combinedArray = array_combine($secondArray, $firstArray);
-        $ma = new ImmutableArray($firstArray);
-        $copiedMa = $ma->combineTo($secondArray);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($combinedArray === $copiedMa->toArray());
+        $arrayzy = new A($firstArray);
+        $resultArrayzy = $arrayzy->combineTo($secondArray);
+        $resultArray = array_combine($secondArray, $firstArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
     }
 
     public function testCombineWith()
@@ -357,146 +233,18 @@ class ImmutableArrayTest extends AbstractArrayTest
             1 => 'one',
             2 => 2,
         ];
-        $combinedArray = array_combine($firstArray, $secondArray);
-        $ma = new ImmutableArray($firstArray);
-        $copiedMa = $ma->combineWith($secondArray);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($combinedArray === $copiedMa->toArray());
+        $arrayzy = new A($firstArray);
+        $resultArrayzy = $arrayzy->combineWith($secondArray);
+        $resultArray = array_combine($firstArray, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
-     */
-    public function testDiffWith(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-        $arrayDiff = array_diff($array, $secondArray);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->diffWith($secondArray);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($arrayDiff === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testContainsKey(array $array)
-    {
-        $key = 2;
-        $ma = new ImmutableArray($array);
-        $containsKey = array_key_exists($key, $array);
-
-        $this->assertTrue($containsKey === $ma->containsKey($key));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testContains(array $array)
-    {
-        $element = 2;
-        $ma = new ImmutableArray($array);
-        $contains = in_array($element, $array, true);
-
-        $this->assertTrue($contains === $ma->contains($element));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testIndexOf(array $array)
-    {
-        $element = 2;
-        $ma = new ImmutableArray($array);
-        $key = array_search($element, $array, true);
-
-        $this->assertTrue($key === $ma->indexOf($element));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testMap(array $array)
-    {
-        $callable = function($value){
-            return str_repeat($value, 2);
-        };
-        $mappedArray = array_map($callable, $array);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->map($callable);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($mappedArray === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testFilter(array $array)
-    {
-        $callable = function($value){
-            return 2 !== $value;
-        };
-        $filteredArray = array_filter($array, $callable);
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->filter($callable);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($filteredArray === $copiedMa->toArray());
-    }
-
-    public function testFind()
-    {
-        $callable = function($value, $key) {
-            return 'a' === $value and 2 < $key;
-        };
-
-        $a = new ImmutableArray(['a', 'b', 'c', 'b', 'a']);
-        $found = $a->find($callable);
-
-        $this->assertTrue('a' === $found);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testWalk(array $array)
-    {
-        $callable = function(&$value, $key){
-            $value = $key;
-        };
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->walk($callable);
-        array_walk($array, $callable);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testWalkRecursively(array $array)
-    {
-        $callable = function(&$value, $key){
-            $value = $key;
-        };
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->walk($callable, true);
-        array_walk_recursive($array, $callable);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testCustomSort(array $array)
     {
@@ -507,16 +255,19 @@ class ImmutableArrayTest extends AbstractArrayTest
 
             return ($a < $b) ? -1 : 1;
         };
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->customSort($callable, true);
-        usort($array, $callable);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->customSort($callable);
+        $resultArray = $array;
+        usort($resultArray, $callable);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testCustomSortKeys(array $array)
     {
@@ -527,526 +278,573 @@ class ImmutableArrayTest extends AbstractArrayTest
 
             return ($a > $b) ? -1 : 1;
         };
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->customSortKeys($callable, true);
-        uksort($array, $callable);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->customSortKeys($callable);
+        $resultArray = $array;
+        uksort($resultArray, $callable);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testReduce(array $array)
+    public function testDiffWith(array $array)
     {
-        $callable = function($carry, $item){
-            $carry .= '-' . $item;
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
 
-            return $carry;
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->diffWith($secondArray);
+        $resultArray = array_diff($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testFilter(array $array)
+    {
+        $callable = function($value){
+            return 2 !== $value;
         };
-        $reducedArray = array_reduce($array, $callable, 'array');
-        $ma = new ImmutableArray($array);
-
-        $this->assertTrue($reducedArray === $ma->reduce($callable, 'array'));
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->filter($callable);
+        $resultArray = array_filter($array, $callable);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
-
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testShift(array $array)
+    public function testFlip(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copyMa = new ImmutableArray($array);
-        $shiftedValue = $ma->shift();
-        $shiftedArrayValue = array_shift($array);
-
-        $this->assertTrue($copyMa->toArray() === $ma->toArray());
-        $this->assertTrue($shiftedArrayValue === $shiftedValue);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->flip();
+        $resultArray = array_flip($array);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
-
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testUnshift(array $array)
+    public function testMap(array $array)
     {
-        $newElement1 = 5;
-        $newElement2 = 10;
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->unshift($newElement1, $newElement2);
-        array_unshift($array, $newElement1, $newElement2);
-
-        $this->assertTrue($copiedMa->toArray() !== $ma->toArray());
-        $this->assertTrue($array === $copiedMa->toArray());
+        $callable = function($value){
+            return str_repeat($value, 2);
+        };
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->map($callable);
+        $resultArray = array_map($callable, $array);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testMergeTo(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->mergeTo($secondArray);
+        $resultArray = array_merge($secondArray, $array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testMergeToRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->mergeTo($secondArray, true);
+        $resultArray = array_merge_recursive($secondArray, $array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testMergeWith(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->mergeWith($secondArray);
+        $resultArray = array_merge($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testMergeWithRecursively(array $array)
+    {
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->mergeWith($secondArray, true);
+        $resultArray = array_merge_recursive($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testOffsetNullSet(array $array)
+    {
+        $offset = null;
+        $value = 'new';
+
+        $arrayzy = new A($array);
+        $arrayzy->offsetSet($offset, $value);
+        if (isset($offset)) {
+            $array[$offset] = $value;
+        } else {
+            $array[] = $value;
+        }
+
+        $this->assertSame($array, $arrayzy->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testOffsetSet(array $array)
+    {
+        $offset = 1;
+        $value = 'new';
+
+        $arrayzy = new A($array);
+        $arrayzy->offsetSet($offset, $value);
+        if (isset($offset)) {
+            $array[$offset] = $value;
+        } else {
+            $array[] = $value;
+        }
+
+        $this->assertSame($array, $arrayzy->toArray());
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testOffsetUnset(array $array)
+    {
+        $arrayzy = new A($array);
+        $offset = 1;
+
+        $arrayzy->offsetUnset($offset);
+        unset($array[$offset]);
+
+        $this->assertSame($array, $arrayzy->toArray());
+        $this->assertFalse(isset($array[$offset]));
+        $this->assertFalse($arrayzy->offsetExists($offset));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testPad(array $array)
+    {
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->pad(10, 5);
+        $resultArray = array_pad($array, 10, 5);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testPop(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copyMa = new ImmutableArray($array);
-        $poppedValue = $ma->pop();
-        $poppedArrayValue = array_pop($array);
+        $arrayzy = new A($array);
+        $poppedValue = $arrayzy->pop();
 
-        $this->assertTrue($copyMa->toArray() === $ma->toArray());
+        $poppedArrayValue = array_pop($array);
+        $this->assertTrue($array === $arrayzy->toArray());
         $this->assertTrue($poppedArrayValue === $poppedValue);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testPush(array $array)
     {
         $newElement1 = 5;
         $newElement2 = 10;
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->push($newElement1, $newElement2);
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->push($newElement1, $newElement2);
+
         array_push($array, $newElement1, $newElement2);
-
-        $this->assertTrue($copiedMa->toArray() !== $ma->toArray());
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertSame($array, $resultArrayzy->toArray());
     }
 
     /**
      * @dataProvider simpleArrayProvider
-     */
-    public function testPad(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->pad(10, 5);
-        $array = array_pad($array, 10, 5);
-
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testGetKeys(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $keys = array_keys($array);
-
-        $this->assertTrue($keys === $ma->getKeys());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testGetValues(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $values = array_values($array);
-
-        $this->assertTrue($values === $ma->getValues());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testReindex(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->reindex();
-        $values = array_values($array);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->reindex();
+        $resultArray = array_values($array);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($values === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testGetRandomKey(array $array)
+    public function testReplaceIn(array $array)
     {
-        if (0 === count($array)) {
-            return;
-        }
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
 
-        $ma = new ImmutableArray($array);
-        $key = $ma->getRandomKey();
-        $this->assertTrue(null !== $key);
-        $this->assertTrue(array_key_exists($key, $ma->toArray()));
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->replaceIn($secondArray);
+        $resultArray = array_replace($secondArray, $array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testGetRandom(array $array)
+    public function testReplaceInRecursively(array $array)
     {
-        if (0 === count($array)) {
-            return;
-        }
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
 
-        $ma = new ImmutableArray($array);
-        $value = $ma->getRandom();
-        $this->assertTrue(null !== $value);
-        $this->assertTrue(in_array($value, $ma->toArray()));
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->replaceIn($secondArray, true);
+        $resultArray = array_replace_recursive($secondArray, $array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testGetRandomKeys(array $array)
+    public function testReplaceWith(array $array)
     {
-        if (0 === count($array)) {
-            return;
-        }
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
 
-        $ma = new ImmutableArray($array);
-        $keys = $ma->getRandomKeys(2);
-        $this->assertCount(2, $keys);
-        foreach ($keys as $key) {
-            $this->assertTrue(array_key_exists($key, $array));
-        }
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->replaceWith($secondArray);
+        $resultArray = array_replace($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testGetRandomValues(array $array)
+    public function testReplaceWithRecursively(array $array)
     {
-        if (0 === count($array)) {
-            return;
-        }
+        $secondArray = [
+            'one' => 1,
+            1 => 'one',
+            2 => 2,
+        ];
 
-        $ma = new ImmutableArray($array);
-        $values = $ma->getRandomValues(2);
-        $this->assertCount(2, $values);
-        foreach ($values as $value) {
-            $this->assertTrue(in_array($value, $array));
-        }
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->replaceWith($secondArray, true);
+        $resultArray = array_replace_recursive($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testReverse(array $array)
+    {
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->reverse();
+        $resultArray = array_reverse($array);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testShift(array $array)
+    {
+        $arrayzy = new A($array);
+        $shiftedValue = $arrayzy->shift();
+        $shiftedArrayValue = array_shift($array);
+
+        $this->assertTrue($array === $arrayzy->toArray());
+        $this->assertTrue($shiftedArrayValue === $shiftedValue);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testShuffle(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->shuffle();
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->shuffle();
         shuffle($array);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue(count($array) === count($copiedMa->toArray()));
+        $this->assertNotSame($arrayzy, $resultArrayzy);
+        $this->assertSameSize($array, $resultArrayzy->toArray());
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testSortAscWithPreserveKeys(array $array)
+    public function testSlice(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sort(SORT_ASC, SORT_REGULAR, true);
-        asort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->slice(1, 1);
+        $resultArray = array_slice($array, 1, 1);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testSortAscWithoutPreserveKeys(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sort(SORT_ASC, SORT_REGULAR, false);
-        sort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sort(SORT_ASC, SORT_REGULAR, false);
+        $resultArray = $array;
+        sort($resultArray, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testSortDescWithPreserveKeys(array $array)
+    public function testSortAscWithPreserveKeys(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sort(SORT_DESC, SORT_REGULAR, true);
-        arsort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sort(SORT_ASC, SORT_REGULAR, true);
+        $resultArray = $array;
+        asort($resultArray, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testSortDescWithoutPreserveKeys(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sort(SORT_DESC, SORT_REGULAR, false);
-        rsort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sort(SORT_DESC, SORT_REGULAR, false);
+        $resultArray = $array;
+        rsort($resultArray, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testSortDescWithPreserveKeys(array $array)
+    {
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sort(SORT_DESC, SORT_REGULAR, true);
+        $resultArray = $array;
+        arsort($resultArray, SORT_REGULAR);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testSortKeysAsc(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sortKeys(SORT_ASC, SORT_REGULAR);
-        ksort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sortKeys(SORT_ASC, SORT_REGULAR);
+        $resultArray = $array;
+        ksort($resultArray, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testSortKeysDesc(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->sortKeys(SORT_DESC, SORT_REGULAR);
-        krsort($array, SORT_REGULAR);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->sortKeys(SORT_DESC, SORT_REGULAR);
+        $resultArray = $array;
+        krsort($resultArray, SORT_REGULAR);
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue($array === $copiedMa->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testIsEmpty(array $array)
+    public function testUnique(array $array)
     {
-        $isEmpty = ! $array;
-        $ma = new ImmutableArray($array);
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->unique();
+        $resultArray = array_unique($array);
 
-        $this->assertTrue($isEmpty === $ma->isEmpty());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testIsAssoc(array $array, $type = false)
+    public function testUnshift(array $array)
     {
-        $ma = new ImmutableArray($array);
+        $newElement1 = 5;
+        $newElement2 = 10;
 
-        $this->assertTrue(($type === 'assoc') === $ma->isAssoc());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->unshift($newElement1, $newElement2);
+        array_unshift($array, $newElement1, $newElement2);
+
+        $this->assertTrue($resultArrayzy === $arrayzy);
+        $this->assertTrue($array === $resultArrayzy->toArray());
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testIsNumeric(array $array, $type = false)
+    public function testWalk(array $array)
     {
-        $ma = new ImmutableArray($array);
+        $callable = function(&$value, $key){
+            $value = $key;
+        };
 
-        $this->assertTrue(($type === 'numeric') === $ma->isNumeric());
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->walk($callable);
+        $resultArray = $array;
+        array_walk($resultArray, $callable);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
      * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testClear(array $array)
+    public function testWalkRecursively(array $array)
     {
-        $ma = new ImmutableArray($array);
-        $copiedMa = $ma->clear();
+        $callable = function(&$value, $key){
+            $value = $key;
+        };
 
-        $this->assertTrue($copiedMa !== $ma);
-        $this->assertTrue([] === $copiedMa->toArray());
-    }
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->walk($callable, true);
+        $resultArray = $array;
+        array_walk_recursive($resultArray, $callable);
 
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testCount(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $count = count($array);
-
-        $this->assertTrue($count === $ma->count());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testFirst(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $first = reset($array);
-
-        $this->assertTrue($first === $ma->first());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testLast(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $last = end($array);
-
-        $this->assertTrue($last === $ma->last());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testNext(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $next = next($array);
-
-        $this->assertTrue($next === $ma->next());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testPrevious(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $prev = prev($array);
-
-        $this->assertTrue($prev === $ma->previous());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testKey(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $key = key($array);
-
-        $this->assertTrue($key === $ma->key());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testCurrent(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $current = current($array);
-
-        $this->assertTrue($current === $ma->current());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testEach(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $each = each($array);
-
-        $this->assertTrue($each === $ma->each());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testOffsetExists(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $offset = 1;
-        $value = isset($array[$offset]);
-
-        $this->assertTrue($value === $ma->offsetExists($offset));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testOffsetGet(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $offset = 1;
-        $value = isset($array[$offset])
-            ? $array[$offset]
-            : null
-        ;
-
-        $this->assertTrue($value === $ma->offsetGet($offset));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testOffsetSet(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $offset = 1;
-        $value = 'new';
-        if (isset($offset)) {
-            $array[$offset] = $value;
-        } else {
-            $array[] = $value;
-        }
-        $ma->offsetSet($offset, $value);
-
-        $this->assertTrue($array === $ma->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testOffsetNullSet(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $offset = null;
-        $value = 'new';
-        if (isset($offset)) {
-            $array[$offset] = $value;
-        } else {
-            $array[] = $value;
-        }
-        $ma->offsetSet($offset, $value);
-
-        $this->assertTrue($array === $ma->toArray());
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testOffsetUnset(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $offset = 1;
-        unset($array[$offset]);
-        $ma->offsetUnset($offset);
-
-        $this->assertTrue($array === $ma->toArray());
-        $this->assertFalse(isset($array[$offset]));
-        $this->assertFalse($ma->offsetExists($offset));
-    }
-
-    public function testGetIterator()
-    {
-        $ma = new ImmutableArray();
-
-        $this->assertTrue($ma->getIterator() instanceof ArrayIterator);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testExportReturn(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $exported = var_export($array, true);
-
-        $this->assertTrue($exported === $ma->export(true));
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     */
-    public function testDebugReturn(array $array)
-    {
-        $ma = new ImmutableArray($array);
-        $printed = print_r($array, true);
-
-        $this->assertTrue($printed === $ma->debug(true));
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 }
