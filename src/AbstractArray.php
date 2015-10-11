@@ -200,6 +200,8 @@ abstract class AbstractArray implements
     /**
      * {@inheritdoc}
      *
+     * @return MutableArray
+     *
      * @link http://php.net/manual/en/function.arsort.php
      * @link http://php.net/manual/en/function.sort.php
      * @link http://php.net/manual/en/function.asort.php
@@ -209,6 +211,8 @@ abstract class AbstractArray implements
 
     /**
      * {@inheritdoc}
+     *
+     * @return MutableArray
      *
      * @link http://php.net/manual/en/function.ksort.php
      * @link http://php.net/manual/en/function.krsort.php
@@ -246,12 +250,16 @@ abstract class AbstractArray implements
     /**
      * {@inheritdoc}
      *
+     * @return MutableArray
+     *
      * @link http://php.net/manual/en/function.usort.php
      */
     abstract public function customSort(callable $func);
 
     /**
      * {@inheritdoc}
+     *
+     * @return MutableArray
      *
      * @link http://php.net/manual/en/function.uksort.php
      */
