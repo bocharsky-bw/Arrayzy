@@ -522,7 +522,7 @@ class MutableArrayTest extends AbstractArrayTest
             return;
         }
 
-        $arrayzy = $this->createArrayzy($array);
+        $arrayzy = new A($array);
         $poppedValue = $arrayzy->pop();
         $resultArray = $array;
         $poppedArrayValue = array_pop($resultArray);
@@ -668,7 +668,7 @@ class MutableArrayTest extends AbstractArrayTest
             return;
         }
 
-        $arrayzy = $this->createArrayzy($array);
+        $arrayzy = new A($array);
         $shiftedValue = $arrayzy->shift();
         $resultArray = $array;
         $shiftedArrayValue = array_shift($resultArray);

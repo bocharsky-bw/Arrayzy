@@ -511,7 +511,7 @@ class ImmutableArrayTest extends AbstractArrayTest
      */
     public function testPop(array $array)
     {
-        $arrayzy = $this->createArrayzy($array);
+        $arrayzy = new A($array);
         $poppedValue = $arrayzy->pop();
         $resultArray = $array;
         $poppedArrayValue = array_pop($resultArray);
@@ -653,7 +653,7 @@ class ImmutableArrayTest extends AbstractArrayTest
      */
     public function testShift(array $array)
     {
-        $arrayzy = $this->createArrayzy($array);
+        $arrayzy = new A($array);
         $shiftedValue = $arrayzy->shift();
         $resultArray = $array;
         $shiftedArrayValue = array_shift($resultArray);
