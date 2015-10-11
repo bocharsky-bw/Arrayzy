@@ -511,12 +511,13 @@ class ImmutableArrayTest extends AbstractArrayTest
      */
     public function testPop(array $array)
     {
-        $arrayzy = new A($array);
+        $arrayzy = $this->createArrayzy($array);
         $poppedValue = $arrayzy->pop();
+        $resultArray = $array;
+        $poppedArrayValue = array_pop($resultArray);
 
-        $poppedArrayValue = array_pop($array);
-        $this->assertTrue($array === $arrayzy->toArray());
-        $this->assertTrue($poppedArrayValue === $poppedValue);
+        $this->assertSame($poppedArrayValue, $poppedValue);
+        $this->assertSame($array, $arrayzy->toArray());
     }
 
     /**
@@ -531,9 +532,10 @@ class ImmutableArrayTest extends AbstractArrayTest
 
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->push($newElement1, $newElement2);
+        $resultArray = $array;
+        array_push($resultArray, $newElement1, $newElement2);
 
-        array_push($array, $newElement1, $newElement2);
-        $this->assertSame($array, $resultArrayzy->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -651,12 +653,13 @@ class ImmutableArrayTest extends AbstractArrayTest
      */
     public function testShift(array $array)
     {
-        $arrayzy = new A($array);
+        $arrayzy = $this->createArrayzy($array);
         $shiftedValue = $arrayzy->shift();
-        $shiftedArrayValue = array_shift($array);
+        $resultArray = $array;
+        $shiftedArrayValue = array_shift($resultArray);
 
-        $this->assertTrue($array === $arrayzy->toArray());
-        $this->assertTrue($shiftedArrayValue === $shiftedValue);
+        $this->assertSame($shiftedArrayValue, $shiftedValue);
+        $this->assertSame($array, $arrayzy->toArray());
     }
 
     /**
@@ -804,10 +807,10 @@ class ImmutableArrayTest extends AbstractArrayTest
 
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->unshift($newElement1, $newElement2);
-        array_unshift($array, $newElement1, $newElement2);
+        $resultArray = $array;
+        array_unshift($resultArray, $newElement1, $newElement2);
 
-        $this->assertTrue($resultArrayzy === $arrayzy);
-        $this->assertTrue($array === $resultArrayzy->toArray());
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**

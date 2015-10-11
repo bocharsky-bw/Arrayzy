@@ -518,12 +518,17 @@ class MutableArrayTest extends AbstractArrayTest
      */
     public function testPop(array $array)
     {
-        $arrayzy = new A($array);
-        $poppedValue = $arrayzy->pop();
+        if (1 > count($array)) {
+            return;
+        }
 
-        $poppedArrayValue = array_pop($array);
-        $this->assertTrue($array === $arrayzy->toArray());
-        $this->assertTrue($poppedArrayValue === $poppedValue);
+        $arrayzy = $this->createArrayzy($array);
+        $poppedValue = $arrayzy->pop();
+        $resultArray = $array;
+        $poppedArrayValue = array_pop($resultArray);
+
+        $this->assertSame($poppedArrayValue, $poppedValue);
+        $this->assertNotSame($array, $arrayzy->toArray());
     }
 
     /**
@@ -538,9 +543,10 @@ class MutableArrayTest extends AbstractArrayTest
 
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->push($newElement1, $newElement2);
+        $resultArray = $array;
+        array_push($resultArray, $newElement1, $newElement2);
 
-        array_push($array, $newElement1, $newElement2);
-        $this->assertSame($array, $resultArrayzy->toArray());
+        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
     }
 
     /**
@@ -658,12 +664,17 @@ class MutableArrayTest extends AbstractArrayTest
      */
     public function testShift(array $array)
     {
-        $arrayzy = new A($array);
-        $shiftedValue = $arrayzy->shift();
-        $shiftedArrayValue = array_shift($array);
+        if (1 > count($array)) {
+            return;
+        }
 
-        $this->assertTrue($array === $arrayzy->toArray());
-        $this->assertTrue($shiftedArrayValue === $shiftedValue);
+        $arrayzy = $this->createArrayzy($array);
+        $shiftedValue = $arrayzy->shift();
+        $resultArray = $array;
+        $shiftedArrayValue = array_shift($resultArray);
+
+        $this->assertSame($shiftedArrayValue, $shiftedValue);
+        $this->assertNotSame($array, $arrayzy->toArray());
     }
 
     /**
@@ -811,10 +822,10 @@ class MutableArrayTest extends AbstractArrayTest
 
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->unshift($newElement1, $newElement2);
-        array_unshift($array, $newElement1, $newElement2);
+        $resultArray = $array;
+        array_unshift($resultArray, $newElement1, $newElement2);
 
-        $this->assertTrue($resultArrayzy === $arrayzy);
-        $this->assertTrue($array === $resultArrayzy->toArray());
+        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
     }
 
     /**
