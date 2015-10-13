@@ -201,6 +201,25 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      *
      * @param array $array
      */
+    public function testExists(array $array)
+    {
+        $key = 2;
+
+        $closure = function($needle, $element){
+            return $needle === $element;
+        };
+
+        $arrayzy = $this->createArrayzy($array);
+        $isContains = in_array($key, $array);
+
+        $this->assertSame($isContains, $arrayzy->exists($closure, $key));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
     public function testExportReturn(array $array)
     {
         $arrayzy = $this->createArrayzy($array);
