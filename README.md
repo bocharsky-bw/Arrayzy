@@ -109,6 +109,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
     * [unique](#unique)
     * [unshift](#unshift)
     * [walk](#walk)
+* [Contribution](#contribution)
 * [Links](#links)
 
 ## Requirements
@@ -805,10 +806,16 @@ $a->walk(function(&$value, $key) {
 $a->toArray(); // [0 => 'a1', 1 => 'b2', 2 => 'c3']
 ```
 
+## Contribution
+
+Feel free to submit an [Issue][3] or create a [Pull Request][4] if you find a bug
+or just want to propose an improvement suggestion.
+
+In order to propose a new feature the best way is to submit an [Issue][3] and discuss it first.
+
 ## Links
 
-Feel free to create an [Issue][3] or [Pull Request][4] if you find a bug
-or just want to propose an improvement suggestion.
+Arrayzy was inspired by Doctrine [ArrayCollection][7] class and [Stringy][5] library.
 
 Look at the [Stringy][5] if you are looking for a PHP **string** manipulation library in an OOP way.
 
@@ -821,3 +828,4 @@ Look at the [Stringy][5] if you are looking for a PHP **string** manipulation li
 [4]: https://github.com/bocharsky-bw/Arrayzy/pulls
 [5]: https://github.com/danielstjules/Stringy
 [6]: http://php.net/manual/en/class.iteratoraggregate.php
+[7]: https://github.com/doctrine/collections/blob/master/lib/Doctrine/Common/Collections/ArrayCollection.php
