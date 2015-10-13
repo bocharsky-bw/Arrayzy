@@ -405,17 +405,14 @@ $a->each(); // [0 => 0, 'key' => 0, 1 => 'a', 'value' => 'a']
 
 ### exists
 
-A custom contains function where you can supply your own contains function as a closure. 
-The closure must take two parameters, a needle and an element it will be comparing.
+A custom contains method where you can supply your own custom logic in any callable function. 
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
 
-$closure = function($needle, $element) {
-    return $needle === $element;
-};
-
-$a->exists($closure, 'a'); // true
+$a->exists(function($key, $value) {
+   return 1 === $key and 'b' === $value;
+}); // true
 ```
 
 ### export

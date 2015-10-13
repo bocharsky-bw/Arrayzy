@@ -431,15 +431,14 @@ abstract class AbstractArray implements
     /**
      * Find the given value in the array using a closure
      *
-     * @param callable $callable
-     * @param mixed $needle
+     * @param callable $func
      *
      * @return bool Returns true if the given value is found, false otherwise
      */
-    public function exists(callable $callable, $needle)
+    public function exists(callable $func)
     {
-        foreach ($this->elements as $el) {
-            if ($callable($needle, $el)) {
+        foreach ($this->elements as $key => $value) {
+            if ($func($key, $value)) {
                 return true;
             }
         }

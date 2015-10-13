@@ -203,16 +203,14 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testExists(array $array)
     {
-        $key = 2;
-
-        $closure = function($needle, $element){
-            return $needle === $element;
+        $callable = function($key, $value) {
+            return 2 === $key and 'two' === $value;
         };
 
         $arrayzy = $this->createArrayzy($array);
-        $isContains = in_array($key, $array);
+        $isExists = isset($array[2]) && 'two' === $array[2];
 
-        $this->assertSame($isContains, $arrayzy->exists($closure, $key));
+        $this->assertSame($isExists, $arrayzy->exists($callable));
     }
 
     /**
