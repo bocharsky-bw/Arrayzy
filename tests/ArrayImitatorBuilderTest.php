@@ -1,17 +1,15 @@
 <?php
 
-use Arrayzy\MutableArray as A;
+use Arrayzy\ArrayImitatorBuilder as A;
 
 /**
- * Class MutableArrayTest
- *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class MutableArrayTest extends AbstractArrayTest
+class ArrayImitatorBuilderTest extends AbstractArrayTest
 {
     public function setUp()
     {
-        $this->arrayzyClassName = 'Arrayzy\MutableArray';
+        $this->arrayzyClassName = 'Arrayzy\ArrayImitatorBuilder';
     }
 
     /**
