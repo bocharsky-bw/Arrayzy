@@ -43,11 +43,6 @@ abstract class AbstractArray implements
     const DEFAULT_SEPARATOR = ', ';
 
     /**
-     * @const array
-     */
-    const EMPTY_ARRAY = [];
-
-    /**
      * @var array
      */
     protected $elements = [];
