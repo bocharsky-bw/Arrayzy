@@ -14,6 +14,20 @@ class ArrayImitator extends AbstractArray
     // The public method list order by ASC
 
     /**
+     * Add new element to the array.
+     *
+     * @param mixed $element
+     *
+     * @return $this
+     */
+    public function add($element)
+    {
+        $this->elements[] = $element;
+
+        return $this;
+    }
+
+    /**
      * Create a chunked version of this array.
      *
      * @param int $size Size of each chunk
