@@ -3,6 +3,7 @@
 namespace Arrayzy;
 
 use ArrayAccess;
+use Arrayzy\Interfaces\ArrayBuilderInterface;
 
 /**
  * All methods change the array instance itself
@@ -10,7 +11,7 @@ use ArrayAccess;
  *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class ArrayImitatorBuilder
+class ArrayImitatorBuilder implements ArrayBuilderInterface
 {
     /**
      * @var array
@@ -28,6 +29,8 @@ class ArrayImitatorBuilder
     }
 
     /**
+     * Build an ArrayImitator instance.
+     *
      * @return ArrayImitator
      */
     public function build()
@@ -121,12 +124,26 @@ class ArrayImitatorBuilder
     // The public method list order by ASC
 
     /**
+     * Add new element to the array.
+     *
+     * @param mixed $element
+     *
+     * @return $this
+     */
+    public function add($element)
+    {
+        $this->elements[] = $element;
+
+        return $this;
+    }
+
+    /**
      * Create a chunked version of this array.
      *
      * @param int $size Size of each chunk
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static A new array of chunks from the original array
+     * @return $this A new array of chunks from the original array
      */
     public function chunk($size, $preserveKeys = false)
     {
@@ -152,7 +169,7 @@ class ArrayImitatorBuilder
      *
      * @param array $array Key array
      *
-     * @return static A new array with keys from the other.
+     * @return $this A new array with keys from the other.
      */
     public function combineTo(array $array)
     {
@@ -166,7 +183,7 @@ class ArrayImitatorBuilder
      *
      * @param array $array Values array
      *
-     * @return static A new array with values from the other array
+     * @return $this A new array with values from the other array
      */
     public function combineWith(array $array)
     {
@@ -176,9 +193,11 @@ class ArrayImitatorBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Sorts the array elements with a user-defined comparison function and maintain index association.
      *
-     * @link http://php.net/manual/en/function.usort.php
+     * @param callable $func
+     *
+     * @return $this The instance with custom sorted elements
      */
     public function customSort(callable $func)
     {
@@ -188,9 +207,11 @@ class ArrayImitatorBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Sorts the array keys with a user-defined comparison function and maintain index association.
      *
-     * @link http://php.net/manual/en/function.uksort.php
+     * @param callable $func
+     *
+     * @return $this The instance with custom sorted elements
      */
     public function customSortKeys(callable $func)
     {
@@ -204,7 +225,7 @@ class ArrayImitatorBuilder
      *
      * @param array $array Array for diff
      *
-     * @return static A new array containing all the entries from this array
+     * @return $this A new array containing all the entries from this array
      * that are not present in $array
      */
     public function diffWith(array $array)
@@ -219,7 +240,7 @@ class ArrayImitatorBuilder
      *
      * @param callable $func
      *
-     * @return static A new array with only element satisfying $func
+     * @return $this A new array with only element satisfying $func
      */
     public function filter(callable $func)
     {
@@ -231,7 +252,7 @@ class ArrayImitatorBuilder
     /**
      * Exchanges all array keys with their associated values.
      *
-     * @return static The new instance with flipped elements
+     * @return $this The new instance with flipped elements
      */
     public function flip()
     {
@@ -241,12 +262,27 @@ class ArrayImitatorBuilder
     }
 
     /**
+     * Get element from the array by $key.
+     *
+     * @param int|string $key
+     *
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return isset($this->elements[$key])
+            ? $this->elements[$key]
+            : null
+        ;
+    }
+
+    /**
      * Apply the given function to the every element of the array,
      * collecting the results.
      *
      * @param callable $func
      *
-     * @return static A new array with modified elements
+     * @return $this A new array with modified elements
      */
     public function map(callable $func)
     {
@@ -261,7 +297,7 @@ class ArrayImitatorBuilder
      * @param array $array Array to merge with (is overwritten)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static A new array with the keys/values
+     * @return $this A new array with the keys/values
      * from $array added, that weren't present in the original
      */
     public function mergeTo(array $array, $recursively = false)
@@ -281,7 +317,7 @@ class ArrayImitatorBuilder
      * @param array $array Array to merge with (overwrites)
      * @param bool $recursively Whether array will be merged recursively or no
      *
-     * @return static A new array with the keys/values from $array added
+     * @return $this A new array with the keys/values from $array added
      */
     public function mergeWith(array $array, $recursively = false)
     {
@@ -300,7 +336,7 @@ class ArrayImitatorBuilder
      * @param int $size Size of the result array
      * @param mixed $value Empty value by default
      *
-     * @return static A new array padded to $size with $value
+     * @return $this A new array padded to $size with $value
      */
     public function pad($size, $value)
     {
@@ -341,11 +377,25 @@ class ArrayImitatorBuilder
     /**
      * Create a numerically re-indexed array.
      *
-     * @return static The new instance with re-indexed elements
+     * @return $this The new instance with re-indexed elements
      */
     public function reindex()
     {
         $this->elements = array_values($this->elements);
+
+        return $this;
+    }
+
+    /**
+     * Remove existent element from the array.
+     *
+     * @param int|string $key
+     *
+     * @return $this
+     */
+    public function remove($key)
+    {
+        unset($this->elements[$key]);
 
         return $this;
     }
@@ -357,7 +407,7 @@ class ArrayImitatorBuilder
      * @param array $array Array to replace with
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static A new array with keys from $array and values from both.
+     * @return $this A new array with keys from $array and values from both.
      */
     public function replaceIn(array $array, $recursively = false)
     {
@@ -377,7 +427,7 @@ class ArrayImitatorBuilder
      * @param array $array Array of replacing values
      * @param bool $recursively Whether array will be replaced recursively or no
      *
-     * @return static A new array with the same keys but new values
+     * @return $this A new array with the same keys but new values
      */
     public function replaceWith(array $array, $recursively = false)
     {
@@ -395,11 +445,26 @@ class ArrayImitatorBuilder
      *
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static A new array with the order of the elements reversed
+     * @return $this A new array with the order of the elements reversed
      */
     public function reverse($preserveKeys = false)
     {
         $this->elements = array_reverse($this->elements, $preserveKeys);
+
+        return $this;
+    }
+
+    /**
+     * Set new element to the array by $key.
+     *
+     * @param int|string $key
+     * @param mixed $element
+     *
+     * @return $this
+     */
+    public function set($key, $element)
+    {
+        $this->elements[$key] = $element;
 
         return $this;
     }
@@ -433,7 +498,7 @@ class ArrayImitatorBuilder
      * @param int|null $length Length of the slice
      * @param bool $preserveKeys Whether array keys are preserved or no
      *
-     * @return static A slice of the original array with length $length
+     * @return $this A slice of the original array with length $length
      */
     public function slice($offset, $length = null, $preserveKeys = false)
     {
@@ -443,12 +508,25 @@ class ArrayImitatorBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Sorts array by values.
      *
-     * @link http://php.net/manual/en/function.arsort.php
-     * @link http://php.net/manual/en/function.sort.php
-     * @link http://php.net/manual/en/function.asort.php
-     * @link http://php.net/manual/en/function.rsort.php
+     * @param int $order The order direction:
+     * <ul>
+     * <li>SORT_ASC</li>
+     * <li>SORT_DESC</li>
+     * </ul>
+     * @param int $strategy The order behavior:
+     * <ul>
+     * <li>SORT_REGULAR</li>
+     * <li>SORT_NUMERIC</li>
+     * <li>SORT_STRING</li>
+     * <li>SORT_LOCALE_STRING</li>
+     * <li>SORT_NATURAL</li>
+     * <li>SORT_FLAG_CASE</li>
+     * </ul>
+     * @param bool $preserveKeys Maintain index association
+     *
+     * @return $this The instance with sorted elements
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
@@ -458,10 +536,24 @@ class ArrayImitatorBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Sorts array by keys.
      *
-     * @link http://php.net/manual/en/function.ksort.php
-     * @link http://php.net/manual/en/function.krsort.php
+     * @param int $order The order direction:
+     * <ul>
+     * <li>SORT_ASC</li>
+     * <li>SORT_DESC</li>
+     * </ul>
+     * @param int $strategy The order behavior:
+     * <ul>
+     * <li>SORT_REGULAR</li>
+     * <li>SORT_NUMERIC</li>
+     * <li>SORT_STRING</li>
+     * <li>SORT_LOCALE_STRING</li>
+     * <li>SORT_NATURAL</li>
+     * <li>SORT_FLAG_CASE</li>
+     * </ul>
+     *
+     * @return $this The instance with sorted elements
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
@@ -475,7 +567,7 @@ class ArrayImitatorBuilder
      *
      * @param int|null $sortFlags
      *
-     * @return static A new array with only unique elements
+     * @return $this A new array with only unique elements
      */
     public function unique($sortFlags = null)
     {
