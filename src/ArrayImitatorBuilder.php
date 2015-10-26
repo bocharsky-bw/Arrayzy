@@ -2,17 +2,120 @@
 
 namespace Arrayzy;
 
+use ArrayAccess;
+
 /**
  * All methods change the array instance itself
  * and return $this to allow method chaining.
  *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class ArrayImitatorBuilder extends AbstractArray
+class ArrayImitatorBuilder
 {
+    /**
+     * @var array
+     */
+    protected $elements = [];
+
+    /**
+     * Construct new instance
+     *
+     * @param array $elements
+     */
+    public function __construct(array $elements = [])
+    {
+        $this->elements = $elements;
+    }
+
+    /**
+     * @return ArrayImitator
+     */
     public function build()
     {
         return new ArrayImitator($this->elements);
+    }
+
+    /**
+     * Converts instance to a native PHP array.
+     *
+     * @return array The native PHP array
+     */
+    public function toArray()
+    {
+        return $this->elements;
+    }
+
+    // The public static method list order by ASC
+
+    /**
+     * Create a new instance.
+     *
+     * @param array $elements
+     *
+     * @return static Returns created instance
+     */
+    public static function create(array $elements = [])
+    {
+        return new static($elements);
+    }
+
+    /**
+     * Decode a JSON string to new instance.
+     *
+     * @param string $json The JSON string being decoded
+     * @param int $options Bitmask of JSON decode options
+     * @param int $depth Specified recursion depth
+     *
+     * @return static The created array
+     */
+    public static function createFromJson($json, $options = 0, $depth = 512)
+    {
+        return new static(json_decode($json, true, $depth, $options));
+    }
+
+    /**
+     * Create a new instance filled with values from an object implementing ArrayAccess.
+     *
+     * @param ArrayAccess $elements Object that implements ArrayAccess
+     *
+     * @return static Returns created instance
+     */
+    public static function createFromObject(ArrayAccess $elements)
+    {
+        $array = [];
+
+        foreach ($elements as $key => $value) {
+            $array[$key] = $value;
+        }
+
+        return new static($array);
+    }
+
+    /**
+     * Explode a string to new instance by specified separator.
+     *
+     * @param string $string Converted string
+     * @param string $separator Element's separator
+     *
+     * @return static The created array
+     */
+    public static function createFromString($string, $separator)
+    {
+        return new static(explode($separator, $string));
+    }
+
+    /**
+     * Create a new instance containing a range of elements.
+     *
+     * @param mixed $low First value of the sequence
+     * @param mixed $high The sequence is ended upon reaching the end value
+     * @param int $step Used as the increment between elements in the sequence
+     *
+     * @return static The created array
+     */
+    public static function createWithRange($low, $high, $step = 1)
+    {
+        return new static(range($low, $high, $step));
     }
 
     // The public method list order by ASC
@@ -349,7 +452,7 @@ class ArrayImitatorBuilder extends AbstractArray
      */
     public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
     {
-        parent::sorting($this->elements, $order, $strategy, $preserveKeys);
+        $this->sorting($this->elements, $order, $strategy, $preserveKeys);
 
         return $this;
     }
@@ -362,7 +465,7 @@ class ArrayImitatorBuilder extends AbstractArray
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
     {
-        parent::sortingKeys($this->elements, $order, $strategy);
+        $this->sortingKeys($this->elements, $order, $strategy);
 
         return $this;
     }
@@ -417,5 +520,51 @@ class ArrayImitatorBuilder extends AbstractArray
         }
 
         return $this;
+    }
+
+    // protected method list order by ASC
+    /**
+     * @param array &$elements
+     * @param int $order
+     * @param int $strategy
+     * @param bool $preserveKeys
+     */
+    protected function sorting(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                if ($preserveKeys) {
+                    arsort($elements, $strategy);
+                } else {
+                    rsort($elements, $strategy);
+                }
+                break;
+
+            case SORT_ASC:
+            default:
+                if ($preserveKeys) {
+                    asort($elements, $strategy);
+                } else {
+                    sort($elements, $strategy);
+                }
+        }
+    }
+
+    /**
+     * @param array &$elements
+     * @param int $order
+     * @param int $strategy
+     */
+    protected function sortingKeys(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR)
+    {
+        switch ($order) {
+            case SORT_DESC:
+                krsort($elements, $strategy);
+                break;
+
+            case SORT_ASC:
+            default:
+                ksort($elements, $strategy);
+        }
     }
 }
