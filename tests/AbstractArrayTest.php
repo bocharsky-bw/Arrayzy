@@ -278,7 +278,7 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRandom(array $array)
     {
-        if (1 > count($array)) {
+        if (0 === count($array)) {
             return;
         }
 
@@ -296,7 +296,7 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRandomKey(array $array)
     {
-        if (1 > count($array)) {
+        if (0 === count($array)) {
             return;
         }
 
@@ -308,12 +308,20 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
-    public function testGetRandomKeyLogicException()
+    public function testGetRandomKeysShouldReturnArray(array $array)
     {
-        $arrayzy = $this->createArrayzy(['a']);
-        $arrayzy->getRandomKey();
+        if (0 === count($array)) {
+            return;
+        }
+
+        $arrayzy = $this->createArrayzy($array);
+        $keys = $arrayzy->getRandomKeys(count($array));
+
+        $this->assertInternalType('array', $keys);
     }
 
     /**
@@ -337,21 +345,30 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
-     */
-    public function testGetRandomKeysLogicException()
-    {
-        $arrayzy = $this->createArrayzy(['a', 'b', 'c']);
-        $arrayzy->getRandomKeys(3);
-    }
-
-    /**
      * @expectedException \RangeException
      */
     public function testGetRandomKeysRangeException()
     {
         $arrayzy = $this->createArrayzy(['a', 'b', 'c']);
         $arrayzy->getRandomKeys(4);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetRandomKeysLogicExceptionGivenZero()
+    {
+        $arrayzy = $this->createArrayzy(['a', 'b', 'c']);
+        $arrayzy->getRandomKeys(0);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetRandomKeysLogicExceptionGivenNonInteger()
+    {
+        $arrayzy = $this->createArrayzy(['a', 'b', 'c']);
+        $arrayzy->getRandomKeys('something');
     }
 
     /**
@@ -369,6 +386,27 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
         $values = $arrayzy->getRandomValues(2);
 
         $this->assertCount(2, $values);
+        foreach ($values as $value) {
+            $this->assertTrue(in_array($value, $array));
+        }
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
+    public function testGetRandomValuesSingle(array $array)
+    {
+        if (0 === count($array)) {
+            return;
+        }
+
+        $arrayzy = $this->createArrayzy($array);
+        $values = $arrayzy->getRandomValues(1);
+
+        $this->assertCount(1, $values);
+        $this->assertInternalType('array', $values);
         foreach ($values as $value) {
             $this->assertTrue(in_array($value, $array));
         }
