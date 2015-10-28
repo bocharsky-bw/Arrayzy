@@ -495,9 +495,9 @@ abstract class AbstractArray implements
     {
         $number = (int) $number;
         $count = $this->count();
-        if (!$number || $number === 0 ||$number > $count) {
+        if ($number === 0 || $number > $count) {
             throw new \RangeException(sprintf(
-                'Number of requested keys (%s) must be lower or equal than available array elements (%s)',
+                'Number of requested keys (%s) must be equal or lower than number of elements in this array (%s)',
                 $number,
                 $count));
         }
