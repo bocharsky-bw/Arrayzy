@@ -354,7 +354,7 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException \RangeException
      */
     public function testGetRandomKeysLogicExceptionGivenZero()
     {
@@ -363,7 +363,7 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException \RangeException
      */
     public function testGetRandomKeysLogicExceptionGivenNonInteger()
     {
