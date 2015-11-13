@@ -173,35 +173,6 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * Pop a specified value off the end of array.
-     *
-     * @return mixed The popped element
-     */
-    public function pop()
-    {
-        return array_pop($this->elements);
-    }
-
-    /**
-     * Push one or more values onto the end of array at once.
-     *
-     * @param mixed $element The pushed element
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
-     * @return $this An array with pushed elements
-     * to the end of array
-     */
-    public function push($element, $_ = null)
-    {
-        if (func_num_args()) {
-            $args = array_merge([&$this->elements], func_get_args());
-            call_user_func_array('array_push', $args);
-        }
-
-        return $this;
-    }
-
-    /**
      * Create a numerically re-indexed array.
      *
      * @return static The new instance with re-indexed elements
@@ -260,16 +231,6 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * Shifts a specified value off the beginning of array.
-     *
-     * @return mixed A shifted element
-     */
-    public function shift()
-    {
-        return array_shift($this->elements);
-    }
-
-    /**
      * Randomize element order.
      *
      * @return $this An array with the element order shuffled
@@ -305,24 +266,6 @@ class ArrayImitator extends AbstractArray
     public function unique($sortFlags = null)
     {
         return new static(array_unique($this->elements, $sortFlags));
-    }
-
-    /**
-     * Prepends one or more values to the beginning of array at once.
-     *
-     * @param mixed $element The element for prepend
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
-     * @return $this A new array with prepended elements to the beginning of array
-     */
-    public function unshift($element, $_ = null)
-    {
-        if (func_num_args()) {
-            $args = array_merge([&$this->elements], func_get_args());
-            call_user_func_array('array_unshift', $args);
-        }
-
-        return $this;
     }
 
     /**
