@@ -56,6 +56,7 @@ class ArrayImitator extends AbstractArray
      * Create an array using this array as values and the other array as keys.
      *
      * @param array $array Key array
+     * @deprecated Would be removed (or renamed)
      *
      * @return static A new array with keys from the other.
      */
@@ -129,6 +130,7 @@ class ArrayImitator extends AbstractArray
      *
      * @param array $array Array to merge with (is overwritten)
      * @param bool $recursively Whether array will be merged recursively or no
+     * @deprecated Would be removed (or renamed)
      *
      * @return static A new array with the keys/values
      * from $array added, that weren't present in the original
@@ -188,6 +190,7 @@ class ArrayImitator extends AbstractArray
      *
      * @param array $array Array to replace with
      * @param bool $recursively Whether array will be replaced recursively or no
+     * @deprecated Would be removed (or renamed)
      *
      * @return static A new array with keys from $array and values from both.
      */
