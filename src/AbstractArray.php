@@ -425,7 +425,7 @@ abstract class AbstractArray implements
      *
      * @return mixed Random value of array
      *
-     * @throws \LogicException
+     * @throws \RangeException If array is empty
      */
     public function getRandom()
     {
@@ -437,44 +437,30 @@ abstract class AbstractArray implements
      *
      * @return mixed Random key/index of array
      *
-     * @throws \LogicException
+     * @throws \RangeException If array is empty
      */
     public function getRandomKey()
     {
-        if (1 >= $this->count()) {
-            throw new \LogicException(sprintf(
-                'The number of elements in the array "%d" should be greater than "1".', $this->count()
-            ));
-        }
-
-        return array_rand($this->elements, 1);
+        return $this->getRandomKeys(1);
     }
 
     /**
      * Pick a given number of random keys/indexes out of this array.
      *
-     * @param int $number The number of keys/indexes (should be > 1 and < $this->count())
+     * @param int $number The number of keys/indexes (should be <= $this->count())
      *
-     * @return array Random keys of array
+     * @return mixed Random keys or key of array
      *
      * @throws \RangeException
-     * @throws \LogicException
      */
     public function getRandomKeys($number)
     {
         $number = (int) $number;
+
         $count = $this->count();
-        if ($number < 1 || $number > $count) {
-            throw new \RangeException(sprintf(''
-                . 'The given number "%d" should be greater than or equal to "1" '
-                . 'and less than or equal to "%d" (the number of elements in the array).',
-                $number,
-                $count
-            ));
-        }
-        if ($number === 1 || $number === $count) {
-            throw new \LogicException(sprintf(
-                'The given number "%d" should not be equal to "1" or "%d" (the number of elements in the array).',
+        if ($number === 0 || $number > $count) {
+            throw new \RangeException(sprintf(
+                'Number of requested keys (%s) must be equal or lower than number of elements in this array (%s)',
                 $number,
                 $count
             ));
@@ -491,13 +477,13 @@ abstract class AbstractArray implements
      * @return array Random values of array
      *
      * @throws \RangeException
-     * @throws \LogicException
      */
     public function getRandomValues($number)
     {
         $values = [];
 
-        foreach ($this->getRandomKeys($number) as $key) {
+        $keys = $number > 1 ? $this->getRandomKeys($number) : [$this->getRandomKeys($number)];
+        foreach ($keys as $key) {
             $values[] = $this->offsetGet($key);
         }
 
