@@ -10,6 +10,24 @@ namespace Arrayzy\Interfaces;
 interface SortableInterface
 {
     /**
+     * Sorts the array elements with a user-defined comparison function and maintain index association.
+     *
+     * @param callable $func
+     *
+     * @return SortableInterface The instance with custom sorted elements
+     */
+    public function customSort(callable $func);
+
+    /**
+     * Sorts the array keys with a user-defined comparison function and maintain index association.
+     *
+     * @param callable $func
+     *
+     * @return SortableInterface The instance with custom sorted elements
+     */
+    public function customSortKeys(callable $func);
+
+    /**
      * Sorts array by values.
      *
      * @param int $order The order direction:
@@ -53,22 +71,4 @@ interface SortableInterface
      * @return SortableInterface The instance with sorted elements
      */
     public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
-
-    /**
-     * Sorts the array elements with a user-defined comparison function and maintain index association.
-     *
-     * @param callable $func
-     *
-     * @return SortableInterface The instance with custom sorted elements
-     */
-    public function customSort(callable $func);
-
-    /**
-     * Sorts the array keys with a user-defined comparison function and maintain index association.
-     *
-     * @param callable $func
-     *
-     * @return SortableInterface The instance with custom sorted elements
-     */
-    public function customSortKeys(callable $func);
 }
