@@ -63,30 +63,6 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @link http://php.net/manual/en/function.usort.php
-     */
-    public function customSort(callable $func)
-    {
-        usort($this->elements, $func);
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @link http://php.net/manual/en/function.uksort.php
-     */
-    public function customSortKeys(callable $func)
-    {
-        uksort($this->elements, $func);
-
-        return $this;
-    }
-
-    /**
      * Compute the array of values not present in the other array.
      *
      * @param array $array Array for diff
@@ -303,34 +279,6 @@ class ArrayImitator extends AbstractArray
     public function slice($offset, $length = null, $preserveKeys = false)
     {
         return new static(array_slice($this->elements, $offset, $length, $preserveKeys));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @link http://php.net/manual/en/function.arsort.php
-     * @link http://php.net/manual/en/function.sort.php
-     * @link http://php.net/manual/en/function.asort.php
-     * @link http://php.net/manual/en/function.rsort.php
-     */
-    public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
-    {
-        parent::sorting($this->elements, $order, $strategy, $preserveKeys);
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @link http://php.net/manual/en/function.ksort.php
-     * @link http://php.net/manual/en/function.krsort.php
-     */
-    public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR)
-    {
-        parent::sortingKeys($this->elements, $order, $strategy);
-
-        return $this;
     }
 
     /**

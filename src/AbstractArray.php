@@ -9,6 +9,7 @@ use Arrayzy\Interfaces\SortableInterface;
 use Arrayzy\Interfaces\TraversableInterface;
 use Arrayzy\Traits\ConvertibleTrait;
 use Arrayzy\Traits\DebuggableTrait;
+use Arrayzy\Traits\SortableTrait;
 use Arrayzy\Traits\TraversableTrait;
 use ArrayAccess;
 use ArrayIterator;
@@ -34,6 +35,8 @@ abstract class AbstractArray implements
     use ConvertibleTrait;
 
     use DebuggableTrait;
+
+    use SortableTrait;
 
     use TraversableTrait;
 
@@ -98,24 +101,6 @@ abstract class AbstractArray implements
      * @return static An array with values from the other array
      */
     abstract public function combineWith(array $array);
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return $this
-     *
-     * @link http://php.net/manual/en/function.usort.php
-     */
-    abstract public function customSort(callable $func);
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return $this
-     *
-     * @link http://php.net/manual/en/function.uksort.php
-     */
-    abstract public function customSortKeys(callable $func);
 
     /**
      * Compute the array of values not present in the other array.
@@ -236,28 +221,6 @@ abstract class AbstractArray implements
      * @return static A slice of the original array with length $length
      */
     abstract public function slice($offset, $length = null, $preserveKeys = false);
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return $this
-     *
-     * @link http://php.net/manual/en/function.arsort.php
-     * @link http://php.net/manual/en/function.sort.php
-     * @link http://php.net/manual/en/function.asort.php
-     * @link http://php.net/manual/en/function.rsort.php
-     */
-    abstract public function sort($order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false);
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return $this
-     *
-     * @link http://php.net/manual/en/function.ksort.php
-     * @link http://php.net/manual/en/function.krsort.php
-     */
-    abstract public function sortKeys($order = SORT_ASC, $strategy = SORT_REGULAR);
 
     /**
      * Removes duplicate values from the array.
@@ -690,50 +653,5 @@ abstract class AbstractArray implements
     public function reduce(callable $func, $initial = null)
     {
         return array_reduce($this->elements, $func, $initial);
-    }
-
-    /**
-     * @param array &$elements
-     * @param int $order
-     * @param int $strategy
-     * @param bool $preserveKeys
-     */
-    protected function sorting(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR, $preserveKeys = false)
-    {
-        switch ($order) {
-            case SORT_DESC:
-                if ($preserveKeys) {
-                    arsort($elements, $strategy);
-                } else {
-                    rsort($elements, $strategy);
-                }
-                break;
-
-            case SORT_ASC:
-            default:
-                if ($preserveKeys) {
-                    asort($elements, $strategy);
-                } else {
-                    sort($elements, $strategy);
-                }
-        }
-    }
-
-    /**
-     * @param array &$elements
-     * @param int $order
-     * @param int $strategy
-     */
-    protected function sortingKeys(array &$elements, $order = SORT_ASC, $strategy = SORT_REGULAR)
-    {
-        switch ($order) {
-            case SORT_DESC:
-                krsort($elements, $strategy);
-                break;
-
-            case SORT_ASC:
-            default:
-                ksort($elements, $strategy);
-        }
     }
 }
