@@ -42,6 +42,7 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 * [Usage](#usage)
     * [Chaining](#chaining)
 * [Public method list](#public-method-list)
+    * [add](#add)
     * [chunk](#chunk)
     * [clear](#clear)
     * [combineTo](#combineto)
@@ -227,6 +228,14 @@ readable `string` or JSON format:
 * [export](#export)
 
 ## Public method list
+
+### add
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->add('d');
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
+```
 
 ### chunk
 
