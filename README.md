@@ -1,37 +1,39 @@
 # Arrayzy
 
-The wrapper for all PHP built-in array functions and easy, object-oriented array manipulation library. In short: Arrays on steroids.
+The wrapper for all PHP built-in array functions and easy, object-oriented array
+manipulation library. In short: Arrays on steroids.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb/mini.png)](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb)
 [![Build Status](https://travis-ci.org/bocharsky-bw/Arrayzy.svg?branch=master)](https://travis-ci.org/bocharsky-bw/Arrayzy)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
 
-There are two classes available with different behavior:
+## ArrayImitator
 
-* [Arrayzy\MutableArray](#mutablearray)
-* [Arrayzy\ImmutableArray](#immutablearray)
+Each method, which associated with the corresponding native PHP function, keep
+its behavior. In other words: could creates a new array (leaving the original
+array unchanged), operates on the same array and returns the array itself
+(**DOES NOT** create a new instance) or return some result.
 
-## MutableArray
-
-Each method operates on the same array and returns the array itself
-(it **DOES NOT** create a new instance), except methods starting with the
-`create` prefix. This way has slightly better performance and is more
-convenient to use in an OOP way.
-
-> **NOTE:** Check the [CreateClone](#createclone) section if you want to operate on a new instance to preserve the current one.
-
-## ImmutableArray
-
-Each method creates a new array, leaving the original array unchanged.
-This way has slightly worse performance but give you a behavior similar
-to most of the built-in PHP functions that return a new array.
-
-> **NOTE:** If you don't need the first array you operate on, you can override it manually:
+> **NOTE:** If method creates a new array and you don't need the first array
+  you operate on, you can override it manually:
 
 ``` php
-$a = ImmutableArray::create(['a', 'b', 'c']);
-$a = $a->shuffle(); // override instance you operates on, because $a !== $a->shuffle()
+use Arrayzy\ArrayImitator as A;
+
+$a = A::create(['a', 'b', 'c']);
+$a = $a->reverse(); // override instance you operates on, because $a !== $a->reverse()
+```
+
+> **NOTE:** If method operates on the same array but you need to keep the first
+  array you operate on as unchanged, you can clone it manually first:
+
+``` php
+use Arrayzy\ArrayImitator as A;
+
+$a = A::create(['a', 'b', 'c']);
+$b = clone $a;
+$b->shuffle(); // keeps $a unchanged, because $a !== $b
 ```
 
 # Contents
@@ -123,21 +125,14 @@ $a = $a->shuffle(); // override instance you operates on, because $a !== $a->shu
 The preferred way to install this package is to use [Composer][1]:
 
 ``` bash
-$ composer require bocharsky-bw/arrayzy:dev-master
+$ composer require bocharsky-bw/arrayzy
 ```
 
 If you don't use `Composer` - register this package in your autoloader manually
-or download the library manually and `require` the necessary files directly in your scripts:
+or download this library and `require` the necessary files directly in your scripts:
 
 ``` php
-require_once __DIR__ . '/path/to/library/src/MutableArray.php';
-```
-
-Don't forget namespaces. Use [namespace aliases][2] for simplicity if you want:
-
-``` php
-use Arrayzy\MutableArray as MuArr;
-use Arrayzy\ImmutableArray as ImArr;
+require_once __DIR__ . '/path/to/library/src/ArrayImitator.php';
 ```
 
 ## Creation
@@ -145,19 +140,28 @@ use Arrayzy\ImmutableArray as ImArr;
 Create a new empty array with the `new` statement.
 
 ``` php
-$a = new MutableArray; // Create new instance of MutableArray
+use Arrayzy\ArrayImitator;
+
+$a = new ArrayImitator; // Creates a new instance with the "use" statement
 // or
-$a = new ImmutableArray; // Create new instance of ImmutableArray
-// or
-$a = new MuArr; // using namespace aliases
+$a = new \Arrayzy\ArrayImitator; // Creates a new array by fully qualified namespace
 ```
 
-or with default values, passed to the constructor in an array:
+> **NOTE:** Don't forget about namespaces. You can use [namespace aliases][2]
+  for simplicity if you want:
+
+```php
+use Arrayzy\ArrayImitator as A;
+
+$a = new A; // Creates a new instance using namespace alias
+```
+
+Create a new array with default values, passed it to the constructor as an array:
 
 ``` php
-$a = new MutableArray([1, 2, 3]);
+$a = new A([1, 2, 3]);
 // or
-$a = new ImmutableArray([1, 2, 3]);
+$a = new A([1, 2, 3]);
 ```
 
 Also, new objects can be created with one of the public static methods
@@ -174,7 +178,7 @@ prefixed with 'create':
 You can get access to the values like with the familiar PHP array syntax:
 
 ``` php
-use Arrayzy\MutableArray as A;
+use Arrayzy\ArrayImitator as A;
 
 $a = A::create(['a', 'b', 'c']);
 
@@ -189,12 +193,10 @@ print $a[1]; // 'b'
 print $a->offsetGet(1); // 'b'
 ```
 
-*NOTE: The following methods and principles apply to `ImmutableArray` and
-`MutableArray` alike. In the examples provided they are are interchangeable and
-aliased with `A`.*
+*NOTE: The following methods and principles apply to the `ArrayImitator` class.
+In the examples provided below the `ArrayImitator` aliased with `A`.*
 
 ### Chaining
-
 
 Methods may be chained for ease of use:
 
@@ -205,8 +207,7 @@ $a
     ->offsetSet(null, 'e')
     ->offsetSet(3, 'd')
     ->offsetSet(null, 'e')
-    ->shuffle()
-    ->reindex() // or any other method that returns the current instance
+    ->shuffle() // or any other method that returns $this
 ;
 
 $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'e', 3 => 'd', 4 => 'b']
