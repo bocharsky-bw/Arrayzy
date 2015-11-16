@@ -10,12 +10,13 @@ manipulation library. In short: Arrays on steroids.
 
 ## ArrayImitator
 
-Each method, which associated with the corresponding native PHP function, keep
-its behavior. In other words: could creates a new array (leaving the original
-array unchanged), operates on the same array and returns the array itself
-(**DOES NOT** create a new instance) or return some result.
+This is the *main* class of this library. Each method, which associated with
+the corresponding native PHP function, keep its behavior. In other words:
+methods could creates a new array (leaving the original array unchanged),
+operates on the same array (returns the array itself and **DOES NOT** create
+a new instance) or return some result.
 
-> **NOTE:** If method creates a new array and you don't need the first array
+> **NOTE:** If method creates a new array but you don't need the first array
   you operate on, you can override it manually:
 
 ``` php
@@ -161,7 +162,7 @@ Create a new array with default values, passed it to the constructor as an array
 ``` php
 $a = new A([1, 2, 3]);
 // or
-$a = new A([1, 2, 3]);
+$a = new A([1 => 'a', 2 => 'b', 3 => 'c']);
 ```
 
 Also, new objects can be created with one of the public static methods
@@ -825,7 +826,7 @@ In order to propose a new feature the best way is to submit an [Issue][3] and di
 
 ## Links
 
-Arrayzy was inspired by Doctrine [ArrayCollection][7] class and [Stringy][5] library.
+**Arrayzy** was inspired by Doctrine [ArrayCollection][7] class and [Stringy][5] library.
 
 Look at the [Stringy][5] if you are looking for a PHP **string** manipulation library in an OOP way.
 
