@@ -24,13 +24,10 @@ trait DoubleEndedQueueTrait
     /**
      * Push one or more values onto the end of array at once.
      *
-     * @param mixed $element The pushed element
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
      * @return $this An array with pushed elements
      * to the end of array
      */
-    public function push($element, $_ = null)
+    public function push(/* variadic arguments allowed */)
     {
         if (func_num_args()) {
             $args = array_merge([&$this->elements], func_get_args());
@@ -53,12 +50,9 @@ trait DoubleEndedQueueTrait
     /**
      * Prepends one or more values to the beginning of array at once.
      *
-     * @param mixed $element The element for prepend
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
      * @return $this A new array with prepended elements to the beginning of array
      */
-    public function unshift($element, $_ = null)
+    public function unshift(/* variadic arguments allowed */)
     {
         if (func_num_args()) {
             $args = array_merge([&$this->elements], func_get_args());
