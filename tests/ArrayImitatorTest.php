@@ -1,17 +1,15 @@
 <?php
 
-use Arrayzy\MutableArray as A;
+use Arrayzy\ArrayImitator as A;
 
 /**
- * Class MutableArrayTest
- *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
-class MutableArrayTest extends AbstractArrayTest
+class ArrayImitatorTest extends AbstractArrayTest
 {
     public function setUp()
     {
-        $this->arrayzyClassName = 'Arrayzy\MutableArray';
+        $this->arrayzyClassName = 'Arrayzy\ArrayImitator';
     }
 
     /**
@@ -26,7 +24,7 @@ class MutableArrayTest extends AbstractArrayTest
         $this->assertSame($array, $arrayzy->toArray());
     }
 
-    // The static method list order by ASC
+    // The public static method list order by ASC
 
     /**
      * @dataProvider simpleArrayProvider
@@ -172,7 +170,7 @@ class MutableArrayTest extends AbstractArrayTest
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $array);
     }
 
-    // The method list order by ASC
+    // The public method list order by ASC
 
     /**
      * @dataProvider simpleArrayProvider
@@ -185,7 +183,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->chunk(2);
         $resultArray = array_chunk($array, 2);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -218,7 +216,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->combineTo($secondArray);
         $resultArray = array_combine($secondArray, $firstArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
     }
 
     public function testCombineWith()
@@ -238,7 +236,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->combineWith($secondArray);
         $resultArray = array_combine($firstArray, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
     }
 
     /**
@@ -304,7 +302,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->diffWith($secondArray);
         $resultArray = array_diff($array, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -317,12 +315,10 @@ class MutableArrayTest extends AbstractArrayTest
         $callable = function($value){
             return 2 !== $value;
         };
-
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->filter($callable);
         $resultArray = array_filter($array, $callable);
-
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -335,8 +331,7 @@ class MutableArrayTest extends AbstractArrayTest
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->flip();
         $resultArray = array_flip($array);
-
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -349,12 +344,10 @@ class MutableArrayTest extends AbstractArrayTest
         $callable = function($value){
             return str_repeat($value, 2);
         };
-
         $arrayzy = new A($array);
         $resultArrayzy = $arrayzy->map($callable);
         $resultArray = array_map($callable, $array);
-
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -374,7 +367,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->mergeTo($secondArray);
         $resultArray = array_merge($secondArray, $array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -394,7 +387,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->mergeTo($secondArray, true);
         $resultArray = array_merge_recursive($secondArray, $array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -414,7 +407,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->mergeWith($secondArray);
         $resultArray = array_merge($array, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -434,7 +427,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->mergeWith($secondArray, true);
         $resultArray = array_merge_recursive($array, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -508,7 +501,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->pad(10, 5);
         $resultArray = array_pad($array, 10, 5);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -518,17 +511,13 @@ class MutableArrayTest extends AbstractArrayTest
      */
     public function testPop(array $array)
     {
-        if (1 > count($array)) {
-            return;
-        }
-
         $arrayzy = new A($array);
         $poppedValue = $arrayzy->pop();
         $resultArray = $array;
         $poppedArrayValue = array_pop($resultArray);
 
         $this->assertSame($poppedArrayValue, $poppedValue);
-        $this->assertNotSame($array, $arrayzy->toArray());
+        $this->assertSame($resultArray, $arrayzy->toArray());
     }
 
     /**
@@ -560,7 +549,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->reindex();
         $resultArray = array_values($array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -580,7 +569,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->replaceIn($secondArray);
         $resultArray = array_replace($secondArray, $array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -600,7 +589,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->replaceIn($secondArray, true);
         $resultArray = array_replace_recursive($secondArray, $array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -620,7 +609,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->replaceWith($secondArray);
         $resultArray = array_replace($array, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -640,7 +629,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->replaceWith($secondArray, true);
         $resultArray = array_replace_recursive($array, $secondArray);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -654,7 +643,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->reverse();
         $resultArray = array_reverse($array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -664,17 +653,13 @@ class MutableArrayTest extends AbstractArrayTest
      */
     public function testShift(array $array)
     {
-        if (1 > count($array)) {
-            return;
-        }
-
         $arrayzy = new A($array);
         $shiftedValue = $arrayzy->shift();
         $resultArray = $array;
         $shiftedArrayValue = array_shift($resultArray);
 
         $this->assertSame($shiftedArrayValue, $shiftedValue);
-        $this->assertNotSame($array, $arrayzy->toArray());
+        $this->assertSame($resultArray, $arrayzy->toArray());
     }
 
     /**
@@ -703,7 +688,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->slice(1, 1);
         $resultArray = array_slice($array, 1, 1);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
@@ -807,7 +792,7 @@ class MutableArrayTest extends AbstractArrayTest
         $resultArrayzy = $arrayzy->unique();
         $resultArray = array_unique($array);
 
-        $this->assertMutable($arrayzy, $resultArrayzy, $resultArray);
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
     }
 
     /**
