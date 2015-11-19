@@ -19,13 +19,11 @@ interface DoubleEndedQueueInterface
     /**
      * Push one or more values onto the end of array at once.
      *
-     * @param mixed $element The pushed element
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
      * @return $this The same instance with pushed elements to the end of array
      */
 
-    public function push($element, $_ = null);
+    public function push(/* variadic arguments allowed */);
+
     /**
      * Shifts a specified value off the beginning of array.
      *
@@ -36,10 +34,7 @@ interface DoubleEndedQueueInterface
     /**
      * Prepends one or more values to the beginning of array at once.
      *
-     * @param mixed $element The element for prepend
-     * @param mixed $_ [optional] Multiple arguments allowed
-     *
      * @return $this The same instance with prepended elements to the beginning of array
      */
-    public function unshift($element, $_ = null);
+    public function unshift(/* variadic arguments allowed */);
 }
