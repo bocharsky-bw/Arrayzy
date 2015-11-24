@@ -80,10 +80,15 @@ trait ConvertibleTrait
      */
     public function toJson($options = 0, $depth = 512)
     {
+        $params = [
+            $this->elements,
+            $options,
+        ];
+
         if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-            return json_encode($this->elements, $options, $depth);
+            $params[] = $depth;
         }
 
-        return json_encode($this->elements, $options);
+        return call_user_func_array('json_encode', $params);
     }
 }
