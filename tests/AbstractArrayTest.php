@@ -566,6 +566,21 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
         $this->assertSame($prev, $arrayzy->previous());
     }
 
+    public function testReduce()
+    {
+        $func = function($carry, $value) {
+            $carry += $value;
+
+            return $carry;
+        };
+        $array = [1, 2, 3];
+        $arrayzy = $this->createArrayzy($array);
+        $arrayzyReduced = $arrayzy->reduce($func);
+        $arrayReduced = array_reduce($array, $func);
+
+        $this->assertSame($arrayReduced, $arrayzyReduced);
+    }
+
     /**
      * @dataProvider simpleArrayProvider
      *
