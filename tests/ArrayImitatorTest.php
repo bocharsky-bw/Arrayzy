@@ -172,6 +172,16 @@ class ArrayImitatorTest extends AbstractArrayTest
 
     // The public method list order by ASC
 
+    public function testAdd()
+    {
+        $array = [1, 2];
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->add(3);
+        $array[] = 3;
+
+        $this->assertMutable($arrayzy, $resultArrayzy, $array);
+    }
+
     /**
      * @dataProvider simpleArrayProvider
      *
