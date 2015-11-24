@@ -371,13 +371,16 @@ abstract class AbstractArray implements
      */
     public function exists(callable $func)
     {
+        $isExists = false;
+
         foreach ($this->elements as $key => $value) {
             if ($func($key, $value)) {
-                return true;
+                $isExists = true;
+                break;
             }
         }
 
-        return false;
+        return $isExists;
     }
 
     /**
@@ -389,13 +392,16 @@ abstract class AbstractArray implements
      */
     public function find(callable $func)
     {
+        $found = null;
+
         foreach ($this->elements as $key => $value) {
             if($func($value, $key)) {
-                return $value;
+                $found = $value;
+                break;
             }
         }
 
-        return null;
+        return $found;
     }
 
     /**
@@ -519,17 +525,20 @@ abstract class AbstractArray implements
      */
     public function isAssoc()
     {
-        if ($this->isEmpty()) {
-            return false;
-        }
+        $isAssoc = true;
 
-        foreach ($this->getKeys() as $key) {
-            if (!is_string($key)) {
-                return false;
+        if ($this->isEmpty()) {
+            $isAssoc = false;
+        } else {
+            foreach ($this->getKeys() as $key) {
+                if (!is_string($key)) {
+                    $isAssoc = false;
+                    break;
+                }
             }
         }
 
-        return true;
+        return $isAssoc;
     }
 
     /**
@@ -549,17 +558,20 @@ abstract class AbstractArray implements
      */
     public function isNumeric()
     {
-        if ($this->isEmpty()) {
-            return false;
-        }
+        $isNumeric = true;
 
-        foreach ($this->getKeys() as $key) {
-            if (!is_int($key)) {
-                return false;
+        if ($this->isEmpty()) {
+            $isNumeric = false;
+        } else {
+            foreach ($this->getKeys() as $key) {
+                if (!is_int($key)) {
+                    $isNumeric = false;
+                    break;
+                }
             }
         }
 
-        return true;
+        return $isNumeric;
     }
 
     /**
