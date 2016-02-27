@@ -481,7 +481,8 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Search for a given element and return the index of its first occurrence.
+     * Alias of search() method. Search for a given element and return
+     * the index of its first occurrence.
      *
      * @param mixed $element Value to search for
      *
@@ -489,7 +490,7 @@ abstract class AbstractArray implements
      */
     public function indexOf($element)
     {
-        return array_search($element, $this->elements, true);
+        return $this->search($element);
     }
 
     /**
@@ -623,5 +624,17 @@ abstract class AbstractArray implements
     public function reduce(callable $func, $initial = null)
     {
         return array_reduce($this->elements, $func, $initial);
+    }
+
+    /**
+     * Search for a given element and return the index of its first occurrence.
+     *
+     * @param mixed $element Value to search for
+     *
+     * @return mixed The corresponding key/index
+     */
+    public function search($element)
+    {
+        return array_search($element, $this->elements, true);
     }
 }
