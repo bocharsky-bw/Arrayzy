@@ -24,7 +24,7 @@ trait DoubleEndedQueueTrait
     /**
      * Push one or more values onto the end of array at once.
      *
-     * @return $this An array with pushed elements
+     * @return $this The current array with pushed elements
      * to the end of array
      */
     public function push(/* variadic arguments allowed */)
@@ -50,7 +50,7 @@ trait DoubleEndedQueueTrait
     /**
      * Prepends one or more values to the beginning of array at once.
      *
-     * @return $this A new array with prepended elements to the beginning of array
+     * @return $this The current array with prepended elements to the beginning of array
      */
     public function unshift(/* variadic arguments allowed */)
     {

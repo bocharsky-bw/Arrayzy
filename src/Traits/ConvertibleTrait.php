@@ -14,9 +14,9 @@ use Arrayzy\AbstractArray;
 trait ConvertibleTrait
 {
     /**
-     * Converts array to a string with default separator.
+     * Convert the current array to a string with default separator.
      *
-     * @return string The string representation of array
+     * @return string A string representation of the current array
      */
     public function __toString()
     {
@@ -24,9 +24,9 @@ trait ConvertibleTrait
     }
 
     /**
-     * Converts instance to a native PHP array.
+     * Convert the current array to a native PHP array.
      *
-     * @return array The native PHP array
+     * @return array A native PHP array
      */
     public function toArray()
     {
@@ -34,12 +34,12 @@ trait ConvertibleTrait
     }
 
     /**
-     * Implodes array to a readable string with specified separator.
+     * Implode the current array to a readable string with specified separator.
      *
      * @param string $separator The element's separator
      * @param string $conjunction The last element conjunction
      *
-     * @return string The readable string representation of array
+     * @return string A readable string representation of the current array
      *
      * @link http://php.net/manual/en/function.implode.php
      */
@@ -55,11 +55,11 @@ trait ConvertibleTrait
     }
 
     /**
-     * Implodes array to a string with specified separator.
+     * Implode the current array to a string with specified separator.
      *
      * @param string $separator The element's separator
      *
-     * @return string The string representation of array
+     * @return string A string representation of the current array
      *
      * @link http://php.net/manual/en/function.implode.php
      */
@@ -69,12 +69,12 @@ trait ConvertibleTrait
     }
 
     /**
-     * Encodes array to a JSON string.
+     * Encode the current array to a JSON string.
      *
      * @param int $options The bitmask
      * @param int $depth The maximum depth (must be greater than zero)
      *
-     * @return string The JSON string representation of array
+     * @return string A JSON string representation of the current array
      *
      * @link http://php.net/manual/en/function.json-encode.php
      */
