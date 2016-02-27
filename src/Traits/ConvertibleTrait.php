@@ -89,6 +89,7 @@ trait ConvertibleTrait
             $params[] = $depth;
         }
 
+        // use call_user_func_array() here to fully cover this method in test
         return call_user_func_array('json_encode', $params);
     }
 }

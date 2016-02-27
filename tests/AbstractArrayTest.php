@@ -175,12 +175,15 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      *
      * @param array $array
      */
-    public function testDebugReturn(array $array)
+    public function testDebug(array $array)
     {
         $arrayzy = $this->createArrayzy($array);
         $printed = print_r($array, true);
-
         $this->assertSame($printed, $arrayzy->debug(true));
+
+        ob_start();
+        $arrayzy->debug();
+        $this->assertSame($printed, ob_get_clean());
     }
 
     /**
@@ -218,12 +221,15 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      *
      * @param array $array
      */
-    public function testExportReturn(array $array)
+    public function testExport(array $array)
     {
         $arrayzy = $this->createArrayzy($array);
         $exported = var_export($array, true);
-
         $this->assertSame($exported, $arrayzy->export(true));
+
+        ob_start();
+        $arrayzy->export();
+        $this->assertSame($exported, ob_get_clean());
     }
 
     public function testFind()
