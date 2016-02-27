@@ -18,9 +18,21 @@ trait TraversableTrait
      *
      * @link http://php.net/manual/en/function.reset.php
      */
-    public function first()
+    public function reset()
     {
         return reset($this->elements);
+    }
+
+    /**
+     * Alias of reset() method. Sets the internal pointer of an array to its first element.
+     *
+     * @return mixed The value of the first array element, or false if the array is empty.
+     *
+     * @link http://php.net/manual/en/function.reset.php
+     */
+    public function first()
+    {
+        return $this->reset();
     }
 
     /**
@@ -30,9 +42,21 @@ trait TraversableTrait
      *
      * @link http://php.net/manual/en/function.end.php
      */
-    public function last()
+    public function end()
     {
         return end($this->elements);
+    }
+
+    /**
+     * Alias of end() method. Sets the internal pointer of an array to its last element.
+     *
+     * @return mixed The value of the last array element, or false if the array is empty.
+     *
+     * @link http://php.net/manual/en/function.end.php
+     */
+    public function last()
+    {
+        return $this->end();
     }
 
     /**

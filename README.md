@@ -53,8 +53,7 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [add](#add)
     * [chunk](#chunk)
     * [clear](#clear)
-    * [combineTo](#combineto)
-    * [combineWith](#combinewith)
+    * [combine](#combine)
     * [contains](#contains)
     * [containsKey](#containskey)
     * [count](#count)
@@ -68,8 +67,9 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [customSort](#customsort)
     * [customSortKeys](#customsortkeys)
     * [debug](#debug)
-    * [diffWith](#diffwith)
+    * [diff](#diff)
     * [each](#each)
+    * [end](#end)
     * [exists](#exists)
     * [export](#export)
     * [filter](#filter)
@@ -90,8 +90,7 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [key](#key)
     * [last](#last)
     * [map](#map)
-    * [mergeTo](#mergeto)
-    * [mergeWith](#mergewith)
+    * [merge](#merge)
     * [next](#next)
     * [offsetExists](#offsetexists)
     * [offsetGet](#offsetget)
@@ -103,9 +102,10 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [push](#push)
     * [reduce](#reduce)
     * [reindex](#reindex)
-    * [replaceIn](#replacein)
-    * [replaceWith](#replacewith)
+    * [replace](#replace)
+    * [reset](#reset)
     * [reverse](#reverse)
+    * [search](#search)
     * [shift](#shift)
     * [shuffle](#shuffle)
     * [slice](#slice)
@@ -260,19 +260,11 @@ $a->clear();
 $a->toArray(); // []
 ```
 
-### combineTo
-
-``` php
-$a = A::create(['a', 'b', 'c']);
-$a->combineTo([1, 2, 3]);
-$a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
-```
-
-### combineWith
+### combine
 
 ``` php
 $a = A::create([1, 2, 3]);
-$a->combineWith(['a', 'b', 'c']);
+$a->combine(['a', 'b', 'c']);
 $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 ```
 
@@ -405,11 +397,11 @@ $a = A::create(['a', 'b', 'c']);
 $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 ```
 
-### diffWith
+### diff
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->diffWith(['c', 'd']);
+$a->diff(['c', 'd']);
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
 
@@ -419,6 +411,14 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 $a = A::create(['a', 'b', 'c']);
 $a->each(); // [0 => 0, 'key' => 0, 1 => 'a', 'value' => 'a']
 ```
+
+### end
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->end(); // 'c'
+```
+
 
 ### exists
 
@@ -459,6 +459,8 @@ $a->find(function($value, $key) {
 ```
 
 ### first
+
+> Alias of [reset](#reset).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -521,6 +523,8 @@ $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### indexOf
 
+> Alias of [search](#search).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->indexOf('b'); // 1
@@ -559,6 +563,8 @@ $a->key();     // 1
 
 ### last
 
+> Alias of [end](#end).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->last(); // 'c'
@@ -574,28 +580,16 @@ $a->map(function($value) {
 $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 ```
 
-### mergeTo
+### merge
 
 ``` php
 // indexed array behavior
 $a = A::create(['a', 'b', 'c']); // create indexed array
-$a->mergeTo(['c', 'd']); // [0 => 'c', 1 => 'd', 2 => 'a', 3 => 'b', 4 => 'c']
+$a->merge(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
 
 // assoc array behavior
 $b = A::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
-$b->mergeTo(['c' => 3, 'd' => 4]); // ['c' => 99, 'd' => 4, 'a' => 1, 'b' => 2]
-```
-
-### mergeWith
-
-``` php
-// indexed array behavior
-$a = A::create(['a', 'b', 'c']); // create indexed array
-$a->mergeWith(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
-
-// assoc array behavior
-$b = A::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
-$b->mergeWith(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
+$b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
 ### next
@@ -693,20 +687,19 @@ $a->reindex();
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
-### replaceIn
-
-``` php
-$a = A::create([1 => 'b', 2 => 'c']);
-$a->replaceIn(['a', 'd', 'e']);
-$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
-```
-
-### replaceWith
+### replace
 
 ``` php
 $a = A::create(['a', 'd', 'e']);
-$a->replaceWith([1 => 'b', 2 => 'c']);
+$a->replace([1 => 'b', 2 => 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
+```
+
+### reset
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->reset(); // 'a'
 ```
 
 ### reverse
@@ -715,6 +708,13 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 $a = A::create(['a', 'b', 'c']);
 $a->reverse();
 $a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
+```
+
+### search
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->search('b'); // 1
 ```
 
 ### shift

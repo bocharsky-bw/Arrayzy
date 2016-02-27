@@ -53,26 +53,13 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * Create an array using the current array as values and the other array as keys.
-     *
-     * @param array $array Key array
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return ArrayImitator A new array with keys from the other
-     */
-    public function combineTo(array $array)
-    {
-        return new static(array_combine($array, $this->elements));
-    }
-
-    /**
      * Create an array using the current array as keys and the other array as values.
      *
      * @param array $array Values array
      *
      * @return ArrayImitator A new array with values from the other array
      */
-    public function combineWith(array $array)
+    public function combine(array $array)
     {
         return new static(array_combine($this->elements, $array));
     }
@@ -85,7 +72,7 @@ class ArrayImitator extends AbstractArray
      * @return ArrayImitator A new array containing all the entries from this array
      * that are not present in $array
      */
-    public function diffWith(array $array)
+    public function diff(array $array)
     {
         return new static(array_diff($this->elements, $array));
     }
@@ -126,25 +113,6 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * Merge the current array with the provided one. The current array is overwriting.
-     *
-     * @param array $array Array to merge with (is overwritten)
-     * @param bool $recursively Whether array will be merged recursively or no
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return ArrayImitator A new array with the keys/values
-     * from $array added, that weren't present in the current one
-     */
-    public function mergeTo(array $array, $recursively = false)
-    {
-        if (true === $recursively) {
-            return new static(array_merge_recursive($array, $this->elements));
-        }
-
-        return new static(array_merge($array, $this->elements));
-    }
-
-    /**
      * Merge the current array with the provided one. The latter array is overwriting.
      *
      * @param array $array Array to merge with (overwrites)
@@ -152,7 +120,7 @@ class ArrayImitator extends AbstractArray
      *
      * @return ArrayImitator A new array with the keys/values from $array added
      */
-    public function mergeWith(array $array, $recursively = false)
+    public function merge(array $array, $recursively = false)
     {
         if (true === $recursively) {
             return new static(array_merge_recursive($this->elements, $array));
@@ -185,25 +153,6 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
-     * Replace the current array with the given one except keys present in both.
-     * For keys present in both arrays the value from this array will be used.
-     *
-     * @param array $array Array to replace with
-     * @param bool $recursively Whether array will be replaced recursively or no
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return ArrayImitator A new array with keys from $array and values from both.
-     */
-    public function replaceIn(array $array, $recursively = false)
-    {
-        if (true === $recursively) {
-            return new static(array_replace_recursive($array, $this->elements));
-        }
-
-        return new static(array_replace($array, $this->elements));
-    }
-
-    /**
      * Replace values in the current array with values in the given one
      * that have the same key.
      *
@@ -212,7 +161,7 @@ class ArrayImitator extends AbstractArray
      *
      * @return ArrayImitator A new array with the same keys but new values
      */
-    public function replaceWith(array $array, $recursively = false)
+    public function replace(array $array, $recursively = false)
     {
         if (true === $recursively) {
             return new static(array_replace_recursive($this->elements, $array));

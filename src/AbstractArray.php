@@ -83,23 +83,13 @@ abstract class AbstractArray implements
     abstract public function clear();
 
     /**
-     * Create an array using the current array as values and the other array as keys.
-     *
-     * @param array $array Key array
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return AbstractArray An array with keys from the other
-     */
-    abstract public function combineTo(array $array);
-
-    /**
      * Create an array using the current array as keys and the other array as values.
      *
      * @param array $array Values array
      *
      * @return AbstractArray An array with values from the other array
      */
-    abstract public function combineWith(array $array);
+    abstract public function combine(array $array);
 
     /**
      * Compute the current array values which not present in the given one.
@@ -109,7 +99,7 @@ abstract class AbstractArray implements
      * @return AbstractArray An array containing all the entries from this array
      * that are not present in $array
      */
-    abstract public function diffWith(array $array);
+    abstract public function diff(array $array);
 
     /**
      * Filter the current array for elements satisfying the predicate $func.
@@ -138,18 +128,6 @@ abstract class AbstractArray implements
     abstract public function map(callable $func);
 
     /**
-     * Merge the current array with the provided one. The current array is overwriting.
-     *
-     * @param array $array Array to merge with (is overwritten)
-     * @param bool $recursively Whether array will be merged recursively or no
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return AbstractArray An array with the keys/values
-     * from $array added, that weren't present in the current one
-     */
-    abstract public function mergeTo(array $array, $recursively = false);
-
-    /**
      * Merge the current array with the provided one. The latter array is overwriting.
      *
      * @param array $array Array to merge with (overwrites)
@@ -157,7 +135,7 @@ abstract class AbstractArray implements
      *
      * @return AbstractArray An array with the keys/values from $array added
      */
-    abstract public function mergeWith(array $array, $recursively = false);
+    abstract public function merge(array $array, $recursively = false);
 
     /**
      * Pad the current array to the specified size with a given value.
@@ -177,18 +155,6 @@ abstract class AbstractArray implements
     abstract public function reindex();
 
     /**
-     * Replace the current array with the given one except keys present in both.
-     * For keys present in both arrays the value from this array will be used.
-     *
-     * @param array $array Array to replace with
-     * @param bool $recursively Whether array will be replaced recursively or no
-     * @deprecated Would be removed (or renamed)
-     *
-     * @return AbstractArray An array with keys from $array and values from both.
-     */
-    abstract public function replaceIn(array $array, $recursively = false);
-
-    /**
      * Replace values in the current array with values in the given one
      * that have the same key.
      *
@@ -197,7 +163,7 @@ abstract class AbstractArray implements
      *
      * @return AbstractArray An array with the same keys but new values
      */
-    abstract public function replaceWith(array $array, $recursively = false);
+    abstract public function replace(array $array, $recursively = false);
 
     /**
      * Reverse the values order of the current array.
@@ -515,7 +481,8 @@ abstract class AbstractArray implements
     }
 
     /**
-     * Search for a given element and return the index of its first occurrence.
+     * Alias of search() method. Search for a given element and return
+     * the index of its first occurrence.
      *
      * @param mixed $element Value to search for
      *
@@ -523,7 +490,7 @@ abstract class AbstractArray implements
      */
     public function indexOf($element)
     {
-        return array_search($element, $this->elements, true);
+        return $this->search($element);
     }
 
     /**
@@ -657,5 +624,17 @@ abstract class AbstractArray implements
     public function reduce(callable $func, $initial = null)
     {
         return array_reduce($this->elements, $func, $initial);
+    }
+
+    /**
+     * Search for a given element and return the index of its first occurrence.
+     *
+     * @param mixed $element Value to search for
+     *
+     * @return mixed The corresponding key/index
+     */
+    public function search($element)
+    {
+        return array_search($element, $this->elements, true);
     }
 }
