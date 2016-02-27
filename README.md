@@ -3,10 +3,15 @@
 The wrapper for all PHP built-in array functions and easy, object-oriented array
 manipulation library. In short: Arrays on steroids.
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb/mini.png)](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb)
-[![Build Status](https://travis-ci.org/bocharsky-bw/Arrayzy.svg?branch=master)](https://travis-ci.org/bocharsky-bw/Arrayzy)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
+
+[![Travis Status](https://img.shields.io/travis/bocharsky-bw/Arrayzy/master.svg?style=flat-square)](https://travis-ci.org/bocharsky-bw/Arrayzy)
+[![HHVM Status](https://img.shields.io/hhvm/bocharsky-bw/arrayzy/master.svg?style=flat-square)](http://hhvm.h4cc.de/package/bocharsky-bw/arrayzy)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/bocharsky-bw/Arrayzy.svg?style=flat-square)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/bocharsky-bw/Arrayzy.svg?style=flat-square)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
+[![Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/bocharsky-bw/Arrayzy/blob/master/LICENSE)
+[![Latest Version](https://img.shields.io/packagist/v/bocharsky-bw/arrayzy.svg?style=flat-square)](https://packagist.org/packages/bocharsky-bw/arrayzy)
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb/big.png)](https://insight.sensiolabs.com/projects/e0235f5d-a89b-4add-b3c6-45813d2bf9eb)
 
 ## ArrayImitator
 
