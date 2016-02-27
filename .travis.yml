@@ -1,4 +1,5 @@
 language: php
+sudo: false
 
 php:
     - 5.4
@@ -7,18 +8,23 @@ php:
     - 7.0
     - hhvm
 
-matrix:
-    allow_failures:
-        - php: 7.0
-        - php: hhvm
+# matrix:
+#     allow_failures:
+#         - php: hhvm
 
-before_script:
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
     - composer self-update
+    - composer validate
+
+install:
     - composer install --prefer-source
 
 script:
-    - vendor/bin/phpunit --coverage-clover=coverage.clover
+    - ./vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover
