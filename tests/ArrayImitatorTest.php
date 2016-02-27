@@ -209,7 +209,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         $this->assertMutable($arrayzy, $resultArrayzy, []);
     }
 
-    public function testCombineTo()
+    public function testCombine()
     {
         $firstArray = [
             1 => 'one',
@@ -223,27 +223,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($firstArray);
-        $resultArrayzy = $arrayzy->combineTo($secondArray);
-        $resultArray = array_combine($secondArray, $firstArray);
-
-        $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
-    }
-
-    public function testCombineWith()
-    {
-        $firstArray = [
-            1 => 'one',
-            2 => 'two',
-            3 => 'three',
-        ];
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-
-        $arrayzy = new A($firstArray);
-        $resultArrayzy = $arrayzy->combineWith($secondArray);
+        $resultArrayzy = $arrayzy->combine($secondArray);
         $resultArray = array_combine($firstArray, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $firstArray, $resultArray);
@@ -300,7 +280,7 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
-    public function testDiffWith(array $array)
+    public function testDiff(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -309,7 +289,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->diffWith($secondArray);
+        $resultArrayzy = $arrayzy->diff($secondArray);
         $resultArray = array_diff($array, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
@@ -365,7 +345,7 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
-    public function testMergeTo(array $array)
+    public function testMerge(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -374,47 +354,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->mergeTo($secondArray);
-        $resultArray = array_merge($secondArray, $array);
-
-        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     *
-     * @param array $array
-     */
-    public function testMergeToRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-
-        $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->mergeTo($secondArray, true);
-        $resultArray = array_merge_recursive($secondArray, $array);
-
-        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     *
-     * @param array $array
-     */
-    public function testMergeWith(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-
-        $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->mergeWith($secondArray);
+        $resultArrayzy = $arrayzy->merge($secondArray);
         $resultArray = array_merge($array, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
@@ -425,7 +365,7 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
-    public function testMergeWithRecursively(array $array)
+    public function testMergeRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -434,7 +374,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->mergeWith($secondArray, true);
+        $resultArrayzy = $arrayzy->merge($secondArray, true);
         $resultArray = array_merge_recursive($array, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
@@ -567,7 +507,7 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
-    public function testReplaceIn(array $array)
+    public function testReplace(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -576,47 +516,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->replaceIn($secondArray);
-        $resultArray = array_replace($secondArray, $array);
-
-        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     *
-     * @param array $array
-     */
-    public function testReplaceInRecursively(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-
-        $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->replaceIn($secondArray, true);
-        $resultArray = array_replace_recursive($secondArray, $array);
-
-        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
-    }
-
-    /**
-     * @dataProvider simpleArrayProvider
-     *
-     * @param array $array
-     */
-    public function testReplaceWith(array $array)
-    {
-        $secondArray = [
-            'one' => 1,
-            1 => 'one',
-            2 => 2,
-        ];
-
-        $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->replaceWith($secondArray);
+        $resultArrayzy = $arrayzy->replace($secondArray);
         $resultArray = array_replace($array, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
@@ -627,7 +527,7 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
-    public function testReplaceWithRecursively(array $array)
+    public function testReplaceRecursively(array $array)
     {
         $secondArray = [
             'one' => 1,
@@ -636,7 +536,7 @@ class ArrayImitatorTest extends AbstractArrayTest
         ];
 
         $arrayzy = new A($array);
-        $resultArrayzy = $arrayzy->replaceWith($secondArray, true);
+        $resultArrayzy = $arrayzy->replace($secondArray, true);
         $resultArray = array_replace_recursive($array, $secondArray);
 
         $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
