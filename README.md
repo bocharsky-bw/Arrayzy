@@ -3,7 +3,6 @@
 The wrapper for all PHP built-in array functions and easy, object-oriented array
 manipulation library. In short: Arrays on steroids.
 
-
 [![Travis Status](https://img.shields.io/travis/bocharsky-bw/Arrayzy/master.svg?style=flat-square)](https://travis-ci.org/bocharsky-bw/Arrayzy)
 [![HHVM Status](https://img.shields.io/hhvm/bocharsky-bw/arrayzy/master.svg?style=flat-square)](http://hhvm.h4cc.de/package/bocharsky-bw/arrayzy)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/bocharsky-bw/Arrayzy.svg?style=flat-square)](https://scrutinizer-ci.com/g/bocharsky-bw/Arrayzy/?branch=master)
@@ -199,7 +198,7 @@ print $a[1]; // 'b'
 print $a->offsetGet(1); // 'b'
 ```
 
-*NOTE: The following methods and principles apply to the `ArrayImitator` class.
+**NOTE:** *The following methods and principles apply to the `ArrayImitator` class.
 In the examples provided below the `ArrayImitator` aliased with `A`.*
 
 ### Chaining
