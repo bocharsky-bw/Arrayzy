@@ -246,6 +246,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 ### chunk
 
+Associated with [array_chunk()](http://php.net/manual/en/function.array-chunk.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->chunk(2);
@@ -262,6 +264,8 @@ $a->toArray(); // []
 
 ### combine
 
+Associated with [array_combine()](http://php.net/manual/en/function.array-combine.php).
+
 ``` php
 $a = A::create([1, 2, 3]);
 $a->combine(['a', 'b', 'c']);
@@ -270,6 +274,8 @@ $a->toArray(); // [1 => 'a', 2 => 'b', 3 => 'c']
 
 ### contains
 
+Associated with [in_array()](http://php.net/manual/en/function.in-array.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->contains('c'); // true
@@ -277,12 +283,16 @@ $a->contains('c'); // true
 
 ### containsKey
 
+Associated with [array_key_exists()](http://php.net/manual/en/function.array-key-exists.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->containsKey(2); // true
 ```
 
 ### count
+
+Associated with [count()](http://php.net/manual/en/function.count.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -318,6 +328,8 @@ $b = $a->createClone(); // $a !== $b
 
 ### createFromJson
 
+Associated with [json_decode()](http://php.net/manual/en/function.json-decode.php).
+
 Creates an array by parsing a JSON string:
 
 ``` php
@@ -337,6 +349,8 @@ $b->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createFromString
 
+Associated with [explode()](http://php.net/manual/en/function.explode.php).
+
 Creates an array from a simple PHP `string` with specified separator:
 
 ``` php
@@ -346,6 +360,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### createWithRange
 
+Associated with [range()](http://php.net/manual/en/function.range.php).
+
 Creates an array of a specified range:
 
 ``` php
@@ -354,6 +370,8 @@ $a->toArray(); // [0 => 2, 1 => 4, 2 => 6]
 ```
 
 ### current
+
+Associated with [current()](http://php.net/manual/en/function.current.php).
 
 Position of the iterator.
 
@@ -392,12 +410,16 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### debug
 
+Associated with [print_r()](http://php.net/manual/en/function.print-r.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 ```
 
 ### diff
+
+Associated with [array_diff()](http://php.net/manual/en/function.array-diff.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -407,12 +429,16 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 
 ### each
 
+Associated with [each()](http://php.net/manual/en/function.each.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->each(); // [0 => 0, 'key' => 0, 1 => 'a', 'value' => 'a']
 ```
 
 ### end
+
+Associated with [end()](http://php.net/manual/en/function.end.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -434,12 +460,16 @@ $a->exists(function($key, $value) {
 
 ### export
 
+Associated with [var_export()](http://php.net/manual/en/function.var-export.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->export(); // array ( 0 => 'a', 1 => 'b', 2 => 'c', )
 ```
 
 ### filter
+
+Associated with [array_filter()](http://php.net/manual/en/function.array-filter.php).
 
 ``` php
 $a = A::create(['a', 'z', 'b', 'z']);
@@ -469,6 +499,8 @@ $a->first(); // 'a'
 
 ### flip
 
+Associated with [array_flip()](http://php.net/manual/en/function.array-flip.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->flip();
@@ -481,12 +513,16 @@ Creates an external Iterator. Check the [iteratorAggregate][6] documentation for
 
 ### getKeys
 
+Associated with [array_keys()](http://php.net/manual/en/function.array-keys.php).
+
 ``` php
 $a = A::create(['a' => 1, 'b' => 2, 'c' => 3]);
 $a->getKeys(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### getRandom
+
+Associated with [array_rand()](http://php.net/manual/en/function.array-rand.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
@@ -495,12 +531,16 @@ $a->getRandom(); // 'c'
 
 ### getRandomKey
 
+Associated with [array_rand()](http://php.net/manual/en/function.array-rand.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandomKey(); // 2
 ```
 
 ### getRandomKeys
+
+Associated with [array_rand()](http://php.net/manual/en/function.array-rand.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
@@ -509,12 +549,16 @@ $a->getRandomKeys(2); // [0, 2]
 
 ### getRandomValues
 
+Associated with [array_rand()](http://php.net/manual/en/function.array-rand.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
 $a->getRandomValues(2); // ['b', 'd']
 ```
 
 ### getValues
+
+Associated with [array_values()](http://php.net/manual/en/function.array-values.php).
 
 ``` php
 $a = A::create([1 => 'a', 2 => 'b', 3 => 'c']);
@@ -553,6 +597,8 @@ $a->isNumeric(); // true
 
 ### key
 
+Associated with [key()](http://php.net/manual/en/function.key.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->current(); // 'a'
@@ -572,6 +618,8 @@ $a->last(); // 'c'
 
 ### map
 
+Associated with [array_map()](http://php.net/manual/en/function.array-map.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->map(function($value) {
@@ -581,6 +629,8 @@ $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 ```
 
 ### merge
+
+Associated with [array_merge()](http://php.net/manual/en/function.array-merge.php) / [array_merge_recursively()](http://php.net/manual/en/function.array-merge-recursively.php).
 
 ``` php
 // indexed array behavior
@@ -593,6 +643,8 @@ $b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
 ### next
+
+Associated with [next()](http://php.net/manual/en/function.next.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -637,6 +689,8 @@ $a->toArray();      // [0 => 'a', 2 => 'c']
 
 ### pad
 
+Associated with [array_pad()](http://php.net/manual/en/function.array-pad.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->pad(5, 'z');
@@ -644,6 +698,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'z', 4 => 'z']
 ```
 
 ### pop
+
+Associated with [array_pop()](http://php.net/manual/en/function.array-pop.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -653,6 +709,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b']
 
 ### previous
 
+Associated with [prev()](http://php.net/manual/en/function.prev.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->next();     // 'b'
@@ -661,6 +719,8 @@ $a->previous(); // 'b'
 ```
 
 ### push
+
+Associated with [array_push()](http://php.net/manual/en/function.array-push.php).
 
 ``` php
 $a = A::create(['a', 'b']);
@@ -672,6 +732,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 ### reduce
 
+Associated with [array_reduce()](http://php.net/manual/en/function.array-reduce.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->reduce(function($result, $item) {
@@ -681,6 +743,8 @@ $a->reduce(function($result, $item) {
 
 ### reindex
 
+Based on [array_values()](http://php.net/manual/en/function.array-values.php).
+
 ``` php
 $a = A::create([2 => 'a', 1 => 'b', 3 => 'c']);
 $a->reindex();
@@ -688,6 +752,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
 ### replace
+
+Associated with [array_replace()](http://php.net/manual/en/function.array-replace.php) / [array_replace_recursively()](http://php.net/manual/en/function.array-replace-recursively.php).
 
 ``` php
 $a = A::create(['a', 'd', 'e']);
@@ -697,12 +763,16 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### reset
 
+Associated with [reset()](http://php.net/manual/en/function.reset.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->reset(); // 'a'
 ```
 
 ### reverse
+
+Associated with [array_reverse()](http://php.net/manual/en/function.array-reverse.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -712,12 +782,16 @@ $a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
 
 ### search
 
+Associated with [array_search()](http://php.net/manual/en/function.array-search.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->search('b'); // 1
 ```
 
 ### shift
+
+Associated with [array_shift()](http://php.net/manual/en/function.array-shift.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
@@ -727,6 +801,8 @@ $a->toArray(); // [0 => 'b', 1 => 'c']
 
 ### shuffle
 
+Associated with [shuffle()](http://php.net/manual/en/function.shuffle.php).
+
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->shuffle();
@@ -734,6 +810,8 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'b']
 ```
 
 ### slice
+
+Associated with [array_slice()](http://php.net/manual/en/function.array-slice.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
@@ -768,6 +846,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### toJson
 
+Associated with [array_encode()](http://php.net/manual/en/function.array-encode.php).
+
 Creates a JSON string from the array:
 
 ``` php
@@ -776,6 +856,8 @@ $a->toJson(); // { "a": 1, "b": 2, "c": 3 }
 ```
 
 ### toReadableString
+
+Based on [implode()](http://php.net/manual/en/function.implode.php).
 
 Converts instance array to a readable PHP `string`:
 
@@ -786,6 +868,8 @@ $a->toReadableString(', ', ' and '); // 'a, b and c'
 
 ### toString
 
+Associated with [implode()](http://php.net/manual/en/function.implode.php).
+
 Converts instance array to a simple PHP `string`:
 
 ``` php
@@ -795,6 +879,8 @@ $a->toString(', '); // 'a, b, c'
 
 ### unique
 
+Associated with [array_unique()](http://php.net/manual/en/function.array-unique.php).
+
 ``` php
 $a = A::create(['a', 'b', 'b', 'c']);
 $a->unique();
@@ -802,6 +888,8 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ```
 
 ### unshift
+
+Associated with [array_unshift()](http://php.net/manual/en/function.array-unshift.php).
 
 ``` php
 $a = A::create(['a', 'b']);
@@ -812,6 +900,8 @@ $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 > Method `unshift()` allow multiple arguments.
 
 ### walk
+
+Associated with [array_walk()](http://php.net/manual/en/function.array-walk.php) / [array_walk_recursively()](http://php.net/manual/en/function.array-walk-recursively.php).
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
