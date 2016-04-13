@@ -349,6 +349,26 @@ class ArrayImitatorTest extends AbstractArrayTest
      *
      * @param array $array
      */
+    public function testIntersectAssoc(array $array)
+    {
+        $secondArray = [
+            1 => 'one',
+            2 => 'two',
+            3 => 'three',
+        ];
+
+        $arrayzy = new A($array);
+        $resultArrayzy = $arrayzy->intersectAssoc($secondArray);
+        $resultArray = array_intersect_assoc($array, $secondArray);
+
+        $this->assertImmutable($arrayzy, $resultArrayzy, $array, $resultArray);
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     */
     public function testMap(array $array)
     {
         $callable = function($value){

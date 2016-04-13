@@ -128,6 +128,17 @@ abstract class AbstractArray implements
     abstract public function intersect(array $array);
 
     /**
+     * Compute the current array values with additional index check
+     *
+     * @param array $array Array for intersect
+     *
+     * @return AbstractArray An array with containing all the entries from this array
+     * that are present in $array. Note that the keys are also used in the comparison
+     * unlike in intersect().
+     */
+    abstract public function intersectAssoc(array $array);
+
+    /**
      * Apply the given function to the every element of the current array,
      * collecting the results.
      *

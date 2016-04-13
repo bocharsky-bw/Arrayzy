@@ -84,6 +84,7 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [getValues](#getvalues)
     * [indexOf](#indexof)
     * [intersect](#intersect)
+    * [intersectAssoc](#intersectAssoc)
     * [isAssoc](#isassoc)
     * [isEmpty](#isempty)
     * [isNumeric](#isnumeric)
@@ -591,6 +592,15 @@ $a->indexOf('b'); // 1
 $a = A::create(['a', 'b', 'c']);
 $a->intersect(['b', 'c']);
 $a->toArray(); // [0 => 'b', 1 => 'c']
+```
+### intersectAssoc
+
+> Associated with [array_intersect_assoc()](http://php.net/manual/en/function.array-intersect-assoc.php).
+
+``` php
+$a = A::create(['one' => a', 'two' => 'b', 'three' => 'c']);
+$a->intersectAssoc(['two' => 'b', 'four' => 'c']);
+$a->toArray(); // ['two' => 'b']
 ```
 
 ### isAssoc
