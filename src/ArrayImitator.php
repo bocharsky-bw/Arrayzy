@@ -100,6 +100,19 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
+     * Compute the current array values which present in the given one.
+     *
+     * @param array $array Array for intersect
+     *
+     * @return AbstractArray An array with containing all the entries from this array
+     * that are present in $array
+     */
+    public function intersect(array $array)
+    {
+        return new static(array_intersect($this->elements, $array));
+    }
+
+    /**
      * Apply the given function to the every element of the current array,
      * collecting the results.
      *
