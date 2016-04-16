@@ -592,7 +592,7 @@ $a->indexOf('b'); // 1
 ``` php
 $a = A::create(['a', 'b', 'c']);
 $a->intersect(['b', 'c']);
-$a->toArray(); // [0 => 'b', 1 => 'c']
+$a->toArray(); // [1 => 'b', 2 => 'c']
 ```
 ### intersectAssoc
 
