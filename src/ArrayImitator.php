@@ -100,6 +100,46 @@ class ArrayImitator extends AbstractArray
     }
 
     /**
+     * Compute the current array values which present in the given one.
+     *
+     * @param array $array Array for intersect
+     *
+     * @return ArrayImitator An array with containing all the entries from this array
+     * that are present in $array
+     */
+    public function intersect(array $array)
+    {
+        return new static(array_intersect($this->elements, $array));
+    }
+
+    /**
+     * Compute the current array values with additional index check
+     *
+     * @param array $array Array for intersect
+     *
+     * @return ArrayImitator An array with containing all the entries from this array
+     * that are present in $array. Note that the keys are also used in the comparison
+     * unlike in intersect().
+     */
+    public function intersectAssoc(array $array)
+    {
+        return new static(array_intersect_assoc($this->elements, $array));
+    }
+
+    /**
+     * Compute the current array using keys for comparison which present in the given one.
+     *
+     * @param array $array Array for intersect
+     *
+     * @return ArrayImitator An array with containing all the entries from this array
+     * which have keys that are present in $array.
+     */
+    public function intersectKey(array $array)
+    {
+        return new static(array_intersect_key($this->elements, $array));
+    }
+
+    /**
      * Apply the given function to the every element of the current array,
      * collecting the results.
      *

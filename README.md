@@ -83,6 +83,9 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [getRandomValues](#getrandomvalues)
     * [getValues](#getvalues)
     * [indexOf](#indexof)
+    * [intersect](#intersect)
+    * [intersectAssoc](#intersectAssoc)
+    * [intersectKey](#intersectKey)
     * [isAssoc](#isassoc)
     * [isEmpty](#isempty)
     * [isNumeric](#isnumeric)
@@ -582,6 +585,34 @@ $a->getValues(); // [0 => 'a', 1 => 'b', 2 => 'c']
 $a = A::create(['a', 'b', 'c']);
 $a->indexOf('b'); // 1
 ```
+### intersect
+
+> Associated with [array_intersect()](http://php.net/manual/en/function.array-intersect.php).
+
+``` php
+$a = A::create(['a', 'b', 'c']);
+$a->intersect(['b', 'c']);
+$a->toArray(); // [0 => 'b', 1 => 'c']
+```
+### intersectAssoc
+
+> Associated with [array_intersect_assoc()](http://php.net/manual/en/function.array-intersect-assoc.php).
+
+``` php
+$a = A::create(['one' => 'a', 'two' => 'b', 'three' => 'c']);
+$a->intersectAssoc(['two' => 'b', 'four' => 'c']);
+$a->toArray(); // ['two' => 'b']
+```
+
+### intersectKey
+
+> Associated with [array_intersect_key()](http://php.net/manual/en/function.array-intersect-key.php).
+
+``` php
+$a = A::create(['one' => 'a', 'two' => 'b', 'three' => 'c']);
+$a->intersectKey(['two' => 'd', 'three' => 'e']);
+$a->toArray(); // ['two' => 'b', 'three' => 'c']
+```
 
 ### isAssoc
 
@@ -777,7 +808,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ### replace
 
-> Associated with [array_replace()](http://php.net/manual/en/function.array-replace.php) / 
+> Associated with [array_replace()](http://php.net/manual/en/function.array-replace.php) /
   [array_replace_recursive()](http://php.net/manual/en/function.array-replace-recursive.php).
 
 ``` php
@@ -846,7 +877,7 @@ $a->toArray(); // [0 => 'b', 1 => 'c']
 
 ### sort
 
-> Associated with [arsort()](http://php.net/manual/en/function.arsort.php) / 
+> Associated with [arsort()](http://php.net/manual/en/function.arsort.php) /
   [sort()](http://php.net/manual/en/function.sort.php) /
   [asort()](http://php.net/manual/en/function.asort.php) /
   [rsort()](http://php.net/manual/en/function.rsort.php).
@@ -859,7 +890,7 @@ $a->toArray(); // [0 => 'd', 1 => 'c', 2 => 'b', 3 => 'a']
 
 ### sortKeys
 
-> Associated with [ksort()](http://php.net/manual/en/function.ksort.php) / 
+> Associated with [ksort()](http://php.net/manual/en/function.ksort.php) /
   [krsort()](http://php.net/manual/en/function.krsort.php).
 
 ``` php
@@ -934,7 +965,7 @@ $a->toArray(); // [0 => 'y', 1 => 'z', 2 => 'a', 3 => 'b']
 
 ### walk
 
-> Associated with [array_walk()](http://php.net/manual/en/function.array-walk.php) / 
+> Associated with [array_walk()](http://php.net/manual/en/function.array-walk.php) /
   [array_walk_recursive()](http://php.net/manual/en/function.array-walk-recursive.php).
 
 ``` php
