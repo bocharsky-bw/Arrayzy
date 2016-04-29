@@ -69,6 +69,7 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [diff](#diff)
     * [each](#each)
     * [end](#end)
+    * [except](#except)
     * [exists](#exists)
     * [export](#export)
     * [filter](#filter)
@@ -98,6 +99,7 @@ $b->shuffle(); // keeps $a unchanged, because $a !== $b
     * [offsetGet](#offsetget)
     * [offsetSet](#offsetset)
     * [offsetUnset](#offsetunset)
+    * [only](#only)
     * [pad](#pad)
     * [pop](#pop)
     * [previous](#previous)
@@ -455,6 +457,16 @@ $a = A::create(['a', 'b', 'c']);
 $a->end(); // 'c'
 ```
 
+### except
+
+Chunk of an array without given keys.
+
+``` php
+$a = A::create(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5]);
+$a->except(['b', 'e']);
+$a->toArray(); // ['a' => 1, 'c' => 3, 'd' => 4]
+```
+
 
 ### exists
 
@@ -740,6 +752,16 @@ $a->toArray();            // [0 => 'a', 1 => 'b', 2 => 'c', 3=> 'd']
 $a = A::create(['a', 'b', 'c']);
 $a->offsetUnset(1); // or use unset($a[1]);
 $a->toArray();      // [0 => 'a', 2 => 'c']
+```
+
+### only
+
+Chunk of an array with only given keys.
+
+``` php
+$a = A::create(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5]);
+$a->only(['b', 'e']);
+$a->toArray(); // ['b' => 2, 'e' => 5]
 ```
 
 ### pad

@@ -203,6 +203,28 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
      * @dataProvider simpleArrayProvider
      *
      * @param array $array
+     * @param string $type
+     */
+    public function testExcept(array $array, $type = null)
+    {
+        if ($type !== self::TYPE_EMPTY) {
+            $arrayzy = $this->createArrayzy($array);
+            $arrayzy2 = clone $arrayzy;
+
+            $randomKeys = $arrayzy->getRandomKeys(2);
+
+            foreach ($randomKeys as $key) {
+                $arrayzy->offsetUnset($key);
+            }
+
+            $this->assertSame($arrayzy2->except($randomKeys)->toArray(), $arrayzy->toArray());
+        }
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
      */
     public function testExists(array $array)
     {
@@ -557,6 +579,30 @@ abstract class AbstractArrayTest extends PHPUnit_Framework_TestCase
         $arrayzy = $this->createArrayzy($array);
 
         $this->assertSame($value, $arrayzy->offsetGet($offset));
+    }
+
+    /**
+     * @dataProvider simpleArrayProvider
+     *
+     * @param array $array
+     * @param string $type
+     */
+    public function testOnly(array $array, $type = null)
+    {
+        if ($type !== self::TYPE_EMPTY) {
+            $arrayzy = $this->createArrayzy($array);
+            $arrayzy2 = clone $arrayzy;
+
+            $randomKeys = $arrayzy->getRandomKeys(2);
+
+            foreach ($arrayzy as $key => $value) {
+                if (!in_array($key, $randomKeys)) {
+                    $arrayzy->offsetUnset($key);
+                }
+            }
+
+            $this->assertSame($arrayzy2->only($randomKeys)->toArray(), $arrayzy->toArray());
+        }
     }
 
     /**
