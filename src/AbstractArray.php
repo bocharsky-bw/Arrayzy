@@ -368,6 +368,18 @@ abstract class AbstractArray implements
     }
 
     /**
+     * Return slice of an array except given keys.
+     * 
+     * @param array $keys List of keys to exclude
+     * 
+     * @return AbstractArray The created array
+     */
+    public function except(array $keys)
+    {
+        return new static(array_diff_key($this->elements, array_fill_keys($keys, 1)));
+    }
+
+    /**
      * Find the given value in An array using a closure
      *
      * @param callable $func
@@ -531,17 +543,10 @@ abstract class AbstractArray implements
      */
     public function isAssoc()
     {
-        $isAssoc = true;
+        $isAssoc = false;
 
-        if ($this->isEmpty()) {
-            $isAssoc = false;
-        } else {
-            foreach ($this->getKeys() as $key) {
-                if (!is_string($key)) {
-                    $isAssoc = false;
-                    break;
-                }
-            }
+        if (!$this->isEmpty()) {
+            $isAssoc = $this->checkType('string');
         }
 
         return $isAssoc;
@@ -558,23 +563,37 @@ abstract class AbstractArray implements
     }
 
     /**
+     * Check if an array keys are in a given variable type.
+     *
+     * @param string $type
+     *
+     * @return bool
+     */
+    private function checkType($type)
+    {
+        $isInType = true;
+
+        foreach ($this->getKeys() as $key) {
+            if (gettype($key) !== $type) {
+                $isInType = false;
+                break;
+            }
+        }
+
+        return $isInType;
+    }
+
+    /**
      * Check whether array is numeric or not.
      *
      * @return bool Returns true if numeric, false otherwise
      */
     public function isNumeric()
     {
-        $isNumeric = true;
+        $isNumeric = false;
 
-        if ($this->isEmpty()) {
-            $isNumeric = false;
-        } else {
-            foreach ($this->getKeys() as $key) {
-                if (!is_int($key)) {
-                    $isNumeric = false;
-                    break;
-                }
-            }
+        if (!$this->isEmpty()) {
+            $isNumeric = $this->checkType('integer');
         }
 
         return $isNumeric;
@@ -642,6 +661,18 @@ abstract class AbstractArray implements
         unset($this->elements[$offset]);
 
         return $this;
+    }
+
+    /**
+     * Return slice of an array with just a given keys.
+     *
+     * @param array $keys List of keys to return
+     *
+     * @return AbstractArray The created array
+     */
+    public function only(array $keys)
+    {
+        return new static(array_intersect_key($this->elements, array_flip($keys)));
     }
 
     /**
