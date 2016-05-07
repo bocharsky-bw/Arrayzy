@@ -459,6 +459,8 @@ $a->end(); // 'c'
 
 ### except
 
+> Based on [array_diff_key()](http://php.net/manual/en/function.array-diff-key.php).
+
 Chunk of an array without given keys.
 
 ``` php
@@ -755,6 +757,8 @@ $a->toArray();      // [0 => 'a', 2 => 'c']
 ```
 
 ### only
+
+> Based on [array_intersect_key()](http://php.net/manual/en/function.array-intersect-key.php).
 
 Chunk of an array with only given keys.
 
