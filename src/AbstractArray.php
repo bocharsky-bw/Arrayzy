@@ -376,7 +376,7 @@ abstract class AbstractArray implements
      */
     public function except(array $keys)
     {
-        return new static(array_diff_key($this->elements, array_fill_keys($keys, 1)));
+        return new static(array_diff_key($this->elements, array_flip($keys)));
     }
 
     /**
