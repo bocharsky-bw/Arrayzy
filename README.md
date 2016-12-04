@@ -256,7 +256,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->chunk(2);
+$a = $a->chunk(2);
 $a->toArray(); // [0 => [0 => 'a', 1 => 'b'], 1 => [0 => 'c']]
 ```
 
@@ -435,7 +435,7 @@ $a->debug(); // Array ( [0] => a [1] => b [2] => c )
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->diff(['c', 'd']);
+$a = $a->diff(['c', 'd']);
 $a->toArray(); // [0 => 'a', 1 => 'b']
 ```
 
@@ -465,7 +465,7 @@ Chunk of an array without given keys.
 
 ``` php
 $a = A::create(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5]);
-$a->except(['b', 'e']);
+$a = $a->except(['b', 'e']);
 $a->toArray(); // ['a' => 1, 'c' => 3, 'd' => 4]
 ```
 
@@ -497,7 +497,7 @@ $a->export(); // array ( 0 => 'a', 1 => 'b', 2 => 'c', )
 
 ``` php
 $a = A::create(['a', 'z', 'b', 'z']);
-$a->filter(function($value) {
+$a = $a->filter(function($value) {
     return 'z' !== $value; // exclude 'z' value from array
 });
 $a->toArray(); // [0 => 'a', 2 => 'b']
@@ -529,7 +529,7 @@ $a->first(); // 'a'
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->flip();
+$a = $a->flip();
 $a->toArray(); // ['a' => 0, 'b' => 1, 'c' => 2]
 ```
 
@@ -605,7 +605,7 @@ $a->indexOf('b'); // 1
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->intersect(['b', 'c']);
+$a = $a->intersect(['b', 'c']);
 $a->toArray(); // [1 => 'b', 2 => 'c']
 ```
 ### intersectAssoc
@@ -614,7 +614,7 @@ $a->toArray(); // [1 => 'b', 2 => 'c']
 
 ``` php
 $a = A::create(['one' => 'a', 'two' => 'b', 'three' => 'c']);
-$a->intersectAssoc(['two' => 'b', 'four' => 'c']);
+$a = $a->intersectAssoc(['two' => 'b', 'four' => 'c']);
 $a->toArray(); // ['two' => 'b']
 ```
 
@@ -624,7 +624,7 @@ $a->toArray(); // ['two' => 'b']
 
 ``` php
 $a = A::create(['one' => 'a', 'two' => 'b', 'three' => 'c']);
-$a->intersectKey(['two' => 'd', 'three' => 'e']);
+$a = $a->intersectKey(['two' => 'd', 'three' => 'e']);
 $a->toArray(); // ['two' => 'b', 'three' => 'c']
 ```
 
@@ -682,7 +682,7 @@ $a->last(); // 'c'
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->map(function($value) {
+$a = $a->map(function($value) {
     return $value . $value;
 });
 $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
@@ -696,11 +696,13 @@ $a->toArray(); // [0 => 'aa', 1 => 'bb', 2 => 'cc']
 ``` php
 // indexed array behavior
 $a = A::create(['a', 'b', 'c']); // create indexed array
-$a->merge(['c', 'd']); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
+$a = $a->merge(['c', 'd']);
+$a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'c', 4 => 'd']
 
 // assoc array behavior
 $b = A::create(['a' => 1, 'b' => 2, 'c' => 99]); // create assoc array
-$b->merge(['c' => 3, 'd' => 4]); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
+$b = $b->merge(['c' => 3, 'd' => 4]);
+$b->toArray(); // ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]
 ```
 
 ### next
@@ -764,7 +766,7 @@ Chunk of an array with only given keys.
 
 ``` php
 $a = A::create(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5]);
-$a->only(['b', 'e']);
+$a = $a->only(['b', 'e']);
 $a->toArray(); // ['b' => 2, 'e' => 5]
 ```
 
@@ -774,7 +776,7 @@ $a->toArray(); // ['b' => 2, 'e' => 5]
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->pad(5, 'z');
+$a = $a->pad(5, 'z');
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'z', 4 => 'z']
 ```
 
@@ -817,7 +819,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd']
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->reduce(function($result, $item) {
+$a = $a->reduce(function($result, $item) {
     return $result . $item;
 }); // 'abc'
 ```
@@ -828,7 +830,7 @@ $a->reduce(function($result, $item) {
 
 ``` php
 $a = A::create([2 => 'a', 1 => 'b', 3 => 'c']);
-$a->reindex();
+$a = $a->reindex();
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -839,7 +841,7 @@ $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 
 ``` php
 $a = A::create(['a', 'd', 'e']);
-$a->replace([1 => 'b', 2 => 'c']);
+$a = $a->replace([1 => 'b', 2 => 'c']);
 $a->toArray(); // [0 => 'a', 1 => 'b', 2 => 'c']
 ```
 
@@ -858,7 +860,7 @@ $a->reset(); // 'a'
 
 ``` php
 $a = A::create(['a', 'b', 'c']);
-$a->reverse();
+$a = $a->reverse();
 $a->toArray(); // [0 => 'c', 1 => 'b', 2 => 'a']
 ```
 
@@ -897,7 +899,7 @@ $a->toArray(); // [0 => 'c', 1 => 'a', 2 => 'b']
 
 ``` php
 $a = A::create(['a', 'b', 'c', 'd']);
-$a->slice(1, 2);
+$a = $a->slice(1, 2);
 $a->toArray(); // [0 => 'b', 1 => 'c']
 ```
 
@@ -973,7 +975,7 @@ $a->toString(', '); // 'a, b, c'
 
 ``` php
 $a = A::create(['a', 'b', 'b', 'c']);
-$a->unique();
+$a = $a->unique();
 $a->toArray(); // [0 => 'a', 1 => 'b', 3 => 'c']
 ```
 
